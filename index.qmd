@@ -1,4 +1,6 @@
 ---
 title: "Home"
 ---
-Welcome to my MADA portfolio site. I’ll post weekly exercises and project updates here.
+Welcome to my MADA portfolio site. 
+
+Follow the menu and enjoy!
