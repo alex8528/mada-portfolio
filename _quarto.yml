@@ -14,6 +14,8 @@ website:
         text: MADA Course Projects
       - href: reflections.qmd
         text: Weekly Reflections
+      - href: starteranalysisexcercise.qmd
+        text: Group Project 1  
       - href: contacts.qmd 
         text: Contact / Links 
 
