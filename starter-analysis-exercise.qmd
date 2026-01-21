@@ -1,5 +1,5 @@
 ---
-title: "Starter Analysis Exercise – Part 1"
+title: "Starter Analysis Exercise"
 author: "M4"
 format: html
 execute:
