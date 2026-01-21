@@ -1,0 +1,236 @@
+---
+title: "Starter Analysis Exercise – Part 1"
+author: "M4"
+format: html
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+## Overview
+
+This document completes Part 1 of the starter analysis exercise for MADA.
+
+I will:
+- load the `dslabs` package (which contains the `gapminder` dataset),
+- inspect the dataset with `str()`, `summary()`, and `class()`,
+- subset the data to Africa only,
+- create two small 2-column datasets for plotting,
+- and make two scatter plots.
+
+```{r}
+# =========================
+# Step 1: Load packages
+# =========================
+# Why: dslabs contains the gapminder dataset used for this exercise.
+# Why: ggplot2 is used to create the scatter plots.
+
+library(dslabs)
+library(ggplot2)
+```
+
+```{r}
+# =========================
+# Step 2: Inspect the data
+# =========================
+# str() shows the structure (rows, columns, data types)
+str(gapminder)
+
+# summary() provides summary statistics and missing values
+summary(gapminder)
+
+# class() tells us what object type gapminder is
+class(gapminder)
+```
+
+```{r}
+# =========================
+# Step 3: Subset to Africa only
+# =========================
+
+# Create a new dataset with only African countries
+africadata <- gapminder[gapminder$continent == "Africa", ]
+
+# Check the dataset worked
+str(africadata)
+summary(africadata)
+
+# Count rows (should be 2907)
+nrow(africadata)
+
+```
+
+
+```{r}
+library(dslabs)
+library(ggplot2)
+```
+
+```{r}
+# =========================
+# Step 4a: Keep only infant mortality + life expectancy
+# =========================
+
+# Create a 2-column dataset for plotting infant mortality vs life expectancy
+africa_mort_life <- africadata[, c("infant_mortality", "life_expectancy")]
+
+# Check it
+str(africa_mort_life)
+summary(africa_mort_life)
+```
+
+```{r}
+# =========================
+# Step 4b: Keep only population + life expectancy
+# =========================
+
+# Create a 2-column dataset for plotting population vs life expectancy
+africa_pop_life <- africadata[, c("population", "life_expectancy")]
+
+# Check it
+str(africa_pop_life)
+summary(africa_pop_life)
+```
+
+```{r}
+# =========================
+# Step 5a: Plot life expectancy vs infant mortality
+# =========================
+
+ggplot(africa_mort_life, aes(x = infant_mortality, y = life_expectancy)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    title = "Africa (all years): Life expectancy vs Infant mortality",
+    x = "Infant mortality",
+    y = "Life expectancy"
+  )
+```
+
+```{r}
+# =========================
+# Step 5b: Plot life expectancy vs population (log scale)
+# =========================
+
+ggplot(africa_pop_life, aes(x = population, y = life_expectancy)) +
+  geom_point(na.rm = TRUE) +
+  scale_x_log10() +
+  labs(
+    title = "Africa (all years): Life expectancy vs Population",
+    x = "Population (log scale)",
+    y = "Life expectancy"
+  )
+```
+
+### Interpreting the plots
+
+The plot of infant mortality versus life expectancy shows a clear negative relationship:
+countries with higher infant mortality tend to have lower life expectancy.
+
+In the population plot, we see visible streaks of points. These streaks occur because
+each country appears multiple times in the dataset, once for each year. As time passes,
+many countries experience increasing population and increasing life expectancy, which
+creates trajectories across the plot.
+
+```{r}
+# =========================
+# Step 6a: Find years with missing infant mortality data
+# =========================
+
+# Identify rows where infant mortality is missing
+missing_im <- is.na(africadata$infant_mortality)
+
+# Extract the years associated with missing infant mortality
+missing_years <- sort(unique(africadata$year[missing_im]))
+
+# Print the years
+missing_years
+
+# Count how many missing values there are
+sum(missing_im)
+```
+
+```{r}
+# =========================
+# Step 7: Subset Africa data to year 2000
+# =========================
+
+# Keep only rows from the year 2000
+africa2000 <- africadata[africadata$year == 2000, ]
+
+# Check the dataset
+str(africa2000)
+summary(africa2000)
+
+# Count rows (should be 51)
+nrow(africa2000)
+```
+
+```{r}
+# =========================
+# Step 8a: Plot infant mortality vs life expectancy (year 2000)
+# =========================
+
+ggplot(africa2000, aes(x = infant_mortality, y = life_expectancy)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    title = "Africa (2000): Life expectancy vs Infant mortality",
+    x = "Infant mortality",
+    y = "Life expectancy"
+  )
+```
+
+```{r}
+# =========================
+# Step 8a: Plot infant mortality vs life expectancy (year 2000)
+# =========================
+
+ggplot(africa2000, aes(x = infant_mortality, y = life_expectancy)) +
+  geom_point(na.rm = TRUE) +
+  labs(
+    title = "Africa (2000): Life expectancy vs Infant mortality",
+    x = "Infant mortality",
+    y = "Life expectancy"
+  )
+```
+
+```{r}
+# =========================
+# Step 8b: Plot population vs life expectancy (year 2000)
+# =========================
+
+ggplot(africa2000, aes(x = population, y = life_expectancy)) +
+  geom_point(na.rm = TRUE) +
+  scale_x_log10() +
+  labs(
+    title = "Africa (2000): Life expectancy vs Population",
+    x = "Population (log scale)",
+    y = "Life expectancy"
+  )
+```
+
+```{r}
+# =========================
+# Step 9a: Linear model - life expectancy vs infant mortality
+# =========================
+
+fit1 <- lm(life_expectancy ~ infant_mortality, data = africa2000)
+
+# View model results
+summary(fit1)
+```
+
+```{r}
+# =========================
+# Step 9b: Linear model - life expectancy vs population
+# =========================
+
+fit2 <- lm(life_expectancy ~ population, data = africa2000)
+
+# View model results
+summary(fit2)
+```
+
+
+
+
+
