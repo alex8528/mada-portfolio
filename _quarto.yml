@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "*.qmd"
+    - "!alextejadastrop-ready-exercise/**"
 
 website:
   title: "MADA Portfolio"
@@ -15,10 +18,9 @@ website:
       - href: reflections.qmd
         text: Weekly Reflections
       - href: starter-analysis-exercise.qmd
-        text: Starter Analysis Exercise 
-      - href: contacts.qmd 
-        text: Contact / Links 
-
+        text: Starter Analysis Exercise
+      - href: contacts.qmd
+        text: Contact / Links
     right:
       - icon: github
         href: https://github.com/alex8528/mada-portfolio
