@@ -28,25 +28,32 @@
     "text": "This section shows selected outputs from my Module 3 ready exercise.\n\n\n\n\n\n\n\n\n\n\n\n\nThe raw dataset used for this exercise is available here:\n\nprojects/module3/data/exampledata2.xlsx"
   },
   {
-    "objectID": "contacts.html#linkedin-profile",
-    "href": "contacts.html#linkedin-profile",
-    "title": "Contacts / Links",
-    "section": "Linkedin Profile",
-    "text": "Linkedin Profile\nTo know more about me, here is the link to my LinkedIn profile."
+    "objectID": "data-exercise/data-exercise.html",
+    "href": "data-exercise/data-exercise.html",
+    "title": "Data Exercise: Synthetic Data",
+    "section": "",
+    "text": "In this exercise, I generate a synthetic dataset with multiple variables and built in relationships between them.\nThen I explore the data using summaries and plots, and fit simple models to confirm the models recover the relationships I designed."
   },
   {
-    "objectID": "about.html#a-little-about-me.",
-    "href": "about.html#a-little-about-me.",
-    "title": "About Me",
-    "section": "A little about me….",
-    "text": "A little about me….\nHi everyone, my name is Alexandra (Alex) Tejada-Strop, and I’m a DrPH student in Health Policy and Management. I have a background in public health and laboratory science and have used R for basic data cleaning, analysis, and visualization. I’m comfortable with statistics conceptually, but I’m still developing my applied modeling skills. My experience with Git and GitHub is limited, so I’m looking forward to getting more practice with reproducible workflows.\nIn this course, I hope to strengthen my skills in reproducible data analysis, model evaluation, and using tools like Quarto and tidymodels. I’m interested in applying what we learn to real-world public health or surveillance data, potentially aligned with my dissertation or professional work.\nI work full-time at the CDC for the Division of Hepatitis at the Laboratory Branch. I also have a 10 year old son that loves sports, and my husband Jared. Our favorite thing it to travel and try new restaurants. The puppy in the picture is our cavapoo, Maple."
+    "objectID": "data-exercise/data-exercise.html#overview",
+    "href": "data-exercise/data-exercise.html#overview",
+    "title": "Data Exercise: Synthetic Data",
+    "section": "",
+    "text": "In this exercise, I generate a synthetic dataset with multiple variables and built in relationships between them.\nThen I explore the data using summaries and plots, and fit simple models to confirm the models recover the relationships I designed."
   },
   {
-    "objectID": "about.html#tools-im-using-in-mada",
-    "href": "about.html#tools-im-using-in-mada",
-    "title": "About Me",
-    "section": "Tools I’m Using in MADA",
-    "text": "Tools I’m Using in MADA\n\nR and Positron\nQuarto\nGit and GitHub\nDiscord for collaboration"
+    "objectID": "data-exercise/data-exercise.html#generate-synthetic-data",
+    "href": "data-exercise/data-exercise.html#generate-synthetic-data",
+    "title": "Data Exercise: Synthetic Data",
+    "section": "2 Generate synthetic data",
+    "text": "2 Generate synthetic data\nVariables: - Age (years) - Activity (hours per week) - diet_score (0 to 100) - bmi (continuous outcome) - high_bp (binary outcome: 0 or 1)"
+  },
+  {
+    "objectID": "data-exercise/data-exercise.html#packages",
+    "href": "data-exercise/data-exercise.html#packages",
+    "title": "Data Exercise: Synthetic Data",
+    "section": "3 Packages",
+    "text": "3 Packages\n\nlibrary(tidyverse)\n\nset.seed(123)\n\nn &lt;- 800\n\nsynthetic &lt;- tibble(\n  age = round(rnorm(n, mean = 45, sd = 12)),\n  activity = pmax(0, rnorm(n, mean = 3.5, sd = 2)),\n  diet_score = pmin(100, pmax(0, rnorm(n, mean = 60, sd = 15)))\n) |&gt;\n  mutate(\n    bmi = 27 +\n      0.08 * (age - 45) +\n      -0.6 * activity +\n      -0.04 * (diet_score - 60) +\n      rnorm(n, mean = 0, sd = 2.5)\n  ) |&gt;\n  mutate(\n    lp = -6 +\n      0.05 * age +\n      0.10 * (bmi - 27) +\n      -0.12 * activity +\n      -0.01 * (diet_score - 60),\n    prob_high_bp = plogis(lp),\n    high_bp = rbinom(n, size = 1, prob = prob_high_bp)\n  ) |&gt;\n  select(-lp)\n\nglimpse(synthetic)\n\nRows: 800\nColumns: 6\n$ age          &lt;dbl&gt; 38, 42, 64, 46, 47, 66, 51, 30, 37, 40, 60, 49, 50, 46, 3…\n$ activity     &lt;dbl&gt; 4.2125667, 2.1839796, 5.2104044, 5.8058725, 4.0525491, 3.…\n$ diet_score   &lt;dbl&gt; 55.66465, 69.84770, 53.19003, 51.09203, 34.34431, 56.8582…\n$ bmi          &lt;dbl&gt; 22.87804, 23.72734, 24.19694, 22.92355, 27.52766, 27.1737…\n$ prob_high_bp &lt;dbl&gt; 0.006865543, 0.010072519, 0.025644316, 0.008877924, 0.021…\n$ high_bp      &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n\nsummary(synthetic)\n\n      age           activity        diet_score          bmi       \n Min.   :11.00   Min.   : 0.000   Min.   : 14.28   Min.   :15.28  \n 1st Qu.:38.00   1st Qu.: 2.173   1st Qu.: 50.22   1st Qu.:22.92  \n Median :45.00   Median : 3.610   Median : 59.50   Median :24.85  \n Mean   :45.14   Mean   : 3.583   Mean   : 59.93   Mean   :24.82  \n 3rd Qu.:53.00   3rd Qu.: 4.826   3rd Qu.: 70.49   3rd Qu.:26.80  \n Max.   :84.00   Max.   :10.281   Max.   :100.00   Max.   :33.39  \n  prob_high_bp          high_bp      \n Min.   :0.0008663   Min.   :0.0000  \n 1st Qu.:0.0071528   1st Qu.:0.0000  \n Median :0.0122859   Median :0.0000  \n Mean   :0.0167763   Mean   :0.0175  \n 3rd Qu.:0.0211079   3rd Qu.:0.0000  \n Max.   :0.1381174   Max.   :1.0000  \n\n## Step 2: Exploratory analysis- Distribution\n\nsynthetic |&gt;\n  select(age, activity, diet_score, bmi) |&gt;\n  pivot_longer(everything()) |&gt;\n  ggplot(aes(x = value)) +\n  geom_histogram(bins = 30) +\n  facet_wrap(~name, scales = \"free\") +\n  labs(title = \"Distributions of continuous variables\")\n\n\n\n\n\n\n\nggplot(synthetic, aes(x = activity, y = bmi)) +\n  geom_point(alpha = 0.4) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"BMI vs Activity\", x = \"Activity (hours per week)\", y = \"BMI\")\n\n\n\n\n\n\n\n## BMI relationship\n\nggplot(synthetic, aes(x = diet_score, y = bmi)) +\n  geom_point(alpha = 0.4) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"BMI vs Diet score\", x = \"Diet score\", y = \"BMI\")\n\n\n\n\n\n\n\nsynthetic |&gt;\n  count(high_bp) |&gt;\n  mutate(percent = n / sum(n))\n\n# A tibble: 2 × 3\n  high_bp     n percent\n    &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;\n1       0   786  0.982 \n2       1    14  0.0175\n\n## High blood pressure summary\n\nggplot(synthetic, aes(x = factor(high_bp))) +\n  geom_bar() +\n  labs(title = \"Counts of high blood pressure\", x = \"High BP (0 or 1)\", y = \"Count\")\n\n\n\n\n\n\n\n## Compare BMI by blood pressure status\n\nggplot(synthetic, aes(x = factor(high_bp), y = bmi)) +\n  geom_boxplot() +\n  labs(title = \"BMI by high blood pressure status\", x = \"High BP (0 or 1)\", y = \"BMI\")\n\n\n\n\n\n\n\n## Model 1: Linear regression for BMI\nm_bmi &lt;- lm(bmi ~ age + activity + diet_score, data = synthetic)\nsummary(m_bmi)\n\n\nCall:\nlm(formula = bmi ~ age + activity + diet_score, data = synthetic)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-7.1703 -1.6121 -0.1549  1.7182  8.4796 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 25.906263   0.523841  49.454  &lt; 2e-16 ***\nage          0.075380   0.007540   9.997  &lt; 2e-16 ***\nactivity    -0.505722   0.045945 -11.007  &lt; 2e-16 ***\ndiet_score  -0.044593   0.005973  -7.466 2.17e-13 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 2.508 on 796 degrees of freedom\nMultiple R-squared:  0.2542,    Adjusted R-squared:  0.2514 \nF-statistic: 90.42 on 3 and 796 DF,  p-value: &lt; 2.2e-16\n\n## Model 2: Logistic regresstion for high blood pressure\nm_bp &lt;- glm(high_bp ~ age + bmi + activity + diet_score,\n            data = synthetic,\n            family = binomial())\n\nsummary(m_bp)\n\n\nCall:\nglm(formula = high_bp ~ age + bmi + activity + diet_score, family = binomial(), \n    data = synthetic)\n\nCoefficients:\n            Estimate Std. Error z value Pr(&gt;|z|)  \n(Intercept) -8.60273    3.35752  -2.562   0.0104 *\nage          0.05167    0.02481   2.082   0.0373 *\nbmi          0.14356    0.11122   1.291   0.1968  \nactivity    -0.11640    0.16499  -0.705   0.4805  \ndiet_score  -0.02278    0.01894  -1.203   0.2291  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 141.03  on 799  degrees of freedom\nResidual deviance: 127.79  on 795  degrees of freedom\nAIC: 137.79\n\nNumber of Fisher Scoring iterations: 7\n\n## Predicted probabilities\nsynthetic |&gt;\n  mutate(pred_prob = predict(m_bp, type = \"response\")) |&gt;\n  ggplot(aes(x = bmi, y = pred_prob)) +\n  geom_point(alpha = 0.3) +\n  geom_smooth(se = FALSE) +\n  labs(title = \"Predicted probability of high BP vs BMI\",\n       x = \"BMI\", y = \"Predicted probability\")"
   },
   {
     "objectID": "class-project/index.html",
@@ -117,6 +124,27 @@
     "title": "Class Project",
     "section": "3.6 References",
     "text": "3.6 References\nReferences will be added in later stages of the project using a BibTeX file and cited throughout the manuscript."
+  },
+  {
+    "objectID": "about.html#a-little-about-me.",
+    "href": "about.html#a-little-about-me.",
+    "title": "About Me",
+    "section": "A little about me….",
+    "text": "A little about me….\nHi everyone, my name is Alexandra (Alex) Tejada-Strop, and I’m a DrPH student in Health Policy and Management. I have a background in public health and laboratory science and have used R for basic data cleaning, analysis, and visualization. I’m comfortable with statistics conceptually, but I’m still developing my applied modeling skills. My experience with Git and GitHub is limited, so I’m looking forward to getting more practice with reproducible workflows.\nIn this course, I hope to strengthen my skills in reproducible data analysis, model evaluation, and using tools like Quarto and tidymodels. I’m interested in applying what we learn to real-world public health or surveillance data, potentially aligned with my dissertation or professional work.\nI work full-time at the CDC for the Division of Hepatitis at the Laboratory Branch. I also have a 10 year old son that loves sports, and my husband Jared. Our favorite thing it to travel and try new restaurants. The puppy in the picture is our cavapoo, Maple."
+  },
+  {
+    "objectID": "about.html#tools-im-using-in-mada",
+    "href": "about.html#tools-im-using-in-mada",
+    "title": "About Me",
+    "section": "Tools I’m Using in MADA",
+    "text": "Tools I’m Using in MADA\n\nR and Positron\nQuarto\nGit and GitHub\nDiscord for collaboration"
+  },
+  {
+    "objectID": "contacts.html#linkedin-profile",
+    "href": "contacts.html#linkedin-profile",
+    "title": "Contacts / Links",
+    "section": "Linkedin Profile",
+    "text": "Linkedin Profile\nTo know more about me, here is the link to my LinkedIn profile."
   },
   {
     "objectID": "index.html",
