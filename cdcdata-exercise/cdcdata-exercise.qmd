@@ -1,0 +1,115 @@
+---
+title: "CDC Data Exercise"
+format:
+  html:
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Data source
+
+For this exercise, I used a dataset from the CDC data portal (Socrata).
+
+Dataset link:
+https://data.cdc.gov/Nutrition-Physical-Activity-and-Obesity/Nutrition-Physical-Activity-and-Obesity-Behavioral/hn4x-zwk7
+
+I pulled a subset of the data from 2018 onward and limited the number of rows to keep the dataset manageable. The data include a mix of continuous and categorical variables, which makes them suitable for exploratory and descriptive analysis.
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(tidyverse)
+
+# Load the local CSV file (saved in your repo)
+data_file <- "cdc_obesity_2018plus.csv"
+raw <- readr::read_csv(data_file, show_col_types = FALSE)
+
+# Basic checks
+stopifnot(nrow(raw) > 0)
+glimpse(raw)
+dim(raw)
+```
+
+## Clean and Select variables
+
+I selected a subset of variables that includes both numeric and categorical data. Basic cleaning steps included renaming variables, converting empty strings to missing values, and removing observations with missing outcome values.
+
+```{r}
+dat <- raw %>%
+  transmute(
+    year = YearStart,
+    state = LocationAbbr,
+    location = LocationDesc,
+    question = Question,
+    value = Data_Value,
+    unit = Data_Value_Unit,
+    value_type = Data_Value_Type,
+    sex = Sex,
+    age_group = `Age(years)`
+  ) %>%
+  mutate(across(where(is.character), ~ na_if(.x, ""))) %>%
+  filter(!is.na(value))
+
+glimpse(dat)
+
+```
+
+## Descriptive Summaries
+
+The following summaries describe the distribution of the main continuous variable and the composition of selected categorical variables. These summaries provide enough information for a teammate to generate synthetic data with similar characteristics.
+
+```{r}
+dat %>%
+  summarize(
+    n = n(),
+    mean = mean(value, na.rm = TRUE),
+    sd = sd(value, na.rm = TRUE),
+    min = min(value, na.rm = TRUE),
+    median = median(value, na.rm = TRUE),
+    max = max(value, na.rm = TRUE)
+  )
+
+cat_vars <- c("state", "sex", "age_group", "value_type", "unit")
+
+for (v in cat_vars) {
+  print(v)
+  print(
+    dat %>%
+      count(.data[[v]], sort = TRUE) %>%
+      mutate(pct = n / sum(n))
+  )
+  cat("\n\n")
+}
+```
+
+## Figures
+The figures below show the distribution of the main numeric variable overall and stratified by sex.
+
+```{r}
+ggplot(dat, aes(x = value)) +
+  geom_histogram(bins = 40) +
+  labs(
+    title = "Distribution of value",
+    x = "Value",
+    y = "Count"
+  )
+
+dat %>%
+  filter(!is.na(sex)) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 40) +
+  facet_wrap(~ sex) +
+  labs(
+    title = "Distribution of value by sex",
+    x = "Value",
+    y = "Count"
+  )
+```
+
+## AI Use Statement
+I used AI tools for debugging and technical guidance (e.g., resolving rendering errors and fixing column references). All data decisions, cleaning logic, and exploratory analysis were completed independently.
