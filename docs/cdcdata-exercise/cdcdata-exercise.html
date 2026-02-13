@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,10 +72,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -191,6 +191,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#descriptive-summaries" id="toc-descriptive-summaries" class="nav-link" data-scroll-target="#descriptive-summaries">Descriptive Summaries</a></li>
   <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a></li>
   <li><a href="#ai-use-statement" id="toc-ai-use-statement" class="nav-link" data-scroll-target="#ai-use-statement">AI Use Statement</a></li>
+  <li><a href="#this-section-was-contributed-by-nalany-richardson" id="toc-this-section-was-contributed-by-nalany-richardson" class="nav-link" data-scroll-target="#this-section-was-contributed-by-nalany-richardson">This section was contributed by Nalany Richardson</a>
+  <ul class="collapse">
+  <li><a href="#loading-and-cleaning-data-for-synthetic-dataset" id="toc-loading-and-cleaning-data-for-synthetic-dataset" class="nav-link" data-scroll-target="#loading-and-cleaning-data-for-synthetic-dataset">Loading and Cleaning Data for Synthetic Dataset</a></li>
+  <li><a href="#descriptive-summaries-with-synthetic-data" id="toc-descriptive-summaries-with-synthetic-data" class="nav-link" data-scroll-target="#descriptive-summaries-with-synthetic-data">Descriptive Summaries with Synthetic Data</a></li>
+  <li><a href="#figures-with-synthetic-data" id="toc-figures-with-synthetic-data" class="nav-link" data-scroll-target="#figures-with-synthetic-data">Figures with Synthetic Data</a></li>
+  <li><a href="#ai-use-statement-1" id="toc-ai-use-statement-1" class="nav-link" data-scroll-target="#ai-use-statement-1">AI Use Statement</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -438,8 +445,320 @@ $ age_group  &lt;chr&gt; NA, NA, NA, NA, NA, "18 - 24", NA, "25 - 34", "35 - 44"
 <section id="ai-use-statement" class="level2">
 <h2 class="anchored" data-anchor-id="ai-use-statement">AI Use Statement</h2>
 <p>I used AI tools for debugging and technical guidance (e.g., resolving rendering errors and fixing column references). All data decisions, cleaning logic, and exploratory analysis were completed independently.</p>
+</section>
+<section id="this-section-was-contributed-by-nalany-richardson" class="level1">
+<h1>This section was contributed by Nalany Richardson</h1>
+<p>The goals for this section is to 1. create a synthetic dataset that mimics the structure and characteristics of the original CDC dataset, and 2. compare it to the original dataset and EDA using LLMs. I will be using Chatgpt 5.2 ‘Thinking’ along with Positron’s chatgpt package.</p>
+<p>Alex structured the dataset as <code>dat</code> with the following variables: <code>year</code>, <code>state</code>, <code>location</code>, <code>question</code>, <code>value</code>, <code>unit</code>, <code>value_type</code>, <code>sex</code>, and <code>age_group</code>.</p>
+<p>Prompt 1: I need to create a synthetic dataset that mimics the structure and characteristics of cdc_obesity_2018plus.csv. The dataset should have the same variables: year, state, location, question, value, unit, value_type, sex, and age_group. Lets do this one step at a time. Note: I attached the original spreadsheet and said: Attached is the spreadsheet containing the data I want a synthetic dataset based off from the original analysis.</p>
+<p>Each chunk created via the prompt is sent separately and vetted before moving on. Any portions changed without AI input will have a comment within the chunk.</p>
+<section id="loading-and-cleaning-data-for-synthetic-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="loading-and-cleaning-data-for-synthetic-dataset">Loading and Cleaning Data for Synthetic Dataset</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>raw <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"cdcdata-exercise"</span>, <span class="st">"cdc_obesity_2018plus.csv"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(raw) <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> raw <span class="sc">%&gt;%</span> <span class="co"># saves raw data as dat for next steps in synth creation</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>( <span class="co"># creates new dataset with same variables as in original, with cleaned names and formatting</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> YearStart,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">state =</span> LocationAbbr,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">location =</span> LocationDesc,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">question =</span> Question,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> Data_Value,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit =</span> Data_Value_Unit,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_type =</span> Data_Value_Type,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex =</span> Sex,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_group =</span> <span class="st">`</span><span class="at">Age(years)</span><span class="st">`</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">""</span>))) <span class="sc">%&gt;%</span> <span class="co"># if values are empty strings, convert to NA for consistency in handling missing data</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(value)) <span class="co"># removes rows where value var is missing</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproducibility: set seed for any random processes</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># original seed was 2026, changed it because i prefer simple numbers.</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproducibility</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure Part 1 object exists</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">exists</span>(<span class="st">"dat"</span>))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># helper: sample from observed distribution including NA</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># helper makes synthetic data preserve the same distribution of values (including missingness) as the original data</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>sample_like <span class="ot">&lt;-</span> <span class="cf">function</span>(x, n) {</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  tx <span class="ot">&lt;-</span> <span class="fu">table</span>(x, <span class="at">useNA =</span> <span class="st">"ifany"</span>) <span class="co"># counts how often each value (including NA) appears in the original data</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  p  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(tx) <span class="sc">/</span> <span class="fu">sum</span>(tx) <span class="co"># coverts counts to probabilities/proportions</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  lv <span class="ot">&lt;-</span> <span class="fu">names</span>(tx) <span class="co"># saves the unique values (including NA) as a character vector</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> <span class="fu">sample</span>(lv, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> p)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(s <span class="sc">==</span> <span class="st">"&lt;NA&gt;"</span>, <span class="cn">NA</span>, s) <span class="co"># converts string "&lt;NA&gt;" back to actual NA values in the synthetic data</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>n_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dat) <span class="co"># stores the number of rows in the original dataset so synth dataset can copy.</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># keep valid state-location pairs</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>state_location_map <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(state), <span class="sc">!</span><span class="fu">is.na</span>(location)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(state, location)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># build synthetic scaffold (without value first)</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>dat_syn <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">year       =</span> <span class="fu">as.numeric</span>(<span class="fu">sample_like</span>(dat<span class="sc">$</span>year, n_rows)),</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">state      =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>state, n_rows),</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">question   =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>question, n_rows),</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">unit       =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>unit, n_rows),</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">value_type =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>value_type, n_rows),</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex        =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>sex, n_rows),</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">age_group  =</span> <span class="fu">sample_like</span>(dat<span class="sc">$</span>age_group, n_rows)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(state_location_map, <span class="at">by =</span> <span class="st">"state"</span>)</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co"># fallback if any missing locations remain</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(dat_syn<span class="sc">$</span>location))) {</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  dat_syn<span class="sc">$</span>location[<span class="fu">is.na</span>(dat_syn<span class="sc">$</span>location)] <span class="ot">&lt;-</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample_like</span>(dat<span class="sc">$</span>location, <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_syn<span class="sc">$</span>location))) <span class="co"># fills in any missing locations by sampling from the original location distribution, ensuring all rows have a location value.</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># now we can check out the synthetic dataset and compare it to the original</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(dat_syn) <span class="co"># check syn dataset structure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 97,666
+Columns: 8
+$ year       &lt;dbl&gt; 2017, 2013, 2013, 2013, 2020, 2021, 2017, 2019, 2021, 2011,…
+$ state      &lt;chr&gt; "NE", "WV", "MA", "HI", "VA", "MD", "ME", "NV", "ME", "OR",…
+$ question   &lt;chr&gt; "Percent of adults who report consuming fruit less than one…
+$ unit       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "%", NA…
+$ value_type &lt;chr&gt; "Value", "Value", "Value", "Value", "Value", "Value", "Valu…
+$ sex        &lt;chr&gt; NA, "Female", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ age_group  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "65 or older", NA, …
+$ location   &lt;chr&gt; "Nebraska", "West Virginia", "Massachusetts", "Hawaii", "Vi…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat_syn) <span class="co"># check syn dataset dimensions</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 97666     8</code></pre>
+</div>
+</div>
+<p>We can see that the synthetic dataset has the same number of rows and 8 variables (will be 9 once we add. <code>value</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate value using subgroup stats + global fallback</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>g_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>g_sd   <span class="ot">&lt;-</span> <span class="fu">sd</span>(dat<span class="sc">$</span>value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>v_min  <span class="ot">&lt;-</span> <span class="fu">min</span>(dat<span class="sc">$</span>value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>v_max  <span class="ot">&lt;-</span> <span class="fu">max</span>(dat<span class="sc">$</span>value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># subgroup means/sd by question + sex + age group</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Chatgpt recommeneded grouping to make synth data more realistic by preserving original data patterns. Can be skipped though...</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question, sex, age_group) <span class="sc">%&gt;%</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># add subgroup params to synthetic rows and simulate value</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>dat_syn <span class="ot">&lt;-</span> dat_syn <span class="sc">%&gt;%</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(grp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"question"</span>, <span class="st">"sex"</span>, <span class="st">"age_group"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(mu), g_mean, mu),</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(sd) <span class="sc">|</span> sd <span class="sc">&lt;=</span> <span class="dv">0</span>, g_sd, sd),</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="at">mean =</span> mu, <span class="at">sd =</span> sd),</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">pmax</span>(v_min, <span class="fu">pmin</span>(v_max, value))</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, state, location, question, value, unit, value_type, sex, age_group)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># quick checks</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat_syn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 97666     9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat_syn<span class="sc">$</span>value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.90   25.05   31.68   31.78   37.63   82.64 </code></pre>
+</div>
+</div>
+<p>Here we can see that the <code>value</code> variable in the synthetic dataset has been simulated to have a similar distribution to the original data.</p>
+</section>
+<section id="descriptive-summaries-with-synthetic-data" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-summaries-with-synthetic-data">Descriptive Summaries with Synthetic Data</h2>
+<p>Now we can compare the descriptive summaries of the original and synthetic datasets to see how well the synthetic data mimics the original. I’ve pulled the code from the original EDA section for easy comparison. For the prompt, I asked: Now that we have the synthetic dataset, I want to compare the descriptive summaries (I pasted summaries code).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cat_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"sex"</span>, <span class="st">"age_group"</span>, <span class="st">"value_type"</span>, <span class="st">"unit"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> cat_vars) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">====================</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Variable:"</span>, v, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"====================</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  comp_wide <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    dat <span class="sc">%&gt;%</span> <span class="fu">count</span>(.data[[v]], <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"original"</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    dat_syn <span class="sc">%&gt;%</span> <span class="fu">count</span>(.data[[v]], <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"synthetic"</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(dataset) <span class="sc">%&gt;%</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">pct =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">value =</span> .data[[v]], dataset, n, pct) <span class="sc">%&gt;%</span> <span class="co"># pivot wider converges the original and synthetic summaries into a single table for side-by-side comparison</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># I had to add pivot wider because Chatgpt's original code printed them one after another and it was visually gross to look at... </span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> dataset,</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="fu">c</span>(n, pct)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">diff_pct =</span> pct_synthetic <span class="sc">-</span> pct_original</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="fu">abs</span>(diff_pct)))</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(comp_wide, <span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variable: state 
+====================</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 55 × 6
+   value n_original n_synthetic pct_original pct_synthetic  diff_pct
+   &lt;chr&gt;      &lt;int&gt;       &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+ 1 DE          1787        1947       0.0183        0.0199  0.00164 
+ 2 CA          1929        2024       0.0198        0.0207  0.000973
+ 3 GU          1375        1466       0.0141        0.0150  0.000932
+ 4 LA          1792        1701       0.0183        0.0174 -0.000932
+ 5 NC          1859        1944       0.0190        0.0199  0.000870
+ 6 SC          1890        1816       0.0194        0.0186 -0.000758
+ 7 AR          1805        1732       0.0185        0.0177 -0.000747
+ 8 IA          1774        1707       0.0182        0.0175 -0.000686
+ 9 TX          1900        1966       0.0195        0.0201  0.000676
+10 OH          1904        1970       0.0195        0.0202  0.000676
+11 MN          1909        1974       0.0195        0.0202  0.000666
+12 KY          1618        1555       0.0166        0.0159 -0.000645
+13 NY          1896        1833       0.0194        0.0188 -0.000645
+14 UT          1871        1929       0.0192        0.0198  0.000594
+15 US          2013        1956       0.0206        0.0200 -0.000584
+16 WA          1975        2031       0.0202        0.0208  0.000573
+17 VA          1867        1812       0.0191        0.0186 -0.000563
+18 AZ          1922        1871       0.0197        0.0192 -0.000522
+19 CT          1872        1821       0.0192        0.0186 -0.000522
+20 AL          1779        1829       0.0182        0.0187  0.000512
+# ℹ 35 more rows
 
 
+====================
+Variable: sex 
+====================
+# A tibble: 3 × 6
+  value  n_original n_synthetic pct_original pct_synthetic   diff_pct
+  &lt;chr&gt;       &lt;int&gt;       &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+1 &lt;NA&gt;        89974       89961       0.921         0.921  -0.000133 
+2 Male         3846        3856       0.0394        0.0395  0.000102 
+3 Female       3846        3849       0.0394        0.0394  0.0000307
+
+
+====================
+Variable: age_group 
+====================
+# A tibble: 7 × 6
+  value       n_original n_synthetic pct_original pct_synthetic   diff_pct
+  &lt;chr&gt;            &lt;int&gt;       &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+1 55 - 64           3846        3937       0.0394        0.0403  0.000932 
+2 65 or older       3846        3786       0.0394        0.0388 -0.000614 
+3 45 - 54           3846        3897       0.0394        0.0399  0.000522 
+4 25 - 34           3846        3805       0.0394        0.0390 -0.000420 
+5 18 - 24           3846        3813       0.0394        0.0390 -0.000338 
+6 &lt;NA&gt;             74590       74579       0.764         0.764  -0.000113 
+7 35 - 44           3846        3849       0.0394        0.0394  0.0000307
+
+
+====================
+Variable: value_type 
+====================
+# A tibble: 1 × 6
+  value n_original n_synthetic pct_original pct_synthetic diff_pct
+  &lt;chr&gt;      &lt;int&gt;       &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;
+1 Value      97666       97666            1             1        0
+
+
+====================
+Variable: unit 
+====================
+# A tibble: 2 × 6
+  value n_original n_synthetic pct_original pct_synthetic  diff_pct
+  &lt;chr&gt;      &lt;int&gt;       &lt;int&gt;        &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+1 &lt;NA&gt;       93505       93457       0.957         0.957  -0.000491
+2 %           4161        4209       0.0426        0.0431  0.000491</code></pre>
+</div>
+</div>
+</section>
+<section id="figures-with-synthetic-data" class="level2">
+<h2 class="anchored" data-anchor-id="figures-with-synthetic-data">Figures with Synthetic Data</h2>
+<p>Finally, we can also compare the figures of the original and synthetic datasets side by side. For the prompt: Now i want to compare the figures of my synthetic data to the original data side by side. lets do this 1 figure at a time (then i pasted the original code).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"Original"</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  dat_syn <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"Synthetic"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> dataset, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of value: Original vs Synthetic"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Value"</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>Figure 1</code> shows that we maintained the same distribution of <code>value</code> in the synthetic data! Our peak is slightly smaller and the tail is a bit shorter, but the overall shape is very similar. Huzzah!</p>
+<p>For the next prompt I asked: Now i want to do figure 2. I want to split it so that distribution of value by sex has original Female figure beside synthetic Female figure, original Male by synthetic Male.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>( <span class="co"># binds original and synthetic datasets together for faceting</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"Original"</span>),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  dat_syn <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">dataset =</span> <span class="st">"Synthetic"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sex), sex <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sex <span class="sc">~</span> dataset) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">range</span>(<span class="fu">c</span>(dat<span class="sc">$</span>value, dat_syn<span class="sc">$</span>value), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of value by sex"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Original vs Synthetic"</span>, <span class="co"># Chatgpt did not fix titles so I adjusted title and created a subtitle for clarity</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Value"</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>Figure 2</code> also shows that the synthetic data mimics the original data well within each <code>sex</code> group. The distributions for both <code>Female</code> and <code>Male</code> in the synthetic data resemble those in the original data. This is good because it shows that the subgroup simulation (which was given as an optional code from the LLM) was effective in preserving these patterns.</p>
+</section>
+<section id="ai-use-statement-1" class="level2">
+<h2 class="anchored" data-anchor-id="ai-use-statement-1">AI Use Statement</h2>
+<p>I used Chatgpt 5.2 ‘Thinking’ to help me create the synthetic dataset and compare it to the original dataset. I provided the original dataset and the code for the descriptive summaries and figures. Each code chunk was reviewed and tweaked before running.</p>
+<p>Some adjustments had to be made, as Chatgpt does not default to using here() and will readily hallucinate paths to data, and will consistently forget what the analysis is if you push it for corrections.</p>
+<p>All statements, explanations, and so forth outside of base code chunks were done by me in this section, with all edits and checks to confirm synthetic data output looked appropriate also done by me. Cheers!</p>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
