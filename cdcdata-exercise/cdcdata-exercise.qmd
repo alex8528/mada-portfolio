@@ -113,3 +113,214 @@ dat %>%
 
 ## AI Use Statement
 I used AI tools for debugging and technical guidance (e.g., resolving rendering errors and fixing column references). All data decisions, cleaning logic, and exploratory analysis were completed independently.
+
+# This section was contributed by Nalany Richardson
+The goals for this section is to 1. create a synthetic dataset that mimics the structure and characteristics of the original CDC dataset, and 2. compare it to the original dataset and EDA using LLMs. I will be using Chatgpt 5.2 'Thinking' along with Positron's chatgpt package.
+
+Alex structured the dataset as `dat` with the following variables: `year`, `state`, `location`, `question`, `value`, `unit`, `value_type`, `sex`, and `age_group`. 
+
+Prompt 1: I need to create a synthetic dataset that mimics the structure and characteristics of cdc_obesity_2018plus.csv. The dataset should have the same variables: year, state, location, question, value, unit, value_type, sex, and age_group. Lets do this one step at a time. Note: I attached the original spreadsheet and said: Attached is the spreadsheet containing the data I want a synthetic dataset based off from the original analysis.
+
+Each chunk created via the prompt is sent separately and vetted before moving on. Any portions changed without AI input will have a comment within the chunk.
+
+## Loading and Cleaning Data for Synthetic Dataset
+```{r}
+library(tidyverse)
+library(here)
+set.seed(1234)
+
+raw <- readr::read_csv(
+  here::here("cdcdata-exercise", "cdc_obesity_2018plus.csv"),
+  show_col_types = FALSE
+)
+stopifnot(nrow(raw) > 0)
+```
+
+```{r}
+dat <- raw %>% # saves raw data as dat for next steps in synth creation
+  transmute( # creates new dataset with same variables as in original, with cleaned names and formatting
+    year = YearStart,
+    state = LocationAbbr,
+    location = LocationDesc,
+    question = Question,
+    value = Data_Value,
+    unit = Data_Value_Unit,
+    value_type = Data_Value_Type,
+    sex = Sex,
+    age_group = `Age(years)`
+  ) %>%
+  mutate(across(where(is.character), ~ na_if(.x, ""))) %>% # if values are empty strings, convert to NA for consistency in handling missing data
+  filter(!is.na(value)) # removes rows where value var is missing
+```
+
+```{r}
+# Reproducibility: set seed for any random processes
+set.seed(1234) # original seed was 2026, changed it because i prefer simple numbers.
+# Reproducibility
+set.seed(1234)
+
+# Ensure Part 1 object exists
+stopifnot(exists("dat"))
+
+# helper: sample from observed distribution including NA
+# helper makes synthetic data preserve the same distribution of values (including missingness) as the original data
+sample_like <- function(x, n) {
+  tx <- table(x, useNA = "ifany") # counts how often each value (including NA) appears in the original data
+  p  <- as.numeric(tx) / sum(tx) # coverts counts to probabilities/proportions
+  lv <- names(tx) # saves the unique values (including NA) as a character vector
+  s  <- sample(lv, size = n, replace = TRUE, prob = p)
+  ifelse(s == "<NA>", NA, s) # converts string "<NA>" back to actual NA values in the synthetic data
+}
+
+n_rows <- nrow(dat) # stores the number of rows in the original dataset so synth dataset can copy.
+
+# keep valid state-location pairs
+state_location_map <- dat %>%
+  filter(!is.na(state), !is.na(location)) %>%
+  distinct(state, location)
+
+# build synthetic scaffold (without value first)
+dat_syn <- tibble(
+  year       = as.numeric(sample_like(dat$year, n_rows)),
+  state      = sample_like(dat$state, n_rows),
+  question   = sample_like(dat$question, n_rows),
+  unit       = sample_like(dat$unit, n_rows),
+  value_type = sample_like(dat$value_type, n_rows),
+  sex        = sample_like(dat$sex, n_rows),
+  age_group  = sample_like(dat$age_group, n_rows)
+) %>%
+  left_join(state_location_map, by = "state")
+
+# fallback if any missing locations remain
+if (any(is.na(dat_syn$location))) {
+  dat_syn$location[is.na(dat_syn$location)] <-
+    sample_like(dat$location, sum(is.na(dat_syn$location))) # fills in any missing locations by sampling from the original location distribution, ensuring all rows have a location value.
+}
+```
+
+```{r}
+# now we can check out the synthetic dataset and compare it to the original
+glimpse(dat_syn) # check syn dataset structure
+dim(dat_syn) # check syn dataset dimensions
+```
+
+We can see that the synthetic dataset has the same number of rows and 8 variables (will be 9 once we add. `value`). 
+
+```{r}
+# Simulate value using subgroup stats + global fallback
+g_mean <- mean(dat$value, na.rm = TRUE)
+g_sd   <- sd(dat$value, na.rm = TRUE)
+v_min  <- min(dat$value, na.rm = TRUE)
+v_max  <- max(dat$value, na.rm = TRUE)
+
+# subgroup means/sd by question + sex + age group
+# Chatgpt recommeneded grouping to make synth data more realistic by preserving original data patterns. Can be skipped though...
+grp <- dat %>%
+  group_by(question, sex, age_group) %>%
+  summarise(
+    mu = mean(value, na.rm = TRUE),
+    sd = sd(value, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# add subgroup params to synthetic rows and simulate value
+dat_syn <- dat_syn %>%
+  left_join(grp, by = c("question", "sex", "age_group")) %>%
+  mutate(
+    mu = ifelse(is.na(mu), g_mean, mu),
+    sd = ifelse(is.na(sd) | sd <= 0, g_sd, sd),
+    value = rnorm(n(), mean = mu, sd = sd),
+    value = pmax(v_min, pmin(v_max, value))
+  ) %>%
+  select(year, state, location, question, value, unit, value_type, sex, age_group)
+```
+```{r}
+# quick checks
+dim(dat_syn)
+summary(dat_syn$value)
+```
+
+Here we can see that the `value` variable in the synthetic dataset has been simulated to have a similar distribution to the original data. 
+
+## Descriptive Summaries with Synthetic Data
+Now we can compare the descriptive summaries of the original and synthetic datasets to see how well the synthetic data mimics the original. I've pulled the code from the original EDA section for easy comparison. For the prompt, I asked: Now that we have the synthetic dataset, I want to compare the descriptive summaries (I pasted summaries code).
+
+```{r}
+cat_vars <- c("state", "sex", "age_group", "value_type", "unit")
+
+for (v in cat_vars) {
+  cat("\n====================\n")
+  cat("Variable:", v, "\n")
+  cat("====================\n")
+  
+  comp_wide <- bind_rows(
+    dat %>% count(.data[[v]], name = "n") %>% mutate(dataset = "original"),
+    dat_syn %>% count(.data[[v]], name = "n") %>% mutate(dataset = "synthetic")
+  ) %>%
+    group_by(dataset) %>%
+    mutate(pct = n / sum(n)) %>%
+    ungroup() %>%
+    select(value = .data[[v]], dataset, n, pct) %>% # pivot wider converges the original and synthetic summaries into a single table for side-by-side comparison
+    # I had to add pivot wider because Chatgpt's original code printed them one after another and it was visually gross to look at... 
+    pivot_wider(
+      names_from = dataset,
+      values_from = c(n, pct)
+    ) %>%
+    mutate(
+      diff_pct = pct_synthetic - pct_original
+    ) %>%
+    arrange(desc(abs(diff_pct)))
+  
+  print(comp_wide, n = 20)
+  cat("\n")
+}
+```
+
+## Figures with Synthetic Data
+Finally, we can also compare the figures of the original and synthetic datasets side by side. For the prompt: Now i want to compare the figures of my synthetic data to the original data side by side. lets do this 1 figure at a time (then i pasted the original code).
+
+```{r}
+bind_rows(
+  dat %>% mutate(dataset = "Original"),
+  dat_syn %>% mutate(dataset = "Synthetic")
+) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 40) +
+  facet_wrap(~ dataset, nrow = 1) +
+  labs(
+    title = "Distribution of value: Original vs Synthetic",
+    x = "Value",
+    y = "Count"
+  )
+```
+
+`Figure 1` shows that we maintained the same distribution of `value` in the synthetic data! Our peak is slightly smaller and the tail is a bit shorter, but the overall shape is very similar. Huzzah!
+
+For the next prompt I asked: Now i want to do figure 2. I want to split it so that distribution of value by sex has original Female figure beside synthetic Female figure, original Male by synthetic Male.
+
+```{r}
+bind_rows( # binds original and synthetic datasets together for faceting
+  dat %>% mutate(dataset = "Original"),
+  dat_syn %>% mutate(dataset = "Synthetic")
+) %>%
+  filter(!is.na(sex), sex %in% c("Female", "Male")) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 40) +
+  facet_grid(sex ~ dataset) +
+  coord_cartesian(xlim = range(c(dat$value, dat_syn$value), na.rm = TRUE)) +
+  labs(
+    title = "Distribution of value by sex",
+    subtitle = "Original vs Synthetic", # Chatgpt did not fix titles so I adjusted title and created a subtitle for clarity
+    x = "Value",
+    y = "Count"
+  )
+```
+
+`Figure 2` also shows that the synthetic data mimics the original data well within each `sex` group. The distributions for both `Female` and `Male` in the synthetic data resemble those in the original data. This is good because it shows that the subgroup simulation (which was given as an optional code from the LLM) was effective in preserving these patterns.
+
+## AI Use Statement
+I used Chatgpt 5.2 'Thinking' to help me create the synthetic dataset and compare it to the original dataset. I provided the original dataset and the code for the descriptive summaries and figures. Each code chunk was reviewed and tweaked before running.
+
+Some adjustments had to be made, as Chatgpt does not default to using here() and will readily hallucinate paths to data, and will consistently forget what the analysis is if you push it for corrections. 
+
+All statements, explanations, and so forth outside of base code chunks were done by me in this section, with all edits and checks to confirm synthetic data output looked appropriate also done by me. Cheers! 
