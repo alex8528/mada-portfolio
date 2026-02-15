@@ -162,3 +162,13 @@ gt_tbl
 
 ### My reproduction
 ![](reproduced-figure.png)
+
+## Interpretation
+
+The figure shows a generally negative relationship between unemployment rate and median earnings. Majors with lower unemployment rates tend to have higher median earnings, particularly in engineering and quantitative fields.
+
+Larger majors are labeled in the plot, and many of them cluster around moderate unemployment and moderate earnings levels. This suggests that major popularity does not necessarily align with highest earnings.
+
+The table reinforces that the highest earning majors are concentrated in STEM-related categories, while unemployment rates vary even within high-paying fields.
+
+Overall, the visualization demonstrates that field of study is strongly associated with labor market outcomes.
