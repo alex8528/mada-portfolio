@@ -4,3 +4,16 @@ _site/
 /.quarto/
 
 **/*.quarto_ipynb
+
+# Quarto/R build folders
+*_files/
+*.knit.md
+.Rhistory
+.RData
+.Rproj.user/
+
+# Local development folders
+my-r-project_module2/
+
+# Raw data that shouldn't go to site repo
+class-project/data/raw-data/
