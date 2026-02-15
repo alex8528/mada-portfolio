@@ -2,8 +2,13 @@ project:
   type: website
   output-dir: docs
   render:
-    - "**/*.qmd"
+    - "*.qmd"
+    - "presentation-exercise/presentation-exercise.qmd"
+    - "data-exercise/data-exercise.qmd"
+    - "cdcdata-exercise/cdcdata-exercise.qmd"
+    - "class-project/index.qmd"
     - "!alextejadastrop-ready-exercise/products/**"
+
 
 website:
   title: "MADA Portfolio"
@@ -11,18 +16,12 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: presentation-exercise/presentation-exercise.qmd
+        text: Presentation Exercise
       - href: about.qmd
         text: About Me
-      - href: projects.qmd
-        text: MADA Group Projects
       - href: class-project/index.qmd
         text: Class Individual Project
-      - text: Data Exercise
-        menu:
-          - href: data-exercise/data-exercise.qmd
-            text: Synthetic Data Exercise
-          - href: cdcdata-exercise/cdcdata-exercise.qmd
-            text: CDC Data Exercise
       - href: starter-analysis-exercise.qmd
         text: Starter Analysis Exercise
       - href: contacts.qmd

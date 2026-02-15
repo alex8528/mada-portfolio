@@ -1,0 +1,164 @@
+---
+title: "Presentation Exercise"
+format:
+  html:
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+library(tidyverse)
+library(scales)
+library(ggrepel)
+library(gt)
+library(gtExtras)
+```
+
+
+
+## Load local data
+
+```{r}
+df <- readr::read_csv("data/recent-grads.csv")
+dplyr::glimpse(df)
+```
+
+
+```{r}
+getwd()
+file.exists("data/recent-grads.csv")
+list.files("data")
+```
+
+
+# Prepare data for plot
+
+```{r} 
+
+plot_df <- df |>
+  dplyr::filter(
+    !is.na(Median),
+    !is.na(Unemployment_rate),
+    !is.na(Total)
+  ) |>
+  dplyr::mutate(
+    unemployment_pct = Unemployment_rate * 100,
+    median_usd = Median
+  )
+
+label_df <- plot_df |>
+  dplyr::arrange(dplyr::desc(Total)) |>
+  dplyr::slice(1:10)
+
+```
+
+
+
+## Bubble chart
+
+```{r}
+p <- ggplot(plot_df, aes(x = unemployment_pct, y = median_usd)) +
+  geom_point(aes(size = Total, color = Major_category), alpha = 0.85) +
+  ggrepel::geom_text_repel(
+    data = label_df,
+    aes(label = Major),
+    size = 3,
+    max.overlaps = Inf
+  ) +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_continuous(labels = function(x) paste0(x, "%")) +
+  guides(size = "none", color = guide_legend(title = NULL)) +
+  labs(
+    title = "Earnings vs unemployment for recent graduates by major",
+    subtitle = "Bubble size shows the number of recent graduates in the major",
+    x = "Unemployment rate",
+    y = "Median annual earnings",
+    caption = "Source: FiveThirtyEight college majors dataset (ACS 2010 to 2012)."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+
+p
+
+```
+
+
+```{r}
+ggsave(
+  filename = "reproduced-figure.png",
+  plot = p,
+  width = 9,
+  height = 6,
+  dpi = 300
+)
+```
+
+## Publication-quality table
+
+```{r}
+tbl_df <- df |>
+  dplyr::transmute(
+    Major,
+    Category = Major_category,
+    Median,
+    UnemploymentPct = Unemployment_rate * 100,
+    ShareWomenPct = ShareWomen * 100,
+    Total
+  ) |>
+  dplyr::filter(!is.na(Median), !is.na(UnemploymentPct), !is.na(ShareWomenPct)) |>
+  dplyr::arrange(dplyr::desc(Median)) |>
+  dplyr::slice(1:15)
+
+gt_tbl <- tbl_df |>
+  dplyr::select(Major, Category, Median, UnemploymentPct, ShareWomenPct, Total) |>
+  gt(rowname_col = "Major") |>
+  tab_header(
+    title = md("**Table 1.** Top majors by median earnings"),
+    subtitle = "Summary statistics for recent graduates"
+  ) |>
+  tab_spanner(
+    label = "Outcomes",
+    columns = c(Median, UnemploymentPct, ShareWomenPct)
+  ) |>
+  fmt_currency(columns = Median, decimals = 0) |>
+  fmt_number(columns = c(UnemploymentPct, ShareWomenPct), decimals = 1) |>
+  cols_label(
+    Category = "Field",
+    Median = "Median earnings",
+    UnemploymentPct = "Unemployment (%)",
+    ShareWomenPct = "Share women (%)",
+    Total = "Total grads"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  ) |>
+  data_color(columns = UnemploymentPct, method = "numeric") |>
+  data_color(columns = ShareWomenPct, method = "numeric") |>
+  gtExtras::gt_plt_bar(column = Total, scaled = TRUE) |>
+  tab_footnote(
+    footnote = "Data: FiveThirtyEight college majors dataset (ACS 2010 to 2012).",
+    locations = cells_title(groups = "title")
+  ) |>
+  tab_footnote(
+    footnote = "Unemployment and share women are shown as percentages.",
+    locations = cells_column_labels(columns = c(UnemploymentPct, ShareWomenPct))
+  )
+
+gt_tbl
+```
+
+
+## Comparison
+
+### Original chart
+![](images/original.png)
+
+### My reproduction
+![](reproduced-figure.png)
