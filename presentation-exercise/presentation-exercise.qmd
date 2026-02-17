@@ -15,6 +15,7 @@ library(scales)
 library(ggrepel)
 library(gt)
 library(gtExtras)
+library(viridis)
 ```
 
 
@@ -62,22 +63,15 @@ label_df <- plot_df |>
 ```{r}
 p <- ggplot(plot_df, aes(x = unemployment_pct, y = median_usd)) +
   geom_point(aes(size = Total, color = Major_category), alpha = 0.85) +
-  ggrepel::geom_text_repel(
-    data = label_df,
-    aes(label = Major),
-    size = 3,
-    max.overlaps = Inf
-  ) +
   scale_y_continuous(labels = scales::dollar) +
   scale_x_continuous(labels = function(x) paste0(x, "%")) +
   guides(size = "none", color = guide_legend(title = NULL)) +
-  labs(
-    title = "Earnings vs unemployment for recent graduates by major",
-    subtitle = "Bubble size shows the number of recent graduates in the major",
-    x = "Unemployment rate",
-    y = "Median annual earnings",
-    caption = "Source: FiveThirtyEight college majors dataset (ACS 2010 to 2012)."
-  ) +
+labs(
+  title = "Earnings vs Unemployment for Recent Graduates",
+  subtitle = "Each bubble represents a major; size reflects total graduates",
+  x = "Unemployment rate (%)",
+  y = "Median annual earnings (USD)",
+  caption = "Largest bubbles represent majors with the highest number of graduates. Source: FiveThirtyEight college majors dataset (ACS 2010–2012)." +
   theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold"),
@@ -172,3 +166,7 @@ Larger majors are labeled in the plot, and many of them cluster around moderate 
 The table reinforces that the highest earning majors are concentrated in STEM-related categories, while unemployment rates vary even within high-paying fields.
 
 Overall, the visualization demonstrates that field of study is strongly associated with labor market outcomes.
+
+```{r}
+cor(plot_df$unemployment_pct, plot_df$median_usd)
+```
