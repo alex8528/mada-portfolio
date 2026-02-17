@@ -263,7 +263,7 @@
     "href": "presentation-exercise/presentation-exercise.html",
     "title": "Presentation Exercise",
     "section": "",
-    "text": "library(tidyverse)\nlibrary(scales)\nlibrary(ggrepel)\nlibrary(gt)\nlibrary(gtExtras)"
+    "text": "library(tidyverse)\nlibrary(scales)\nlibrary(ggrepel)\nlibrary(gt)\nlibrary(gtExtras)\nlibrary(viridis)"
   },
   {
     "objectID": "presentation-exercise/presentation-exercise.html#load-local-data",
@@ -277,7 +277,7 @@
     "href": "presentation-exercise/presentation-exercise.html#bubble-chart",
     "title": "Presentation Exercise",
     "section": "Bubble chart",
-    "text": "Bubble chart\n\np &lt;- ggplot(plot_df, aes(x = unemployment_pct, y = median_usd)) +\n  geom_point(aes(size = Total, color = Major_category), alpha = 0.85) +\n  ggrepel::geom_text_repel(\n    data = label_df,\n    aes(label = Major),\n    size = 3,\n    max.overlaps = Inf\n  ) +\n  scale_y_continuous(labels = scales::dollar) +\n  scale_x_continuous(labels = function(x) paste0(x, \"%\")) +\n  guides(size = \"none\", color = guide_legend(title = NULL)) +\n  labs(\n    title = \"Earnings vs unemployment for recent graduates by major\",\n    subtitle = \"Bubble size shows the number of recent graduates in the major\",\n    x = \"Unemployment rate\",\n    y = \"Median annual earnings\",\n    caption = \"Source: FiveThirtyEight college majors dataset (ACS 2010 to 2012).\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\"),\n    legend.position = \"bottom\"\n  )\n\np\n\n\n\n\n\n\n\n\n\nggsave(\n  filename = \"reproduced-figure.png\",\n  plot = p,\n  width = 9,\n  height = 6,\n  dpi = 300\n)"
+    "text": "Bubble chart\n\np &lt;- ggplot(plot_df, aes(x = unemployment_pct, y = median_usd)) +\n  geom_point(aes(size = Total, color = Major_category), alpha = 0.85) +\n  scale_color_viridis_d(option = \"D\", end = 0.9) +\n  scale_y_continuous(labels = scales::dollar) +\n  scale_x_continuous(\n    breaks = seq(0, 25, 2.5),\n    labels = function(x) paste0(x, \"%\")\n  ) +\n  guides(size = \"none\", color = guide_legend(title = NULL)) +\n  labs(\n    title = \"Earnings vs Unemployment for Recent Graduates\",\n    subtitle = \"Each bubble represents a major; size reflects total graduates\",\n    x = \"Unemployment rate (%)\",\n    y = \"Median annual earnings (USD)\",\n    caption = \"Largest bubbles represent majors with the highest number of graduates.\\nSource: FiveThirtyEight college majors dataset (ACS 2010–2012).\"\n  ) +\n  theme_minimal(base_size = 12) +\n  theme(\n    plot.title = element_text(face = \"bold\"),\n    legend.position = \"bottom\"\n  )\n\np\n\n\n\n\n\n\n\n\n\nggsave(\n  filename = \"reproduced-figure.png\",\n  plot = p,\n  width = 9,\n  height = 6,\n  dpi = 300\n)"
   },
   {
     "objectID": "presentation-exercise/presentation-exercise.html#publication-quality-table",
@@ -298,7 +298,7 @@
     "href": "presentation-exercise/presentation-exercise.html#interpretation",
     "title": "Presentation Exercise",
     "section": "Interpretation",
-    "text": "Interpretation\nThe figure shows a generally negative relationship between unemployment rate and median earnings. Majors with lower unemployment rates tend to have higher median earnings, particularly in engineering and quantitative fields.\nLarger majors are labeled in the plot, and many of them cluster around moderate unemployment and moderate earnings levels. This suggests that major popularity does not necessarily align with highest earnings.\nThe table reinforces that the highest earning majors are concentrated in STEM-related categories, while unemployment rates vary even within high-paying fields.\nOverall, the visualization demonstrates that field of study is strongly associated with labor market outcomes."
+    "text": "Interpretation\nThe figure shows a generally negative relationship between unemployment rate and median earnings. Majors with lower unemployment rates tend to have higher median earnings, particularly in engineering and quantitative fields.\nLarger majors are labeled in the plot, and many of them cluster around moderate unemployment and moderate earnings levels. This suggests that major popularity does not necessarily align with highest earnings.\nThe table reinforces that the highest earning majors are concentrated in STEM-related categories, while unemployment rates vary even within high-paying fields.\nOverall, the visualization demonstrates that field of study is strongly associated with labor market outcomes.\n\ncor(plot_df$unemployment_pct, plot_df$median_usd)\n\n[1] -0.115769"
   },
   {
     "objectID": "reflections.html",
