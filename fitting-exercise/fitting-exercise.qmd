@@ -1,7 +1,9 @@
 ---
 title: "Model Fitting Exercise – Mavoglurant"
 author: "Alex Tejada Strop"
-format: html
+format:
+  html:
+    embed-resources: true
 execute:
   echo: true
   warning: false
