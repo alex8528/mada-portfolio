@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alexandra Tejada-Strop">
 
-<title>Prenatal Mental Health Screening and Postpartum Depressive Symptoms</title>
+<title>Class Project – MADA Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,21 +20,89 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="Manuscript_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Manuscript_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="Manuscript_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="Manuscript_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="Manuscript_files/libs/quarto-html/popper.min.js"></script>
-<script src="Manuscript_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Manuscript_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Manuscript_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Manuscript_files/libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Manuscript_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Manuscript_files/libs/bootstrap/bootstrap-dd1e69cc28de4c0c742d9bb80f8fae17.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -69,57 +136,106 @@ window.Quarto = {
 
 </head>
 
-<body class="quarto-light">
+<body class="nav-fixed quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MADA Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../fitting-exercise/fitting-exercise.html"> 
+<span class="menu-text">Fitting Exercise</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../presentation-exercise/presentation-exercise.html"> 
+<span class="menu-text">Presentation Exercise</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../class-project/index.html" aria-current="page"> 
+<span class="menu-text">Class Individual Project</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../starter-analysis-exercise.html"> 
+<span class="menu-text">Starter Analysis Exercise</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contacts.html"> 
+<span class="menu-text">Contact / Links</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/alex8528/mada-portfolio"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#add-data-load" id="toc-add-data-load" class="nav-link active" data-scroll-target="#add-data-load"><span class="header-section-number">1</span> Add Data-load</a></li>
-  <li><a href="#summaryabstract" id="toc-summaryabstract" class="nav-link" data-scroll-target="#summaryabstract"><span class="header-section-number">2</span> Summary/Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">3</span> Introduction</a>
+  <li><a href="#summaryabstract" id="toc-summaryabstract" class="nav-link active" data-scroll-target="#summaryabstract"><span class="header-section-number">1</span> Summary/Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">2</span> Introduction</a>
   <ul class="collapse">
-  <li><a href="#general-background-information" id="toc-general-background-information" class="nav-link" data-scroll-target="#general-background-information"><span class="header-section-number">3.1</span> General Background Information</a></li>
-  <li><a href="#description-of-data-and-data-source" id="toc-description-of-data-and-data-source" class="nav-link" data-scroll-target="#description-of-data-and-data-source"><span class="header-section-number">3.2</span> Description of data and data source</a></li>
-  <li><a href="#questionshypotheses-to-be-addressed" id="toc-questionshypotheses-to-be-addressed" class="nav-link" data-scroll-target="#questionshypotheses-to-be-addressed"><span class="header-section-number">3.3</span> Questions/Hypotheses to be addressed</a></li>
+  <li><a href="#general-background-information" id="toc-general-background-information" class="nav-link" data-scroll-target="#general-background-information"><span class="header-section-number">2.1</span> General Background Information</a></li>
+  <li><a href="#description-of-data-and-data-source" id="toc-description-of-data-and-data-source" class="nav-link" data-scroll-target="#description-of-data-and-data-source"><span class="header-section-number">2.2</span> Description of data and data source</a></li>
+  <li><a href="#questionshypotheses-to-be-addressed" id="toc-questionshypotheses-to-be-addressed" class="nav-link" data-scroll-target="#questionshypotheses-to-be-addressed"><span class="header-section-number">2.3</span> Questions/Hypotheses to be addressed</a></li>
   </ul></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">4</span> Methods</a>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">3</span> Methods</a>
   <ul class="collapse">
-  <li><a href="#use-of-computational-assistance" id="toc-use-of-computational-assistance" class="nav-link" data-scroll-target="#use-of-computational-assistance"><span class="header-section-number">4.1</span> Use of Computational Assistance</a></li>
-  <li><a href="#planned-analysis-approach" id="toc-planned-analysis-approach" class="nav-link" data-scroll-target="#planned-analysis-approach"><span class="header-section-number">4.2</span> Planned Analysis Approach</a></li>
-  <li><a href="#methods-planned" id="toc-methods-planned" class="nav-link" data-scroll-target="#methods-planned"><span class="header-section-number">4.3</span> Methods (Planned)</a></li>
-  </ul></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source"><span class="header-section-number">5</span> Data Source</a></li>
-  <li><a href="#study-population" id="toc-study-population" class="nav-link" data-scroll-target="#study-population"><span class="header-section-number">6</span> Study Population</a></li>
-  <li><a href="#measures" id="toc-measures" class="nav-link" data-scroll-target="#measures"><span class="header-section-number">7</span> Measures</a></li>
-  <li><a href="#statistical-approach" id="toc-statistical-approach" class="nav-link" data-scroll-target="#statistical-approach"><span class="header-section-number">8</span> Statistical Approach</a>
-  <ul class="collapse">
-  <li><a href="#results-planned" id="toc-results-planned" class="nav-link" data-scroll-target="#results-planned"><span class="header-section-number">8.1</span> Results (Planned)</a></li>
-  <li><a href="#discussion-planned" id="toc-discussion-planned" class="nav-link" data-scroll-target="#discussion-planned"><span class="header-section-number">8.2</span> Discussion (Planned)</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.3</span> References</a></li>
+  <li><a href="#use-of-computational-assistance" id="toc-use-of-computational-assistance" class="nav-link" data-scroll-target="#use-of-computational-assistance"><span class="header-section-number">3.1</span> Use of Computational Assistance</a></li>
+  <li><a href="#planned-analysis-approach" id="toc-planned-analysis-approach" class="nav-link" data-scroll-target="#planned-analysis-approach"><span class="header-section-number">3.2</span> Planned Analysis Approach</a></li>
+  <li><a href="#methods-planned" id="toc-methods-planned" class="nav-link" data-scroll-target="#methods-planned"><span class="header-section-number">3.3</span> Methods (Planned)</a></li>
+  <li><a href="#results-planned" id="toc-results-planned" class="nav-link" data-scroll-target="#results-planned"><span class="header-section-number">3.4</span> Results (Planned)</a></li>
+  <li><a href="#discussion-planned" id="toc-discussion-planned" class="nav-link" data-scroll-target="#discussion-planned"><span class="header-section-number">3.5</span> Discussion (Planned)</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3.6</span> References</a></li>
   </ul></li>
   </ul>
 </nav>
-</div>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Prenatal Mental Health Screening and Postpartum Depressive Symptoms</h1>
+<h1 class="title">Class Project</h1>
+<p class="subtitle lead">Prenatal Mental Health Screening and Postpartum Depressive Symptoms</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Alexandra Tejada-Strop </p>
-          </div>
-  </div>
     
   
     
@@ -130,94 +246,77 @@ window.Quarto = {
 </header>
 
 
+<p>This page presents my semester-long class project for <strong>Modern Applied Data Analysis (MADA)</strong>.<br>
+The project uses PRAMS Phase 8 data to examine prenatal mental health screening and postpartum depressive symptoms.</p>
 <p>This uses <a href="https://quarto.org/docs/output-formats/ms-word.html">MS Word as output format</a>. See <a href="https://quarto.org/">the Quarto documentation</a> for instructions on how to use other formats.</p>
-<section id="add-data-load" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Add Data-load</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load core packages used across the project</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at C:/Users/alexa/OneDrive/Documents/GitHub/mada-portfolio</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><span class="math inline">\(\dagger\)</span> Disclaimer: The opinions expressed in this article are the author’s own and don’t reflect their employer.</p>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="summaryabstract" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Summary/Abstract</h1>
+<section id="summaryabstract" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Summary/Abstract</h1>
 <p>This project examines whether prenatal mental health screening is associated with postpartum depressive symptoms using data from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8. The analysis focuses on self-reported experiences during prenatal care and postpartum mental health outcomes to assess the feasibility of identifying meaningful patterns in population-based surveillance data.</p>
-<div style="page-break-after: always;"></div>
 </section>
-<section id="introduction" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Introduction</h1>
+<section id="introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
 <p>Postpartum depression is a common and serious public health concern that affects maternal well-being, family functioning, and infant outcomes. Clinical guidelines increasingly recommend routine screening for depression and anxiety during prenatal care; however, the extent to which such screening is associated with postpartum mental health outcomes in real-world settings remains unclear.</p>
 <p>Using data from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8, this study examines whether individuals who report being asked about depression or anxiety during prenatal care are less likely to report postpartum depressive symptoms. By leveraging a large, population-based dataset, this project aims to explore whether prenatal screening practices may be associated with improved postpartum mental health outcomes.</p>
-<section id="general-background-information" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="general-background-information"><span class="header-section-number">3.1</span> General Background Information</h2>
+<section id="general-background-information" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="general-background-information"><span class="header-section-number">2.1</span> General Background Information</h2>
 <p>Prenatal and postpartum mental health conditions are increasingly recognized as critical components of maternal health, with implications for both maternal and infant outcomes. Understanding whether routine prenatal screening translates into improved postpartum mental health can inform clinical practice and policy.</p>
 </section>
-<section id="description-of-data-and-data-source" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="description-of-data-and-data-source"><span class="header-section-number">3.2</span> Description of data and data source</h2>
+<section id="description-of-data-and-data-source" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="description-of-data-and-data-source"><span class="header-section-number">2.2</span> Description of data and data source</h2>
 <p>The data for this study come from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8, a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments. PRAMS collects self-reported survey data from individuals who recently had a live birth and links these responses to selected birth certificate variables.</p>
 <p>PRAMS Phase 8 includes several hundred variables capturing maternal demographics, pre-pregnancy health conditions, prenatal care experiences, health behaviors, insurance coverage, mental health indicators, and postpartum outcomes. The dataset contains a mix of categorical and numeric variables and reflects real-world survey complexity, including skip patterns and missing data.</p>
 <p>Across participating states, PRAMS Phase 8 includes tens of thousands of respondents, providing sufficient sample size and variable richness to support exploratory analysis, multivariable modeling, and predictive approaches covered later in the course.</p>
 <p>For this project, variables related to prenatal mental health screening, pre-pregnancy mental health history, postpartum depressive symptoms, and sociodemographic characteristics will be used. Variable definitions and coding schemes are documented in the PRAMS Phase 8 codebook.</p>
 </section>
-<section id="questionshypotheses-to-be-addressed" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="questionshypotheses-to-be-addressed"><span class="header-section-number">3.3</span> Questions/Hypotheses to be addressed</h2>
+<section id="questionshypotheses-to-be-addressed" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="questionshypotheses-to-be-addressed"><span class="header-section-number">2.3</span> Questions/Hypotheses to be addressed</h2>
 <p>The primary research question for this study is:</p>
 <p>Are individuals who report being asked about depression or anxiety during prenatal care less likely to report postpartum depressive symptoms?</p>
 <p>The primary outcome of interest is self-reported postpartum depressive symptoms, measured using PRAMS survey items assessing feelings of depression and loss of interest since birth. The primary predictors of interest include indicators of prenatal mental health screening, such as whether a healthcare provider asked about depression or anxiety during prenatal visits.</p>
 <p>Additional covariates will include pre-pregnancy mental health history, insurance coverage, income, education, maternal age, and race or ethnicity.</p>
-<div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="methods" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Methods</h1>
-<section id="use-of-computational-assistance" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="use-of-computational-assistance"><span class="header-section-number">4.1</span> Use of Computational Assistance</h2>
+<section id="methods" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methods</h1>
+<section id="use-of-computational-assistance" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="use-of-computational-assistance"><span class="header-section-number">3.1</span> Use of Computational Assistance</h2>
 <p>Generative artificial intelligence tools (ChatGPT, OpenAI) were used to assist with code troubleshooting. All code and analytical decisions were reviewed, modified as needed, and implemented by the author. The author takes full responsibility for the accuracy, interpretation, and reproducibility of all analyses and results.</p>
 </section>
-<section id="planned-analysis-approach" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="planned-analysis-approach"><span class="header-section-number">4.2</span> Planned Analysis Approach</h2>
+<section id="planned-analysis-approach" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="planned-analysis-approach"><span class="header-section-number">3.2</span> Planned Analysis Approach</h2>
 <p>At this stage of the project, the analysis plan includes descriptive summaries of key variables and exploratory comparisons between individuals who did and did not report prenatal mental health screening. These exploratory analyses will be used to assess data quality, missingness, and preliminary patterns in the data.</p>
 <p>Later stages of the project will involve regression-based and machine learning approaches covered in the course to model associations between prenatal screening and postpartum mental health outcomes while accounting for relevant covariates. The richness of PRAMS survey content and linked birth data makes this analysis feasible within the scope of a semester-long project.</p>
-<div style="page-break-after: always;"></div>
 </section>
-<section id="methods-planned" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="methods-planned"><span class="header-section-number">4.3</span> Methods (Planned)</h2>
+<section id="methods-planned" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="methods-planned"><span class="header-section-number">3.3</span> Methods (Planned)</h2>
+<p>This section will be expanded in later project stages. It will describe data acquisition procedures, data cleaning and processing steps, variable construction, and statistical modeling approaches. Detailed data cleaning and exploratory analyses will be documented in separate Quarto or R scripts within the project repository and summarized here as appropriate.</p>
 </section>
-</section>
-<section id="data-source" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Data Source</h1>
-<p>Data were obtained from the Pregnancy Risk Assessment Monitoring System (PRAMS), a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments. PRAMS collects self-reported information on maternal experiences before, during, and shortly after pregnancy.</p>
-</section>
-<section id="study-population" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Study Population</h1>
-<p>The analytic sample included respondents with non-missing values for the primary exposure (prenatal depression screening) and outcome (postpartum depressive symptoms). After exclusions, the final analytic sample consisted of 237,392 respondents.</p>
-</section>
-<section id="measures" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Measures</h1>
-<p>The primary exposure was self-reported prenatal depression screening (ASK_DPRS). The outcome was postpartum depressive symptoms (PP_DEPRESS). Both variables were recoded into binary indicators.</p>
-<p>Key covariates included maternal age, education, income, marital status, prenatal depression history, and prenatal care adequacy.</p>
-</section>
-<section id="statistical-approach" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Statistical Approach</h1>
-<p>Exploratory analyses included descriptive statistics, cross-tabulations, and graphical comparisons of postpartum depressive symptoms by screening status. All analyses were conducted in R.</p>
-<div style="page-break-after: always;"></div>
-<section id="results-planned" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="results-planned"><span class="header-section-number">8.1</span> Results (Planned)</h2>
+<section id="results-planned" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="results-planned"><span class="header-section-number">3.4</span> Results (Planned)</h2>
 <p>Results sections will be developed after data cleaning and exploratory analysis are completed. Descriptive summaries, tables, and figures will be presented to characterize the study population and explore relationships between prenatal screening and postpartum depressive symptoms.</p>
-<p>The analytic sample included approximately 237,000 respondents after excluding missing outcome and exposure values. Overall, 81% of respondents reported being screened for depression during prenatal care, and 14% reported postpartum depressive symptoms.</p>
-<p>In exploratory analyses, postpartum depressive symptoms were more common among women who did not report receiving prenatal depression screening compared to those who were screened. Prior depression during pregnancy was strongly associated with postpartum depressive symptoms, suggesting that mental health history is an important confounder to consider in adjusted analyses. Differences in postpartum depressive symptoms were also observed across education levels.</p>
-<div style="page-break-after: always;"></div>
 </section>
-<section id="discussion-planned" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="discussion-planned"><span class="header-section-number">8.2</span> Discussion (Planned)</h2>
+<section id="discussion-planned" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="discussion-planned"><span class="header-section-number">3.5</span> Discussion (Planned)</h2>
 <p>The discussion section will interpret findings in the context of existing literature, address strengths and limitations of the analysis, and consider implications for prenatal care practices and maternal mental health policy.</p>
-<div style="page-break-after: always;"></div>
 </section>
-<section id="references" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="references"><span class="header-section-number">8.3</span> References</h2>
+<section id="references" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="references"><span class="header-section-number">3.6</span> References</h2>
 <p>References will be added in later stages of the project using a BibTeX file and cited throughout the manuscript.</p>
+
+
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -16,6 +16,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: fitting-exercise/fitting-exercise.qmd
+        text: Fitting Exercise
       - href: presentation-exercise/presentation-exercise.qmd
         text: Presentation Exercise
       - href: about.qmd

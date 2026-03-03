@@ -1,0 +1,266 @@
+---
+title: "Model Fitting Exercise – Mavoglurant"
+author: "Alex Tejada Strop"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+
+# Load required packages
+library(tidyverse)
+library(tidymodels)
+```
+
+```{r}
+# Load data
+dat_raw <- readr::read_csv("Mavoglurant_A2121_nmpk.csv")
+
+# Look at structure
+glimpse(dat_raw)
+```
+
+```{r}
+# Plot over TIME for each person, 
+dat_raw %>%
+  ggplot(aes(x = TIME, y = DV, group = ID)) +
+  geom_line(alpha = 0.3) +
+  facet_wrap(~ DOSE) +
+  labs(
+    title = "DV over time by individual (raw data)",
+    x = "Time",
+    y = "DV"
+  )
+```
+
+
+
+
+## Keep only OCC
+
+```{r}
+dat_occ1 <- dat_raw %>%
+  filter(OCC == 1)
+
+
+# Confirm OCC values
+dat_occ1 %>% count(OCC)
+```
+
+# I kept only rows where OCC equals 1 to avoid repeated results.
+
+```{r}
+# Sum DV across time points (exclude TIME == 0 dosing rows)
+y_df <- dat_occ1 %>%
+  filter(TIME != 0) %>%
+  group_by(ID) %>%
+  summarise(Y = sum(DV, na.rm = TRUE), .groups = "drop")
+
+dim(y_df)  
+```
+
+```{r}
+dose_df <- dat_occ1 %>%
+  filter(TIME == 0)
+
+dim(dose_df)  
+```
+
+```{r}
+dat_joined <- dose_df %>%
+  left_join(y_df, by = "ID")
+
+dim(dat_joined)  
+glimpse(dat_joined)
+```
+
+## Clean dataset
+
+```{r}
+dat_clean <- dat_joined %>%
+  transmute(
+    Y = Y,
+    DOSE = DOSE,
+    AGE = AGE,
+    SEX = factor(SEX),
+    RACE = factor(RACE),
+    WT = WT,
+    HT = HT
+  )
+
+glimpse(dat_clean)
+summary(dat_clean)
+```
+
+```{r}
+dim(dat_clean)
+```
+
+
+## Exploratory data analysis (EDA)
+```{r}
+dat_clean %>%
+  summarise(
+    n = n(),
+    Y_mean = mean(Y, na.rm = TRUE),
+    Y_sd = sd(Y, na.rm = TRUE),
+    age_mean = mean(AGE, na.rm = TRUE),
+    wt_mean = mean(WT, na.rm = TRUE),
+    ht_mean = mean(HT, na.rm = TRUE)
+  )
+```
+
+## Boxplot
+
+```{r}
+dat_clean %>%
+  ggplot(aes(x = factor(DOSE), y = Y)) +
+  geom_boxplot() +
+  labs(title = "Total drug (Y) by dose", x = "Dose", y = "Y")
+```
+
+
+## Histogram
+
+```{r}
+dat_clean %>% ggplot(aes(Y)) + geom_histogram(bins = 30) + labs(title = "Y distribution")
+dat_clean %>% ggplot(aes(AGE)) + geom_histogram(bins = 20) + labs(title = "AGE distribution")
+dat_clean %>% ggplot(aes(WT)) + geom_histogram(bins = 20) + labs(title = "WT distribution")
+dat_clean %>% ggplot(aes(HT)) + geom_histogram(bins = 20) + labs(title = "HT distribution")
+```
+
+## Train test split
+```{r}
+set.seed(123)
+split_obj <- initial_split(dat_clean, prop = 0.80)
+train_df <- training(split_obj)
+test_df  <- testing(split_obj)
+```
+
+```{r}
+dim(train_df)
+dim(test_df)
+```
+
+## Regression
+```{r}
+# 1) Linear regression model
+lm_spec <- linear_reg() %>%
+  set_engine("lm")
+
+# 2) Fit model
+lm_dose_fit <- lm_spec %>%
+  fit(Y ~ DOSE, data = train_df)
+
+# 3) Predict
+lm_dose_preds <- predict(lm_dose_fit, new_data = test_df) %>%
+  bind_cols(test_df %>% select(Y))
+
+# 4) RMSE and R-squared
+metrics(lm_dose_preds, truth = Y, estimate = .pred) %>%
+  filter(.metric %in% c("rmse", "rsq"))
+
+# Fit model using all predictors
+lm_all_fit <- lm_spec %>%
+  fit(Y ~ DOSE + AGE + SEX + RACE + WT + HT, data = train_df)
+
+# Predict on test data
+lm_all_preds <- predict(lm_all_fit, new_data = test_df) %>%
+  bind_cols(test_df %>% select(Y))
+
+# Compute RMSE and R-squared
+metrics(lm_all_preds, truth = Y, estimate = .pred) %>%
+  filter(.metric %in% c("rmse", "rsq"))
+```
+
+```{r}
+# Fit model using all predictors
+lm_all_fit <- lm_spec %>%
+  fit(Y ~ DOSE + AGE + SEX + RACE + WT + HT, data = train_df)
+
+# Predict
+lm_all_preds <- predict(lm_all_fit, new_data = test_df) %>%
+  bind_cols(test_df %>% select(Y))
+
+# RMSE and R-squared
+metrics(lm_all_preds, truth = Y, estimate = .pred) %>%
+  filter(.metric %in% c("rmse", "rsq"))
+```
+
+```{r}
+levels(dat_clean$SEX)
+
+```
+
+## Model fitting
+```{r}
+# Specify logistic regression model
+log_spec <- logistic_reg() %>%
+  set_engine("glm")
+
+# Fit logistic model using DOSE only
+log_dose_fit <- log_spec %>%
+  fit(SEX ~ DOSE, data = train_df)
+
+# Predict classes
+log_dose_class <- predict(log_dose_fit, new_data = test_df, type = "class")
+
+# Predict probabilities
+log_dose_prob <- predict(log_dose_fit, new_data = test_df, type = "prob")
+
+# Combine results
+log_dose_results <- bind_cols(
+  test_df %>% select(SEX),
+  log_dose_class,
+  log_dose_prob
+)
+
+# Accuracy
+accuracy(log_dose_results, truth = SEX , estimate = .pred_class)  
+
+# Check column names before ROC
+names(log_dose_results)
+
+# Fit logistic model using all predictors
+log_all_fit <- log_spec %>%
+  fit(SEX ~ DOSE + AGE + RACE + WT + HT + Y, data = train_df)
+
+# Predict classes
+log_all_class <- predict(log_all_fit, new_data = test_df, type = "class")
+
+# Predict probabilities
+log_all_prob <- predict(log_all_fit, new_data = test_df, type = "prob")
+
+# Combine results
+log_all_results <- bind_cols(
+  test_df %>% select(SEX),
+  log_all_class,
+  log_all_prob
+)
+
+# Accuracy
+accuracy(log_all_results, truth = SEX, estimate = .pred_class)
+
+# Check column names
+names(log_all_results)
+```
+
+```{r}
+names(log_dose_results)
+```
+
+```{r}
+levels(train_df$SEX)
+```
+
+```{r}
+roc_auc(log_dose_results, truth = SEX, .pred_2)
+
+
+```
+
+## ## Use of AI tools
+AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
