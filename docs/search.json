@@ -74,21 +74,21 @@
     "href": "class-project/index.html",
     "title": "Class Project",
     "section": "",
-    "text": "This page presents my semester-long class project for Modern Applied Data Analysis (MADA).\nThe project uses PRAMS Phase 8 data to examine prenatal mental health screening and postpartum depressive symptoms.\nThis uses MS Word as output format. See the Quarto documentation for instructions on how to use other formats.\n# Load core packages used across the project\nlibrary(here)\n\nhere() starts at C:/Users/alexa/OneDrive/Documents/GitHub/mada-portfolio\n\nlibrary(knitr)\n\\(\\dagger\\) Disclaimer: The opinions expressed in this article are the author’s own and don’t reflect their employer."
+    "text": "This page presents my semester-long class project for Modern Applied Data Analysis (MADA).\nThe project uses PRAMS Phase 8 data to examine prenatal mental health screening and postpartum depressive symptoms.\n\\(\\dagger\\) Disclaimer: The opinions expressed in this article are the author’s own and do not reflect their employer."
   },
   {
     "objectID": "class-project/index.html#general-background-information",
     "href": "class-project/index.html#general-background-information",
     "title": "Class Project",
     "section": "2.1 General Background Information",
-    "text": "2.1 General Background Information\nPrenatal and postpartum mental health conditions are increasingly recognized as critical components of maternal health, with implications for both maternal and infant outcomes. Understanding whether routine prenatal screening translates into improved postpartum mental health can inform clinical practice and policy."
+    "text": "2.1 General Background Information\nPrenatal and postpartum mental health conditions are increasingly recognized as important components of maternal health American College of Obstetricians and Gynecologists (2023). Poor maternal mental health has been associated with negative consequences for both mothers and infants. Because of this, healthcare providers are encouraged to assess mental health concerns throughout pregnancy and after delivery.\nRoutine screening during prenatal care may create opportunities to identify individuals who are experiencing symptoms or who may be at increased risk for postpartum depression. Understanding whether prenatal screening is associated with postpartum depressive symptoms may help inform both clinical practice and maternal health policy."
   },
   {
     "objectID": "class-project/index.html#description-of-data-and-data-source",
     "href": "class-project/index.html#description-of-data-and-data-source",
     "title": "Class Project",
-    "section": "2.2 Description of data and data source",
-    "text": "2.2 Description of data and data source\nThe data for this study come from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8, a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments. PRAMS collects self-reported survey data from individuals who recently had a live birth and links these responses to selected birth certificate variables.\nPRAMS Phase 8 includes several hundred variables capturing maternal demographics, pre-pregnancy health conditions, prenatal care experiences, health behaviors, insurance coverage, mental health indicators, and postpartum outcomes. The dataset contains a mix of categorical and numeric variables and reflects real-world survey complexity, including skip patterns and missing data.\nAcross participating states, PRAMS Phase 8 includes tens of thousands of respondents, providing sufficient sample size and variable richness to support exploratory analysis, multivariable modeling, and predictive approaches covered later in the course.\nFor this project, variables related to prenatal mental health screening, pre-pregnancy mental health history, postpartum depressive symptoms, and sociodemographic characteristics will be used. Variable definitions and coding schemes are documented in the PRAMS Phase 8 codebook."
+    "section": "2.1 Description of Data and Data Source",
+    "text": "2.1 Description of Data and Data Source\nThe data for this study come from the Pregnancy Risk Assessment Monitoring System, or PRAMS, Phase 8. PRAMS is a population based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments Centers for Disease Control and Prevention (2024a) Centers for Disease Control and Prevention (2024b). It collects self reported survey data from individuals who recently had a live birth and links those responses to selected birth certificate variables.\nPRAMS includes several hundred variables related to maternal demographics, pre pregnancy health conditions, prenatal care experiences, health behaviors, insurance coverage, mental health indicators, and postpartum outcomes. The dataset contains a mix of categorical and numeric variables and reflects real world survey complexity, including skip patterns and missing data.\nAcross participating states, PRAMS Phase 8 includes a large number of respondents, providing enough sample size and variable richness to support exploratory analysis and regression modeling. For this project, variables related to prenatal mental health screening, prior depression during pregnancy, postpartum depressive symptoms, and selected sociodemographic characteristics were used."
   },
   {
     "objectID": "class-project/index.html#questionshypotheses-to-be-addressed",
@@ -102,7 +102,7 @@
     "href": "class-project/index.html#use-of-computational-assistance",
     "title": "Class Project",
     "section": "3.1 Use of Computational Assistance",
-    "text": "3.1 Use of Computational Assistance\nGenerative artificial intelligence tools (ChatGPT, OpenAI) were used to assist with code troubleshooting. All code and analytical decisions were reviewed, modified as needed, and implemented by the author. The author takes full responsibility for the accuracy, interpretation, and reproducibility of all analyses and results."
+    "text": "3.1 Use of Computational Assistance\nChatGPT was used to assist with code troubleshooting and writing support. All code and analytical decisions were reviewed, revised as needed, and implemented by the author. The author takes full responsibility for the accuracy, interpretation, and reproducibility of the work presented here."
   },
   {
     "objectID": "class-project/index.html#planned-analysis-approach",
@@ -383,5 +383,82 @@
     "title": "Weekly Reflections",
     "section": "",
     "text": "This week focused on understanding the full data analysis workflow, from question and data matching to reporting results. A key takeaway for me was the importance of reproducibility and interpretation over applying advanced models."
+  },
+  {
+    "objectID": "class-project/index.html#background",
+    "href": "class-project/index.html#background",
+    "title": "Class Project",
+    "section": "2.1 Background",
+    "text": "2.1 Background\nPrenatal and postpartum mental health conditions are increasingly recognized as important components of maternal health. Poor maternal mental health has been associated with negative consequences for both mothers and infants. Because of this, healthcare providers are encouraged to assess mental health concerns throughout pregnancy and after delivery.\nRoutine screening during prenatal care may create opportunities to identify individuals who are experiencing symptoms or who may be at increased risk for postpartum depression. Understanding whether prenatal screening is associated with postpartum depressive symptoms may help inform both clinical practice and maternal health policy."
+  },
+  {
+    "objectID": "class-project/index.html#research-question",
+    "href": "class-project/index.html#research-question",
+    "title": "Class Project",
+    "section": "2.2 Research Question",
+    "text": "2.2 Research Question\nThe primary research question for this study is:\nAre individuals who report being asked about depression or anxiety during prenatal care less likely to report postpartum depressive symptoms?\nThe primary outcome of interest is self reported postpartum depressive symptoms, measured using PRAMS survey items assessing depressive symptoms since birth. The primary exposure of interest is prenatal mental health screening, defined as whether a healthcare provider asked about depression or anxiety during prenatal care.\nAdditional covariates include prior depression during pregnancy, maternal education, and other demographic characteristics considered relevant to postpartum mental health."
+  },
+  {
+    "objectID": "class-project/index.html#computational-assistance",
+    "href": "class-project/index.html#computational-assistance",
+    "title": "Class Project",
+    "section": "5.1 Computational Assistance",
+    "text": "5.1 Computational Assistance\nChatGPT was used to assist with code troubleshooting and writing support. All code and analytical decisions were reviewed, revised as needed, and implemented by the author. The author takes full responsibility for the accuracy, interpretation, and reproducibility of the work presented here."
+  },
+  {
+    "objectID": "class-project/index.html#data-analysis",
+    "href": "class-project/index.html#data-analysis",
+    "title": "Class Project",
+    "section": "5.2 Data Analysis",
+    "text": "5.2 Data Analysis\nThe analysis included descriptive summaries of key variables, exploratory comparisons by screening status, and logistic regression modeling to examine the association between prenatal mental health screening and postpartum depressive symptoms while accounting for selected covariates."
+  },
+  {
+    "objectID": "class-project/index.html#study-population",
+    "href": "class-project/index.html#study-population",
+    "title": "Class Project",
+    "section": "3.3 Study Population",
+    "text": "3.3 Study Population\nThe analytic sample included respondents with non missing values for the primary exposure and outcome variables. The final analytic dataset included approximately 237,000 respondents."
+  },
+  {
+    "objectID": "class-project/index.html#measures",
+    "href": "class-project/index.html#measures",
+    "title": "Class Project",
+    "section": "3.4 Measures",
+    "text": "3.4 Measures\nThe primary exposure was self reported prenatal mental health screening, indicating whether a provider asked about depression or anxiety during prenatal care. The primary outcome was postpartum depressive symptoms, coded as a binary indicator. Prior PRAMS based studies have used related postpartum depressive symptom items to examine maternal mental health and provider communication about perinatal depression Bauman et al. (2020) Farr et al. (2016) Davis et al. (2013).\nKey covariates included prior depression during pregnancy and maternal education. Prior depression during pregnancy was included because it is an important potential confounder in the relationship between prenatal screening and postpartum depressive symptoms."
+  },
+  {
+    "objectID": "class-project/index.html#statistical-analysis",
+    "href": "class-project/index.html#statistical-analysis",
+    "title": "Class Project",
+    "section": "3.5 Statistical Analysis",
+    "text": "3.5 Statistical Analysis\nExploratory analyses included descriptive statistics, cross tabulations, and graphical comparisons of postpartum depressive symptoms by screening status. Multivariable logistic regression was used to estimate the association between prenatal mental health screening and postpartum depressive symptoms while adjusting for selected covariates."
+  },
+  {
+    "objectID": "class-project/index.html#results",
+    "href": "class-project/index.html#results",
+    "title": "Class Project",
+    "section": "3.6 Results",
+    "text": "3.6 Results\nThe analytic sample included approximately 237,000 respondents after excluding missing values for the main exposure and outcome. Overall, about 81% of respondents reported being screened for depression during prenatal care, and about 14% reported postpartum depressive symptoms.\nExploratory analyses suggested that postpartum depressive symptoms were more common among respondents who did not report receiving prenatal mental health screening. Higher rates of postpartum depressive symptoms were also observed among respondents who reported depression during pregnancy. Differences across maternal education groups were also examined to explore possible patterns in the data.\nMultivariable modeling was conducted to examine whether the association between prenatal mental health screening and postpartum depressive symptoms remained after adjustment for selected covariates."
+  },
+  {
+    "objectID": "class-project/index.html#discussion",
+    "href": "class-project/index.html#discussion",
+    "title": "Class Project",
+    "section": "3.7 Discussion",
+    "text": "3.7 Discussion\nThis study examined whether self reported prenatal mental health screening was associated with postpartum depressive symptoms using PRAMS Phase 8 data. Exploratory analyses suggested that postpartum depressive symptoms were more commonly reported among individuals who did not report receiving prenatal mental health screening. Prior depression during pregnancy was also strongly associated with postpartum depressive symptoms, highlighting the importance of mental health history when examining postpartum outcomes.\nThese findings support continued attention to maternal mental health within prenatal care. Screening may help identify individuals who need additional evaluation or support, although the results should be interpreted cautiously. Because the data are observational and self reported, this analysis cannot determine whether screening itself reduces postpartum depressive symptoms.\nThis project has several strengths, including the use of a large population based dataset and the ability to examine prenatal care experiences and postpartum mental health outcomes in the same analytic framework. At the same time, the study has important limitations. PRAMS data are self reported and may be subject to recall bias or reporting bias. In addition, the postpartum depressive symptom measure reflects survey reported symptoms rather than a clinical diagnosis. Unmeasured factors such as healthcare access, provider practices, and social support may also influence the observed associations.\nOverall, this study shows how PRAMS data can be used to examine maternal mental health patterns and generate questions for future research. Continued attention to prenatal screening and postpartum mental health remains important for improving maternal and infant health outcomes. ## References\nReferences will be added in later stages of the project using a BibTeX file and cited throughout the manuscript."
+  },
+  {
+    "objectID": "class-project/index.html#analysis-approach",
+    "href": "class-project/index.html#analysis-approach",
+    "title": "Class Project",
+    "section": "3.2 Analysis Approach",
+    "text": "3.2 Analysis Approach\nThe analysis included descriptive summaries of key variables, exploratory comparisons by screening status, and logistic regression modeling to examine the association between prenatal mental health screening and postpartum depressive symptoms while accounting for selected covariates."
+  },
+  {
+    "objectID": "class-project/index.html#statistical-approach",
+    "href": "class-project/index.html#statistical-approach",
+    "title": "Class Project",
+    "section": "3.5 Statistical Approach",
+    "text": "3.5 Statistical Approach\nExploratory analyses included descriptive statistics, cross tabulations, and graphical comparisons of postpartum depressive symptoms by screening status. Multivariable logistic regression was used to estimate the association between prenatal mental health screening and postpartum depressive symptoms while adjusting for selected covariates."
   }
 ]
