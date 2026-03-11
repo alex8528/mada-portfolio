@@ -18,37 +18,6 @@ This page presents my semester-long class project for **Modern Applied Data Anal
 The project uses PRAMS Phase 8 data to examine prenatal mental health screening and postpartum depressive symptoms.
 
 
-
-```{r}
-# Load core packages used across the project
-library(here)
-library(knitr)
-library(readr)
-library(dplyr)
-
-analytic_dat <- readRDS(
-  "C:/Users/alexa/OneDrive/Documents/GitHub/TejadaStrop-MADA-project/data/processed-data/prams_analytic.rds"
-)
-
-analytic_dat |>
-  count(screened, pp_depress_bin) |>
-  group_by(screened) |>
-  mutate(percent = round(n / sum(n) * 100, 1)) |>
-  mutate(
-    screening = ifelse(screened == 1, "Screened", "Not screened"),
-    outcome = ifelse(pp_depress_bin == 1, "Yes", "No")
-  ) |>
-  select(`Prenatal screening` = screening,
-         `Postpartum depressive symptoms` = outcome,
-         n,
-         `Percent within screening group` = percent)
-
-
-tbl <- read_csv("tables/screening_summary.csv", show_col_types = FALSE)
-kable(tbl, caption = "Table 1. Prenatal screening and postpartum depressive symptoms")
-
-```
-
 $\dagger$ Disclaimer: The opinions expressed in this article are the author's own and do not reflect their employer.
 
 # Abstract
@@ -128,6 +97,39 @@ Multivariable modeling was conducted to examine whether the association between 
 | Screened | Yes | … | … |
 | Not screened | No | … | … |
 | Not screened | Yes | … | … |
+
+```{r}
+# Load core packages used across the project
+library(here)
+library(knitr)
+library(readr)
+library(dplyr)
+
+analytic_dat <- readRDS(
+  "C:/Users/alexa/OneDrive/Documents/GitHub/TejadaStrop-MADA-project/data/processed-data/prams_analytic.rds"
+)
+
+analytic_dat |>
+  count(screened, pp_depress_bin) |>
+  group_by(screened) |>
+  mutate(percent = round(n / sum(n) * 100, 1)) |>
+  mutate(
+    screening = ifelse(screened == 1, "Screened", "Not screened"),
+    outcome = ifelse(pp_depress_bin == 1, "Yes", "No")
+  ) |>
+  select(`Prenatal screening` = screening,
+         `Postpartum depressive symptoms` = outcome,
+         n,
+         `Percent within screening group` = percent)
+
+
+tbl <- read_csv("tables/screening_summary.csv", show_col_types = FALSE)
+kable(tbl, caption = "Table 1. Prenatal screening and postpartum depressive symptoms")
+
+reg <- read_csv("tables/regression_results.csv", show_col_types = FALSE)
+kable(reg, caption = "Table 2. Multivariable logistic regression results")
+
+```
 
 # Discussion
 
