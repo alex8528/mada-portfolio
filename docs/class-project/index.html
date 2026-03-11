@@ -203,7 +203,11 @@ window.Quarto = {
   <li><a href="#measures" id="toc-measures" class="nav-link" data-scroll-target="#measures"><span class="header-section-number">3.4</span> Measures</a></li>
   <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link" data-scroll-target="#statistical-analysis"><span class="header-section-number">3.5</span> Statistical Analysis</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4</span> Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#figure" id="toc-figure" class="nav-link" data-scroll-target="#figure"><span class="header-section-number">4.1</span> Figure</a></li>
+  <li><a href="#table" id="toc-table" class="nav-link" data-scroll-target="#table"><span class="header-section-number">4.2</span> Table</a></li>
+  </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">5</span> Discussion</a></li>
   <li><a href="#project-repository" id="toc-project-repository" class="nav-link" data-scroll-target="#project-repository"><span class="header-section-number">6</span> Project Repository</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
@@ -235,6 +239,58 @@ window.Quarto = {
 
 <p>This page presents my semester-long class project for <strong>Modern Applied Data Analysis (MADA)</strong>.<br>
 The project uses PRAMS Phase 8 data to examine prenatal mental health screening and postpartum depressive symptoms.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+# Groups:   screened [2]
+  screened `Prenatal screening` `Postpartum depressive symptoms`      n
+     &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;                             &lt;int&gt;
+1        0 Not screened         No                                38048
+2        0 Not screened         Yes                                6805
+3        1 Screened             No                               165745
+4        1 Screened             Yes                               26794
+# ℹ 1 more variable: `Percent within screening group` &lt;dbl&gt;</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table 1. Prenatal screening and postpartum depressive symptoms</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">screened</th>
+<th style="text-align: right;">pp_depress_bin</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">38048</td>
+<td style="text-align: right;">84.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6805</td>
+<td style="text-align: right;">15.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">165745</td>
+<td style="text-align: right;">86.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">26794</td>
+<td style="text-align: right;">13.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><span class="math inline">\(\dagger\)</span> Disclaimer: The opinions expressed in this article are the author’s own and do not reflect their employer.</p>
 <section id="abstract" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Abstract</h1>
@@ -289,6 +345,55 @@ The project uses PRAMS Phase 8 data to examine prenatal mental health screening 
 <p>The analytic sample included approximately 237,000 respondents after excluding missing values for the main exposure and outcome. Overall, about 81% of respondents reported being screened for depression during prenatal care, and about 14% reported postpartum depressive symptoms.</p>
 <p>Exploratory analyses suggested that postpartum depressive symptoms were more common among respondents who did not report receiving prenatal mental health screening. Higher rates of postpartum depressive symptoms were also observed among respondents who reported depression during pregnancy. Differences across maternal education groups were also examined to explore possible patterns in the data.</p>
 <p>Multivariable modeling was conducted to examine whether the association between prenatal mental health screening and postpartum depressive symptoms remained after adjustment for selected covariates.</p>
+<section id="figure" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="figure"><span class="header-section-number">4.1</span> Figure</h2>
+<p><img src="figures/screening_vs_postpartum_depression.png" class="img-fluid" data-fig-cap="Figure 1. Proportion of postpartum depressive symptoms by prenatal mental health screening status." alt="Proportion of postpartum depressive symptoms by prenatal mental health screening status"></p>
+</section>
+<section id="table" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="table"><span class="header-section-number">4.2</span> Table</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 28%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prenatal screening</th>
+<th>Postpartum depressive symptoms</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">Percent within screening group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Screened</td>
+<td>No</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td>Screened</td>
+<td>Yes</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="odd">
+<td>Not screened</td>
+<td>No</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td>Not screened</td>
+<td>Yes</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="discussion" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Discussion</h1>

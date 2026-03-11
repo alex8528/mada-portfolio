@@ -23,6 +23,29 @@ The project uses PRAMS Phase 8 data to examine prenatal mental health screening 
 # Load core packages used across the project
 library(here)
 library(knitr)
+library(readr)
+library(dplyr)
+
+analytic_dat <- readRDS(
+  "C:/Users/alexa/OneDrive/Documents/GitHub/TejadaStrop-MADA-project/data/processed-data/prams_analytic.rds"
+)
+
+analytic_dat |>
+  count(screened, pp_depress_bin) |>
+  group_by(screened) |>
+  mutate(percent = round(n / sum(n) * 100, 1)) |>
+  mutate(
+    screening = ifelse(screened == 1, "Screened", "Not screened"),
+    outcome = ifelse(pp_depress_bin == 1, "Yes", "No")
+  ) |>
+  select(`Prenatal screening` = screening,
+         `Postpartum depressive symptoms` = outcome,
+         n,
+         `Percent within screening group` = percent)
+
+
+tbl <- read_csv("tables/screening_summary.csv", show_col_types = FALSE)
+kable(tbl, caption = "Table 1. Prenatal screening and postpartum depressive symptoms")
 
 ```
 
@@ -84,6 +107,7 @@ Key covariates included prior depression during pregnancy and maternal education
 
 Exploratory analyses included descriptive statistics, cross tabulations, and graphical comparisons of postpartum depressive symptoms by screening status. Multivariable logistic regression was used to estimate the association between prenatal mental health screening and postpartum depressive symptoms while adjusting for selected covariates.
 
+
 # Results
 
 The analytic sample included approximately 237,000 respondents after excluding missing values for the main exposure and outcome. Overall, about 81% of respondents reported being screened for depression during prenatal care, and about 14% reported postpartum depressive symptoms.
@@ -91,6 +115,19 @@ The analytic sample included approximately 237,000 respondents after excluding m
 Exploratory analyses suggested that postpartum depressive symptoms were more common among respondents who did not report receiving prenatal mental health screening. Higher rates of postpartum depressive symptoms were also observed among respondents who reported depression during pregnancy. Differences across maternal education groups were also examined to explore possible patterns in the data.
 
 Multivariable modeling was conducted to examine whether the association between prenatal mental health screening and postpartum depressive symptoms remained after adjustment for selected covariates.
+
+## Figure
+
+![](figures/screening_vs_postpartum_depression.png){fig-alt="Proportion of postpartum depressive symptoms by prenatal mental health screening status" fig-cap="Figure 1. Proportion of postpartum depressive symptoms by prenatal mental health screening status."}
+
+## Table
+
+| Prenatal screening | Postpartum depressive symptoms | n | Percent within screening group |
+|---|---|---:|---:|
+| Screened | No | … | … |
+| Screened | Yes | … | … |
+| Not screened | No | … | … |
+| Not screened | Yes | … | … |
 
 # Discussion
 
