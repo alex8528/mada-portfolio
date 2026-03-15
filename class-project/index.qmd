@@ -118,7 +118,30 @@ analytic_dat |>
 
 tbl <- read_csv("tables/screening_summary.csv", show_col_types = FALSE)
 kable(tbl, caption = "Table 1. Prenatal screening and postpartum depressive symptoms")
+
+model_tbl <- read_csv("tables/model_comparison.csv", show_col_types = FALSE)
 ```
+
+## Model validation
+
+```{r}
+library(readr)
+library(knitr)
+
+model_tbl <- read_csv("tables/model_comparison.csv", show_col_types = FALSE)
+
+kable(
+  model_tbl,
+  caption = "Table 2. Cross validation model comparison"
+)
+```
+
+### Interpretation of model comparison
+
+Model validation using 5 fold cross validation compared logistic regression and random forest models. This step helped assess whether a more flexible model improved prediction of postpartum depressive symptoms.
+
+
+
 
 
 After adjusting for prior depression during pregnancy and maternal education, prenatal mental health screening was associated with lower odds of postpartum depressive symptoms. Prior depression during pregnancy was the strongest predictor of postpartum depressive symptoms. These findings highlight the importance of screening and early identification of maternal mental health concerns.
