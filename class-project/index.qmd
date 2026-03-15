@@ -136,15 +136,34 @@ kable(
 )
 ```
 
-### Interpretation of model comparison
+Interpretation of model comparison
 
 Model validation using 5 fold cross validation compared logistic regression and random forest models. This step helped assess whether a more flexible model improved prediction of postpartum depressive symptoms.
 
-
-
-
-
 After adjusting for prior depression during pregnancy and maternal education, prenatal mental health screening was associated with lower odds of postpartum depressive symptoms. Prior depression during pregnancy was the strongest predictor of postpartum depressive symptoms. These findings highlight the importance of screening and early identification of maternal mental health concerns.
+
+## Model performance comparison
+
+```{r}
+library(tidyverse)
+library(readr)
+
+model_compare <- read_csv("tables/model_comparison.csv", show_col_types = FALSE)
+
+auc_plot <- model_compare |>
+  filter(.metric == "roc_auc") |>
+  ggplot(aes(x = model, y = mean, fill = model)) +
+  geom_col(width = 0.6) +
+  labs(
+    title = "Model Performance Comparison",
+    y = "ROC-AUC",
+    x = ""
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+auc_plot
+```
 
 
 ```{r}

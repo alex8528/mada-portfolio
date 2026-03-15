@@ -207,10 +207,8 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#figure" id="toc-figure" class="nav-link" data-scroll-target="#figure"><span class="header-section-number">4.1</span> Figure</a></li>
   <li><a href="#table" id="toc-table" class="nav-link" data-scroll-target="#table"><span class="header-section-number">4.2</span> Table</a></li>
-  <li><a href="#model-validation" id="toc-model-validation" class="nav-link" data-scroll-target="#model-validation"><span class="header-section-number">4.3</span> Model validation</a>
-  <ul class="collapse">
-  <li><a href="#interpretation-of-model-comparison" id="toc-interpretation-of-model-comparison" class="nav-link" data-scroll-target="#interpretation-of-model-comparison"><span class="header-section-number">4.3.1</span> Interpretation of model comparison</a></li>
-  </ul></li>
+  <li><a href="#model-validation" id="toc-model-validation" class="nav-link" data-scroll-target="#model-validation"><span class="header-section-number">4.3</span> Model validation</a></li>
+  <li><a href="#model-performance-comparison" id="toc-model-performance-comparison" class="nav-link" data-scroll-target="#model-performance-comparison"><span class="header-section-number">4.4</span> Model performance comparison</a></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">5</span> Discussion</a>
   <ul class="collapse">
@@ -407,10 +405,21 @@ The project uses PRAMS Phase 8 data to examine prenatal mental health screening 
 </table>
 </div>
 </div>
-<section id="interpretation-of-model-comparison" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="interpretation-of-model-comparison"><span class="header-section-number">4.3.1</span> Interpretation of model comparison</h3>
+<p>Interpretation of model comparison</p>
 <p>Model validation using 5 fold cross validation compared logistic regression and random forest models. This step helped assess whether a more flexible model improved prediction of postpartum depressive symptoms.</p>
 <p>After adjusting for prior depression during pregnancy and maternal education, prenatal mental health screening was associated with lower odds of postpartum depressive symptoms. Prior depression during pregnancy was the strongest predictor of postpartum depressive symptoms. These findings highlight the importance of screening and early identification of maternal mental health concerns.</p>
+</section>
+<section id="model-performance-comparison" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="model-performance-comparison"><span class="header-section-number">4.4</span> Model performance comparison</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -504,7 +513,6 @@ The project uses PRAMS Phase 8 data to examine prenatal mental health screening 
 </div>
 </div>
 <p>After adjusting for prior depression during pregnancy and maternal education, prenatal mental health screening was associated with lower odds of postpartum depressive symptoms. Prior depression during pregnancy remained the strongest predictor of postpartum depressive symptoms in the model. These results suggest that screening during prenatal care may help identify individuals who are at higher risk of postpartum depression.</p>
-</section>
 </section>
 </section>
 <section id="discussion" class="level1" data-number="5">
