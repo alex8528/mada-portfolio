@@ -256,7 +256,42 @@ knitr::include_graphics("figures/screening_vs_postpartum_depression.png")
 #| label: fig-depression-pregnancy
 #| fig-cap: "Postpartum depressive symptoms by depression during pregnancy"
 
-knitr::include_graphics("figures/depression_pregnancy_vs_postpartum.png")
+fig_dep_preg <- analytic_complete |>
+  filter(BPG_DEPRS8 %in% c(1, 2), pp_depress_bin %in% c(0, 1)) |>
+  count(BPG_DEPRS8, pp_depress_bin) |>
+  group_by(BPG_DEPRS8) |>
+  mutate(percent = 100 * n / sum(n)) |>
+  ungroup() |>
+  mutate(
+    Depression_pregnancy = ifelse(BPG_DEPRS8 == 2, "Yes", "No"),
+    Outcome = ifelse(pp_depress_bin == 1, "Depressive symptoms", "No depressive symptoms")
+  )
+
+ggplot(fig_dep_preg, aes(x = Depression_pregnancy, y = percent, fill = Outcome)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = paste0(round(percent, 1), "%")),
+    position = position_stack(vjust = 0.5),
+    size = 3
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Depressive symptoms" = "#D55E00",
+      "No depressive symptoms" = "#009E73"   # <-- changed color so it doesn't match Figure 1
+    )
+  ) +
+  labs(
+    x = "Depression during pregnancy",
+    y = "Percent of respondents",
+    fill = "Outcome"
+  ) +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 11)
+  )
 ```
 
 In exploratory analyses, postpartum depressive symptoms were more common among respondents who did not report receiving prenatal depression screening compared with those who were screened. Depression during pregnancy was strongly associated with postpartum depressive symptoms, suggesting that mental health history is an important confounder to consider in adjusted analyses. Differences in postpartum depressive symptoms were also observed across education levels.
