@@ -281,6 +281,11 @@ knitr::kable(
     full_width = FALSE,
     position = "left"
   )
+
+ggplot(fig_dep_preg, aes(x = Depression_pregnancy, y = percent, fill = Outcome)) +
+  geom_col(...) +
+  ...
+
 ```
 
 The table on postpartum depressive symptoms by screening status shows that 15.2% of respondents who were not screened during prenatal care reported postpartum depressive symptoms, compared with 13.9% among those who were screened.
