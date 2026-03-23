@@ -1,7 +1,7 @@
 ---
 title: "Prenatal Mental Health Screening and Postpartum Depressive Symptoms"
 author: "Alexandra Tejada-Strop"
-bibliography: references.bib
+bibliography: prenatal_refs.bib
 csl: apa.csl
 
 format:
