@@ -242,7 +242,7 @@ knitr::kable(
 #| label: fig-screening
 #| fig-cap: "Postpartum depressive symptoms by prenatal mental health screening"
 
-knitr::include_graphics("class-project/figures/screening_vs_postpartum_depression.png")
+knitr::include_graphics("figures/screening_vs_postpartum_depression.png")
 ```
 
 
@@ -256,7 +256,7 @@ knitr::include_graphics("class-project/figures/screening_vs_postpartum_depressio
 #| label: fig-depression-pregnancy
 #| fig-cap: "Postpartum depressive symptoms by depression during pregnancy"
 
-knitr::include_graphics("class-project/figures/depression_pregnancy_vs_postpartum.png")
+knitr::include_graphics("figures/depression_pregnancy_vs_postpartum.png")
 ```
 
 In exploratory analyses, postpartum depressive symptoms were more common among respondents who did not report receiving prenatal depression screening compared with those who were screened. Depression during pregnancy was strongly associated with postpartum depressive symptoms, suggesting that mental health history is an important confounder to consider in adjusted analyses. Differences in postpartum depressive symptoms were also observed across education levels.
