@@ -9,7 +9,6 @@ project:
     - "class-project/index.qmd"
     - "!alextejadastrop-ready-exercise/products/**"
 
-
 website:
   title: "MADA Portfolio"
   navbar:
