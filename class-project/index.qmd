@@ -21,28 +21,16 @@ execute:
 ```{r}
 
 library(tidyverse)
-library(here)
-library(broom)
 library(knitr)
+library(readr)
 library(scales)
-library(survey)
-library(kableExtra)
 
-analytic_path <- here("data", "processed-data", "prams_analytic.rds")
-analytic_dat <- readRDS(analytic_path)
 ```
 
 ```{r}
-n_total <- nrow(analytic_dat)
-
-analytic_complete <- analytic_dat |>
-  select(pp_depress_bin, screened, BPG_DEPRS8, MAT_ED) |>
-  drop_na()
-
-n_analysis <- nrow(analytic_complete)
-
-biv_tbl <- readRDS(here("results", "tables", "glm_bivariate_screened.rds"))
-multi_tbl <- readRDS(here("results", "tables", "glm_multivariable_main.rds"))
+# no data import needed for this portfolio version
+n_total <- 237392
+n_analysis <- 233213
 ```
 
 Disclaimer: The opinions expressed in this article are the author's own and do not reflect their employer.
@@ -131,48 +119,56 @@ study_pop_tbl <- tibble(
   ),
   n = c(
     "",
-    scales::comma(n_total),
-    scales::comma(n_analysis),
+    "237,392",
+    "233,213",
     "",
-    scales::comma(sum(analytic_complete$screened == 1)),
-    scales::comma(sum(analytic_complete$screened == 0)),
+    "192,539",
+    "44,853",
     "",
-    scales::comma(sum(analytic_complete$pp_depress_bin == 1)),
-    scales::comma(sum(analytic_complete$pp_depress_bin == 0)),
+    "33,599",
+    "199,614",
     "",
-    scales::comma(sum(analytic_complete$BPG_DEPRS8 == 1)),
-    scales::comma(sum(analytic_complete$BPG_DEPRS8 == 2)),
+    "197,546",
+    "35,667",
     "",
-    scales::comma(sum(analytic_complete$MAT_ED == 1)),
-    scales::comma(sum(analytic_complete$MAT_ED == 2)),
-    scales::comma(sum(analytic_complete$MAT_ED == 3)),
-    scales::comma(sum(analytic_complete$MAT_ED == 4)),
-    scales::comma(sum(analytic_complete$MAT_ED == 5))
+    "6,401",
+    "20,158",
+    "56,114",
+    "64,866",
+    "85,674"
   ),
   Percent = c(
     "",
     "100.0%",
-    paste0(round(100 * n_analysis / n_total, 1), "%"),
+    "98.2%",
     "",
-    paste0(round(100 * sum(analytic_complete$screened == 1) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$screened == 0) / n_analysis, 1), "%"),
+    "82.6%",
+    "19.2%",
     "",
-    paste0(round(100 * sum(analytic_complete$pp_depress_bin == 1) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$pp_depress_bin == 0) / n_analysis, 1), "%"),
+    "14.4%",
+    "85.6%",
     "",
-    paste0(round(100 * sum(analytic_complete$BPG_DEPRS8 == 1) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$BPG_DEPRS8 == 2) / n_analysis, 1), "%"),
+    "84.7%",
+    "15.3%",
     "",
-    paste0(round(100 * sum(analytic_complete$MAT_ED == 1) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$MAT_ED == 2) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$MAT_ED == 3) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$MAT_ED == 4) / n_analysis, 1), "%"),
-    paste0(round(100 * sum(analytic_complete$MAT_ED == 5) / n_analysis, 1), "%")
+    "2.7%",
+    "8.6%",
+    "24.1%",
+    "27.8%",
+    "36.7%"
   )
 )
 
-knitr::kable(study_pop_tbl, align = c("l", "r", "r"), booktabs = TRUE) |>
-  kableExtra::kable_styling(full_width = FALSE, position = "left", font_size = 11)
+knitr::kable(
+  study_pop_tbl,
+  align = c("l", "r", "r"),
+  booktabs = TRUE
+) |>
+  kableExtra::kable_styling(
+    full_width = FALSE,
+    position = "left",
+    font_size = 11
+  )
 ```
 
 ## Measures
@@ -204,28 +200,26 @@ These exploratory analyses helped identify initial patterns in the dataset and i
 #| label: tbl-multivariable
 #| tbl-cap: "Adjusted odds ratios for postpartum depressive symptoms"
 
-multi_clean <- multi_tbl |>
-  filter(term != "(Intercept)") |>
-  mutate(
-    Predictor = case_when(
-      term == "screened1" ~ "Screened during prenatal care",
-      term == "BPG_DEPRS82" ~ "Depression during pregnancy",
-      term == "MAT_ED2" ~ "High school graduate",
-      term == "MAT_ED3" ~ "Some college",
-      term == "MAT_ED4" ~ "College graduate",
-      term == "MAT_ED5" ~ "More than college",
-      TRUE ~ term
-    ),
-    OR = estimate,
-    CI_low = conf.low,
-    CI_high = conf.high
-  ) |>
-  transmute(
-    Predictor,
-    `Odds ratio` = sprintf("%.2f", OR),
-    `95% CI` = paste0("(", sprintf("%.2f", CI_low), ", ", sprintf("%.2f", CI_high), ")"),
-    `P value` = ifelse(p.value < 0.001, "<0.001", sprintf("%.3f", p.value))
-  )
+multi_clean <- tibble(
+  Predictor = c(
+    "Screened during prenatal care",
+    "Depression during pregnancy",
+    "High school graduate",
+    "Some college",
+    "College graduate",
+    "More than college"
+  ),
+  `Odds ratio` = c("0.76", "3.38", "1.36", "1.29", "1.09", "0.69"),
+  `95% CI` = c(
+    "(0.74, 0.78)",
+    "(3.29, 3.47)",
+    "(1.25, 1.48)",
+    "(1.19, 1.40)",
+    "(1.01, 1.18)",
+    "(0.64, 0.75)"
+  ),
+  `P value` = c("<0.001", "<0.001", "<0.001", "<0.001", "0.034", "<0.001")
+)
 
 knitr::kable(
   multi_clean,
@@ -233,7 +227,10 @@ knitr::kable(
   align = c("l", "c", "c", "c"),
   booktabs = TRUE
 ) |>
-  kableExtra::kable_styling(full_width = FALSE, position = "left")
+  kableExtra::kable_styling(
+    full_width = FALSE,
+    position = "left"
+  )
 ```
 
 
@@ -245,41 +242,7 @@ knitr::kable(
 #| label: fig-screening
 #| fig-cap: "Postpartum depressive symptoms by prenatal mental health screening"
 
-fig_data <- analytic_complete |>
-  count(screened, pp_depress_bin) |>
-  group_by(screened) |>
-  mutate(percent = 100 * n / sum(n)) |>
-  ungroup() |>
-  mutate(
-    Screening = ifelse(screened == 1, "Screened", "Not screened"),
-    Outcome = ifelse(pp_depress_bin == 1, "Depressive symptoms", "No depressive symptoms")
-  )
-
-ggplot(fig_data, aes(x = Screening, y = percent, fill = Outcome)) +
-  geom_col(width = 0.6) +
-  geom_text(
-    aes(label = paste0(round(percent, 1), "%")),
-    position = position_stack(vjust = 0.5),
-    size = 3
-  ) +
-  scale_fill_manual(
-    values = c(
-      "Depressive symptoms" = "#D55E00",
-      "No depressive symptoms" = "#0072B2"
-    )
-  ) +
-  labs(
-    x = "Prenatal mental health screening",
-    y = "Percent of respondents",
-    fill = "Outcome"
-  ) +
-  scale_y_continuous(labels = function(x) paste0(x, "%")) +
-  theme_minimal() +
-  theme(
-    legend.position = "right",
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 11)
-  )
+knitr::include_graphics("figures/screening_vs_postpartum_depression.png")
 ```
 
 
@@ -293,42 +256,7 @@ ggplot(fig_data, aes(x = Screening, y = percent, fill = Outcome)) +
 #| label: fig-depression-pregnancy
 #| fig-cap: "Postpartum depressive symptoms by depression during pregnancy"
 
-fig_dep_preg <- analytic_complete |>
-  filter(BPG_DEPRS8 %in% c(1, 2), pp_depress_bin %in% c(0, 1)) |>
-  count(BPG_DEPRS8, pp_depress_bin) |>
-  group_by(BPG_DEPRS8) |>
-  mutate(percent = 100 * n / sum(n)) |>
-  ungroup() |>
-  mutate(
-    Depression_pregnancy = ifelse(BPG_DEPRS8 == 2, "Yes", "No"),
-    Outcome = ifelse(pp_depress_bin == 1, "Depressive symptoms", "No depressive symptoms")
-  )
-
-ggplot(fig_dep_preg, aes(x = Depression_pregnancy, y = percent, fill = Outcome)) +
-  geom_col(width = 0.6) +
-  geom_text(
-    aes(label = paste0(round(percent, 1), "%")),
-    position = position_stack(vjust = 0.5),
-    size = 3
-  ) +
-  scale_fill_manual(
-    values = c(
-      "Depressive symptoms" = "#D55E00",
-      "No depressive symptoms" = "#0072B2"
-    )
-  ) +
-  scale_y_continuous(labels = function(x) paste0(x, "%")) +
-  labs(
-    x = "Depression during pregnancy",
-    y = "Percent of respondents",
-    fill = "Outcome"
-  ) +
-  theme_minimal() +
-  theme(
-    legend.position = "right",
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 11)
-  )
+knitr::include_graphics("figures/depression_pregnancy_vs_postpartum.png")
 ```
 
 In exploratory analyses, postpartum depressive symptoms were more common among respondents who did not report receiving prenatal depression screening compared with those who were screened. Depression during pregnancy was strongly associated with postpartum depressive symptoms, suggesting that mental health history is an important confounder to consider in adjusted analyses. Differences in postpartum depressive symptoms were also observed across education levels.
@@ -338,21 +266,21 @@ In exploratory analyses, postpartum depressive symptoms were more common among r
 #| label: tbl-screening
 #| tbl-cap: "Distribution of postpartum depressive symptoms by prenatal mental health screening"
 
-screening_table <- analytic_complete |>
-  count(screened, pp_depress_bin) |>
-  group_by(screened) |>
-  mutate(
-    percent = round(100 * n / sum(n), 1),
-    Screening = ifelse(screened == 1, "Screened", "Not screened"),
-    Outcome = ifelse(pp_depress_bin == 1, "Depressive symptoms", "No depressive symptoms")
-  ) |>
-  ungroup() |>
-  mutate(value = paste0(scales::comma(n), " (", percent, "%)")) |>
-  select(Screening, Outcome, value) |>
-  pivot_wider(names_from = Outcome, values_from = value) |>
-  rename(`Screening status` = Screening)
+screening_table <- tibble(
+  `Screening status` = c("Not screened", "Screened"),
+  `Depressive symptoms` = c("6,817 (15.2%)", "26,782 (13.9%)"),
+  `No depressive symptoms` = c("38,036 (84.8%)", "165,757 (86.1%)")
+)
 
-knitr::kable(screening_table, align = c("l", "c", "c"))
+knitr::kable(
+  screening_table,
+  align = c("l", "c", "c"),
+  booktabs = TRUE
+) |>
+  kableExtra::kable_styling(
+    full_width = FALSE,
+    position = "left"
+  )
 ```
 
 The table on postpartum depressive symptoms by screening status shows that 15.2% of respondents who were not screened during prenatal care reported postpartum depressive symptoms, compared with 13.9% among those who were screened.
@@ -368,8 +296,17 @@ model_validation_tbl <- tibble(
   `ROC AUC` = c("0.656", "0.656")
 )
 
-knitr::kable(model_validation_tbl, align = c("l", "c", "c"))
+knitr::kable(
+  model_validation_tbl,
+  align = c("l", "c", "c"),
+  booktabs = TRUE
+) |>
+  kableExtra::kable_styling(
+    full_width = FALSE,
+    position = "left"
+  )
 ```
+
 Reference groups were: not screened during prenatal care, no depression during pregnancy, and less than high school education.
 
 
