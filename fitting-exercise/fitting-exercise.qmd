@@ -351,8 +351,6 @@ The bootstrap plot adds uncertainty around the predictions from Model 2. Some ob
 AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
 
 
-# This section added by Alex Tejada-Strop
-
 # Predict on the test data using Model 2 fit on training data
 
 ```{r}
