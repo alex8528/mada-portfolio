@@ -1,6 +1,6 @@
 ---
 title: "Model Fitting Exercise – Mavoglurant"
-author: "Alex Tejada Strop"
+author: "Alex Tejada-Strop"
 format:
   html:
     embed-resources: true
@@ -11,22 +11,19 @@ execute:
 ---
 
 ```{r}
-
 # Load required packages
 library(tidyverse)
 library(tidymodels)
+library(here)
 ```
 
 ```{r}
 # Load data
-dat_raw <- readr::read_csv("Mavoglurant_A2121_nmpk.csv")
+dat_raw <- read_csv(here("data", "Mavoglurant_A2121_nmpk.csv"))
 
-# Look at structure
 glimpse(dat_raw)
-```
 
-```{r}
-# Plot over TIME for each person, 
+
 dat_raw %>%
   ggplot(aes(x = TIME, y = DV, group = ID)) +
   geom_line(alpha = 0.3) +
@@ -36,73 +33,50 @@ dat_raw %>%
     x = "Time",
     y = "DV"
   )
+
 ```
-
-
-
-
-## Keep only OCC
 
 ```{r}
 dat_occ1 <- dat_raw %>%
   filter(OCC == 1)
 
-
-# Confirm OCC values
 dat_occ1 %>% count(OCC)
-```
 
-# I kept only rows where OCC equals 1 to avoid repeated results.
 
-```{r}
-# Sum DV across time points (exclude TIME == 0 dosing rows)
 y_df <- dat_occ1 %>%
   filter(TIME != 0) %>%
   group_by(ID) %>%
   summarise(Y = sum(DV, na.rm = TRUE), .groups = "drop")
 
-dim(y_df)  
-```
+dim(y_df)
 
-```{r}
 dose_df <- dat_occ1 %>%
   filter(TIME == 0)
 
-dim(dose_df)  
-```
+dim(dose_df)
 
-```{r}
 dat_joined <- dose_df %>%
   left_join(y_df, by = "ID")
 
-dim(dat_joined)  
+dim(dat_joined)
 glimpse(dat_joined)
-```
 
-## Clean dataset
-
-```{r}
 dat_clean <- dat_joined %>%
   transmute(
     Y = Y,
     DOSE = DOSE,
     AGE = AGE,
     SEX = factor(SEX),
-    RACE = factor(RACE),
     WT = WT,
     HT = HT
   )
 
+dim(dat_clean)
 glimpse(dat_clean)
 summary(dat_clean)
+
 ```
 
-```{r}
-dim(dat_clean)
-```
-
-
-## Exploratory data analysis (EDA)
 ```{r}
 dat_clean %>%
   summarise(
@@ -113,156 +87,166 @@ dat_clean %>%
     wt_mean = mean(WT, na.rm = TRUE),
     ht_mean = mean(HT, na.rm = TRUE)
   )
-```
 
-## Boxplot
-
-```{r}
 dat_clean %>%
   ggplot(aes(x = factor(DOSE), y = Y)) +
   geom_boxplot() +
-  labs(title = "Total drug (Y) by dose", x = "Dose", y = "Y")
+  labs(
+    title = "Total drug exposure (Y) by dose",
+    x = "Dose",
+    y = "Y"
+  )
+
+dat_clean %>%
+  ggplot(aes(Y)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Distribution of Y")
+
+dat_clean %>%
+  ggplot(aes(AGE)) +
+  geom_histogram(bins = 20) +
+  labs(title = "Distribution of AGE")
+
+dat_clean %>%
+  ggplot(aes(WT)) +
+  geom_histogram(bins = 20) +
+  labs(title = "Distribution of WT")
+
+dat_clean %>%
+  ggplot(aes(HT)) +
+  geom_histogram(bins = 20) +
+  labs(title = "Distribution of HT")
 ```
 
-
-## Histogram
-
 ```{r}
-dat_clean %>% ggplot(aes(Y)) + geom_histogram(bins = 30) + labs(title = "Y distribution")
-dat_clean %>% ggplot(aes(AGE)) + geom_histogram(bins = 20) + labs(title = "AGE distribution")
-dat_clean %>% ggplot(aes(WT)) + geom_histogram(bins = 20) + labs(title = "WT distribution")
-dat_clean %>% ggplot(aes(HT)) + geom_histogram(bins = 20) + labs(title = "HT distribution")
-```
+rngseed <- 1234
 
-## Train test split
-```{r}
-set.seed(123)
-split_obj <- initial_split(dat_clean, prop = 0.80)
+set.seed(rngseed)
+split_obj <- initial_split(dat_clean, prop = 0.75)
+
 train_df <- training(split_obj)
 test_df  <- testing(split_obj)
-```
 
-```{r}
 dim(train_df)
 dim(test_df)
-```
 
-## Regression
-```{r}
-# 1) Linear regression model
 lm_spec <- linear_reg() %>%
   set_engine("lm")
 
-# 2) Fit model
+# Model 1: DOSE only
 lm_dose_fit <- lm_spec %>%
   fit(Y ~ DOSE, data = train_df)
 
-# 3) Predict
-lm_dose_preds <- predict(lm_dose_fit, new_data = test_df) %>%
-  bind_cols(test_df %>% select(Y))
-
-# 4) RMSE and R-squared
-metrics(lm_dose_preds, truth = Y, estimate = .pred) %>%
-  filter(.metric %in% c("rmse", "rsq"))
-
-# Fit model using all predictors
+# Model 2: all predictors
 lm_all_fit <- lm_spec %>%
-  fit(Y ~ DOSE + AGE + SEX + RACE + WT + HT, data = train_df)
+  fit(Y ~ DOSE + AGE + SEX + WT + HT, data = train_df)
 
-# Predict on test data
-lm_all_preds <- predict(lm_all_fit, new_data = test_df) %>%
-  bind_cols(test_df %>% select(Y))
+lm_dose_preds_train <- predict(lm_dose_fit, new_data = train_df) %>%
+  bind_cols(train_df %>% select(Y))
 
-# Compute RMSE and R-squared
-metrics(lm_all_preds, truth = Y, estimate = .pred) %>%
-  filter(.metric %in% c("rmse", "rsq"))
+lm_all_preds_train <- predict(lm_all_fit, new_data = train_df) %>%
+  bind_cols(train_df %>% select(Y))
+
+rmse_dose <- rmse(lm_dose_preds_train, truth = Y, estimate = .pred)
+rmse_all  <- rmse(lm_all_preds_train, truth = Y, estimate = .pred)
+
+mean_y <- mean(train_df$Y)
+
+null_preds <- train_df %>%
+  mutate(.pred = mean_y)
+
+rmse_null <- rmse(null_preds, truth = Y, estimate = .pred)
+
+rmse_null
+rmse_dose
+rmse_all
+
+rmse_compare_train <- bind_rows(
+  rmse_null %>% mutate(model = "Null model"),
+  rmse_dose %>% mutate(model = "Model 1: DOSE only"),
+  rmse_all %>% mutate(model = "Model 2: All predictors")
+) %>%
+  select(model, .estimate)
+
+rmse_compare_train
+
 ```
 
-```{r}
-# Fit model using all predictors
-lm_all_fit <- lm_spec %>%
-  fit(Y ~ DOSE + AGE + SEX + RACE + WT + HT, data = train_df)
-
-# Predict
-lm_all_preds <- predict(lm_all_fit, new_data = test_df) %>%
-  bind_cols(test_df %>% select(Y))
-
-# RMSE and R-squared
-metrics(lm_all_preds, truth = Y, estimate = .pred) %>%
-  filter(.metric %in% c("rmse", "rsq"))
-```
+The null model had the highest RMSE, which means it performed the worst. The model using dose only improved prediction, and the full model with all predictors had the lowest RMSE, so it performed the best. The cross validation RMSE values were slightly higher than the training RMSE values, which is expected because cross validation evaluates model performance on unseen data. The overall ranking of the models stayed the same, suggesting the results were consistent.
 
 ```{r}
-levels(dat_clean$SEX)
+set.seed(rngseed)
+folds <- vfold_cv(train_df, v = 10)
 
-```
+wf_dose <- workflow() %>%
+  add_model(lm_spec) %>%
+  add_formula(Y ~ DOSE)
 
-## Model fitting
-```{r}
-# Specify logistic regression model
-log_spec <- logistic_reg() %>%
-  set_engine("glm")
+wf_all <- workflow() %>%
+  add_model(lm_spec) %>%
+  add_formula(Y ~ DOSE + AGE + SEX + WT + HT)
 
-# Fit logistic model using DOSE only
-log_dose_fit <- log_spec %>%
-  fit(SEX ~ DOSE, data = train_df)
-
-# Predict classes
-log_dose_class <- predict(log_dose_fit, new_data = test_df, type = "class")
-
-# Predict probabilities
-log_dose_prob <- predict(log_dose_fit, new_data = test_df, type = "prob")
-
-# Combine results
-log_dose_results <- bind_cols(
-  test_df %>% select(SEX),
-  log_dose_class,
-  log_dose_prob
+cv_dose <- fit_resamples(
+  wf_dose,
+  resamples = folds,
+  metrics = metric_set(rmse)
 )
 
-# Accuracy
-accuracy(log_dose_results, truth = SEX , estimate = .pred_class)  
-
-# Check column names before ROC
-names(log_dose_results)
-
-# Fit logistic model using all predictors
-log_all_fit <- log_spec %>%
-  fit(SEX ~ DOSE + AGE + RACE + WT + HT + Y, data = train_df)
-
-# Predict classes
-log_all_class <- predict(log_all_fit, new_data = test_df, type = "class")
-
-# Predict probabilities
-log_all_prob <- predict(log_all_fit, new_data = test_df, type = "prob")
-
-# Combine results
-log_all_results <- bind_cols(
-  test_df %>% select(SEX),
-  log_all_class,
-  log_all_prob
+cv_all <- fit_resamples(
+  wf_all,
+  resamples = folds,
+  metrics = metric_set(rmse)
 )
 
-# Accuracy
-accuracy(log_all_results, truth = SEX, estimate = .pred_class)
+cv_dose_metrics <- collect_metrics(cv_dose)
+cv_all_metrics  <- collect_metrics(cv_all)
 
-# Check column names
-names(log_all_results)
+cv_dose_metrics
+cv_all_metrics
+
+cv_compare <- bind_rows(
+  cv_dose_metrics %>% mutate(model = "Model 1: DOSE only"),
+  cv_all_metrics %>% mutate(model = "Model 2: All predictors")
+) %>%
+  select(model, .metric, mean, n, std_err)
+
+cv_compare
+
+train_summary <- rmse_compare_train %>%
+  rename(value = .estimate) %>%
+  mutate(type = "Training RMSE")
+
+cv_summary <- bind_rows(
+  cv_dose_metrics %>%
+    transmute(model = "Model 1: DOSE only", value = mean, type = "CV RMSE"),
+  cv_all_metrics %>%
+    transmute(model = "Model 2: All predictors", value = mean, type = "CV RMSE")
+)
+
+bind_rows(train_summary, cv_summary)
 ```
 
 ```{r}
-names(log_dose_results)
+set.seed(999)
+folds_seed2 <- vfold_cv(train_df, v = 10)
+
+cv_dose_seed2 <- fit_resamples(
+  wf_dose,
+  resamples = folds_seed2,
+  metrics = metric_set(rmse)
+)
+
+cv_all_seed2 <- fit_resamples(
+  wf_all,
+  resamples = folds_seed2,
+  metrics = metric_set(rmse)
+)
+
+collect_metrics(cv_dose_seed2)
+collect_metrics(cv_all_seed2)
 ```
 
-```{r}
-levels(train_df$SEX)
-```
-
-```{r}
-roc_auc(log_dose_results, truth = SEX, .pred_2)
-
-
-```
-
-## ## Use of AI tools
+# Use of AI tools
 AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
+
+
