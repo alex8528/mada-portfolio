@@ -17,13 +17,14 @@ library(tidymodels)
 library(here)
 ```
 
+## Data preparation
 ```{r}
 # Load data
 dat_raw <- read_csv(here("data", "Mavoglurant_A2121_nmpk.csv"))
 
 glimpse(dat_raw)
 
-
+# Plot DV over time for each person
 dat_raw %>%
   ggplot(aes(x = TIME, y = DV, group = ID)) +
   geom_line(alpha = 0.3) +
@@ -34,15 +35,13 @@ dat_raw %>%
     y = "DV"
   )
 
-```
-
-```{r}
+# Keep only rows with OCC = 1
 dat_occ1 <- dat_raw %>%
   filter(OCC == 1)
 
 dat_occ1 %>% count(OCC)
 
-
+# Create outcome Y by summing DV across post dose time points
 y_df <- dat_occ1 %>%
   filter(TIME != 0) %>%
   group_by(ID) %>%
@@ -50,17 +49,20 @@ y_df <- dat_occ1 %>%
 
 dim(y_df)
 
+# Keep baseline subject level information from TIME = 0
 dose_df <- dat_occ1 %>%
   filter(TIME == 0)
 
 dim(dose_df)
 
+# Join baseline data with outcome Y
 dat_joined <- dose_df %>%
   left_join(y_df, by = "ID")
 
 dim(dat_joined)
 glimpse(dat_joined)
 
+# Keep only variables requested for this exercise
 dat_clean <- dat_joined %>%
   transmute(
     Y = Y,
@@ -74,9 +76,9 @@ dat_clean <- dat_joined %>%
 dim(dat_clean)
 glimpse(dat_clean)
 summary(dat_clean)
-
 ```
 
+# Exploratory data analysis
 ```{r}
 dat_clean %>%
   summarise(
@@ -118,7 +120,9 @@ dat_clean %>%
   labs(title = "Distribution of HT")
 ```
 
+# Model fitting and training RMSE
 ```{r}
+# Set seed for reproducibility
 rngseed <- 1234
 
 set.seed(rngseed)
@@ -130,6 +134,7 @@ test_df  <- testing(split_obj)
 dim(train_df)
 dim(test_df)
 
+# Define and fit linear models
 lm_spec <- linear_reg() %>%
   set_engine("lm")
 
@@ -141,15 +146,18 @@ lm_dose_fit <- lm_spec %>%
 lm_all_fit <- lm_spec %>%
   fit(Y ~ DOSE + AGE + SEX + WT + HT, data = train_df)
 
+# Training set predictions
 lm_dose_preds_train <- predict(lm_dose_fit, new_data = train_df) %>%
   bind_cols(train_df %>% select(Y))
 
 lm_all_preds_train <- predict(lm_all_fit, new_data = train_df) %>%
   bind_cols(train_df %>% select(Y))
 
+# RMSE on training data
 rmse_dose <- rmse(lm_dose_preds_train, truth = Y, estimate = .pred)
 rmse_all  <- rmse(lm_all_preds_train, truth = Y, estimate = .pred)
 
+# Null model
 mean_y <- mean(train_df$Y)
 
 null_preds <- train_df %>%
@@ -172,8 +180,9 @@ rmse_compare_train
 
 ```
 
-The null model had the highest RMSE, which means it performed the worst. The model using dose only improved prediction, and the full model with all predictors had the lowest RMSE, so it performed the best. The cross validation RMSE values were slightly higher than the training RMSE values, which is expected because cross validation evaluates model performance on unseen data. The overall ranking of the models stayed the same, suggesting the results were consistent.
+The training RMSE results show that the null model performed the worst. The model using dose only improved prediction compared to the null model. The full model with all predictors had the lowest RMSE, which means it performed the best on the training data.
 
+# Cross validation
 ```{r}
 set.seed(rngseed)
 folds <- vfold_cv(train_df, v = 10)
@@ -211,7 +220,12 @@ cv_compare <- bind_rows(
   select(model, .metric, mean, n, std_err)
 
 cv_compare
+```
 
+The cross validation results showed the same overall pattern as the training RMSE results. Model 2 still performed better than Model 1, which suggests that adding AGE, SEX, WT, and HT improves prediction beyond dose alone. The standard errors were moderate, suggesting that model performance was reasonably stable across folds.
+
+# Compare training RMSE to cross validation RMSE
+```{r}
 train_summary <- rmse_compare_train %>%
   rename(value = .estimate) %>%
   mutate(type = "Training RMSE")
@@ -225,6 +239,8 @@ cv_summary <- bind_rows(
 
 bind_rows(train_summary, cv_summary)
 ```
+
+In general, the cross validation RMSE values are a little different from the training RMSE values because cross validation evaluates performance on data not used for fitting in each fold. Even so, the overall ranking of the models stayed the same.
 
 ```{r}
 set.seed(999)
@@ -246,12 +262,9 @@ collect_metrics(cv_dose_seed2)
 collect_metrics(cv_all_seed2)
 ```
 
-The null model had the highest RMSE, so it performed the worst. The model using dose only improved prediction compared to the null model. The full model with all predictors had the lowest RMSE, which means it performed the best on the training data.
-
-The cross validation results showed the same overall pattern as the training RMSE results. Model 2 still performed better than Model 1, which suggests that adding AGE, SEX, WT, and HT improves prediction beyond dose alone. The CV RMSE values were fairly close to the training RMSE values, and the standard errors were moderate, suggesting that model performance was reasonably stable across folds.
-
-
+# Prediction plots
 ```{r}
+# Predictions from all three models on the training data
 null_preds_plot <- train_df %>%
   transmute(
     Y,
@@ -283,8 +296,9 @@ ggplot(pred_plot_df, aes(x = Y, y = .pred, color = model)) +
     y = "Predicted Y",
     color = "Model"
   )
-```  
+```
 
+The null model appears as a horizontal line because it predicts the same mean value for every observation. The dose only model falls along a few horizontal lines because dose only takes a small number of values, so the model gives only a few fitted values. The full model looks better overall, but there is still noticeable scatter around the diagonal line.
 
 ```{r}
 resid_plot_df <- lm_all_preds_train %>%
@@ -300,6 +314,12 @@ ggplot(resid_plot_df, aes(x = .pred, y = residual)) +
     y = "Residuals"
   )
 ```
+
+For a good model, the residuals should look like a random cloud around zero. Here, there still seems to be some pattern, which suggests the model may still be missing some information or that the relationship may not be fully captured by a simple linear model.
+
+# Bootstrap uncertainty
+
+To quantify uncertainty around predictions from Model 2, I used bootstrap resampling on the training data and generated prediction intervals based on 100 bootstrap samples.
 
 ```{r}
 set.seed(rngseed)
@@ -340,25 +360,16 @@ ggplot(boot_plot_df, aes(x = Y)) +
     x = "Observed Y",
     y = "Predicted Y"
   )
-
-
 ```
-
 
 The bootstrap plot adds uncertainty around the predictions from Model 2. Some observations have wider intervals than others, which suggests more uncertainty in those predictions. The model captures part of the overall pattern, but the spread around the diagonal line shows that prediction error still remains.
 
-# Use of AI tools
-AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
-
-
-# Predict on the test data using Model 2 fit on training data
-
+# Final test set evaluation
 ```{r}
+# Predict on the test data using Model 2 fit on training data
 lm_all_preds_test <- predict(lm_all_fit, new_data = test_df) %>%
   bind_cols(test_df %>% select(Y))
-```
 
-```{r}
 train_plot_df <- lm_all_preds_train %>%
   mutate(dataset = "Training data") %>%
   select(Y, .pred, dataset)
@@ -380,17 +391,16 @@ ggplot(final_plot_df, aes(x = Y, y = .pred, color = dataset, shape = dataset)) +
     color = "Dataset",
     shape = "Dataset"
   )
+
 ```
 
-# Test RMSE for Model 2
+The predicted versus observed plot for the test data shows that the test observations are generally mixed in with the training observations rather than being clearly separated. That is a good sign because it suggests the model is not obviously overfit to the training data.
+
 ```{r}
 rmse_test_all <- rmse(lm_all_preds_test, truth = Y, estimate = .pred)
 
 rmse_test_all
-```
 
-# Overall model assessment table
-```{r}
 overall_summary <- tibble(
   model = c(
     "Null model",
@@ -408,3 +418,17 @@ overall_summary <- tibble(
 
 overall_summary
 ```
+
+# Model assessment
+
+The null model performed the worst, which shows that using predictors improves performance over simply predicting the average outcome for everyone. Model 1, which used only dose, improved on the null model, but its predictions were still fairly limited because dose only takes a few values. Model 2 performed best overall, both in the training set and in cross validation, which suggests that including AGE, SEX, WT, and HT improves prediction.
+
+Even so, Model 2 is still not perfect. The predicted versus observed and residual plots showed noticeable scatter, and the bootstrap plot showed uncertainty around many predictions. That means the model captures some important structure in the data, but there is still unexplained variation. For a real scientific application, I would consider Model 2 better than the other models here, but I would still be cautious about calling it fully adequate without exploring more flexible model forms or additional predictors.
+
+# Use of AI tools
+
+AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
+
+
+
+
