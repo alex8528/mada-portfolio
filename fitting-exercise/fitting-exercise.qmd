@@ -246,6 +246,10 @@ collect_metrics(cv_dose_seed2)
 collect_metrics(cv_all_seed2)
 ```
 
+The null model had the highest RMSE, so it performed the worst. The model using dose only improved prediction compared to the null model. The full model with all predictors had the lowest RMSE, which means it performed the best on the training data.
+
+The cross validation results showed the same overall pattern as the training RMSE results. Model 2 still performed better than Model 1, which suggests that adding AGE, SEX, WT, and HT improves prediction beyond dose alone. The CV RMSE values were fairly close to the training RMSE values, and the standard errors were moderate, suggesting that model performance was reasonably stable across folds.
+
 # Use of AI tools
 AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
 
