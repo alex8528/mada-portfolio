@@ -250,7 +250,163 @@ The null model had the highest RMSE, so it performed the worst. The model using 
 
 The cross validation results showed the same overall pattern as the training RMSE results. Model 2 still performed better than Model 1, which suggests that adding AGE, SEX, WT, and HT improves prediction beyond dose alone. The CV RMSE values were fairly close to the training RMSE values, and the standard errors were moderate, suggesting that model performance was reasonably stable across folds.
 
+
+```{r}
+null_preds_plot <- train_df %>%
+  transmute(
+    Y,
+    .pred = mean_y,
+    model = "Null model"
+  )
+
+dose_preds_plot <- lm_dose_preds_train %>%
+  mutate(model = "Model 1: DOSE only") %>%
+  select(Y, .pred, model)
+
+all_preds_plot <- lm_all_preds_train %>%
+  mutate(model = "Model 2: All predictors") %>%
+  select(Y, .pred, model)
+
+pred_plot_df <- bind_rows(
+  null_preds_plot,
+  dose_preds_plot,
+  all_preds_plot
+)
+
+ggplot(pred_plot_df, aes(x = Y, y = .pred, color = model)) +
+  geom_point(alpha = 0.7) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  coord_cartesian(xlim = c(0, 5000), ylim = c(0, 5000)) +
+  labs(
+    title = "Observed versus predicted values on training data",
+    x = "Observed Y",
+    y = "Predicted Y",
+    color = "Model"
+  )
+```  
+
+
+```{r}
+resid_plot_df <- lm_all_preds_train %>%
+  mutate(residual = .pred - Y)
+
+ggplot(resid_plot_df, aes(x = .pred, y = residual)) +
+  geom_point(alpha = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  coord_cartesian(ylim = c(-2500, 2500)) +
+  labs(
+    title = "Residuals versus predicted values for Model 2",
+    x = "Predicted Y",
+    y = "Residuals"
+  )
+```
+
+```{r}
+set.seed(rngseed)
+dat_bs <- bootstraps(train_df, times = 100)
+
+pred_bs <- matrix(NA, nrow = 100, ncol = nrow(train_df))
+
+for (i in 1:100) {
+  dat_sample <- analysis(dat_bs$splits[[i]])
+  
+  bs_fit <- lm_spec %>%
+    fit(Y ~ DOSE + AGE + SEX + WT + HT, data = dat_sample)
+  
+  pred_bs[i, ] <- predict(bs_fit, new_data = train_df)$.pred
+}
+
+preds <- apply(pred_bs, 2, quantile, c(0.055, 0.5, 0.945)) %>%
+  t() %>%
+  as.data.frame()
+
+colnames(preds) <- c("lower", "median", "upper")
+
+boot_plot_df <- train_df %>%
+  select(Y) %>%
+  bind_cols(
+    lm_all_preds_train %>% select(.pred),
+    preds
+  )
+
+ggplot(boot_plot_df, aes(x = Y)) +
+  geom_point(aes(y = .pred), alpha = 0.7) +
+  geom_point(aes(y = median), shape = 1) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), alpha = 0.4) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  coord_cartesian(xlim = c(0, 5000), ylim = c(0, 5000)) +
+  labs(
+    title = "Observed versus predicted values with bootstrap uncertainty",
+    x = "Observed Y",
+    y = "Predicted Y"
+  )
+
+
+```
+
+
+The bootstrap plot adds uncertainty around the predictions from Model 2. Some observations have wider intervals than others, which suggests more uncertainty in those predictions. The model captures part of the overall pattern, but the spread around the diagonal line shows that prediction error still remains.
+
 # Use of AI tools
 AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
 
 
+# This section added by Alex Tejada-Strop
+
+# Predict on the test data using Model 2 fit on training data
+
+```{r}
+lm_all_preds_test <- predict(lm_all_fit, new_data = test_df) %>%
+  bind_cols(test_df %>% select(Y))
+```
+
+```{r}
+train_plot_df <- lm_all_preds_train %>%
+  mutate(dataset = "Training data") %>%
+  select(Y, .pred, dataset)
+
+test_plot_df <- lm_all_preds_test %>%
+  mutate(dataset = "Test data") %>%
+  select(Y, .pred, dataset)
+
+final_plot_df <- bind_rows(train_plot_df, test_plot_df)
+
+ggplot(final_plot_df, aes(x = Y, y = .pred, color = dataset, shape = dataset)) +
+  geom_point(alpha = 0.7) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  coord_cartesian(xlim = c(0, 5000), ylim = c(0, 5000)) +
+  labs(
+    title = "Observed versus predicted values for training and test data",
+    x = "Observed Y",
+    y = "Predicted Y",
+    color = "Dataset",
+    shape = "Dataset"
+  )
+```
+
+# Test RMSE for Model 2
+```{r}
+rmse_test_all <- rmse(lm_all_preds_test, truth = Y, estimate = .pred)
+
+rmse_test_all
+```
+
+# Overall model assessment table
+```{r}
+overall_summary <- tibble(
+  model = c(
+    "Null model",
+    "Model 1: DOSE only",
+    "Model 2: All predictors",
+    "Model 2: Test data"
+  ),
+  rmse = c(
+    rmse_null$.estimate,
+    rmse_dose$.estimate,
+    rmse_all$.estimate,
+    rmse_test_all$.estimate
+  )
+)
+
+overall_summary
+```
