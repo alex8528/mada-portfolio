@@ -19,8 +19,7 @@ library(here)
 
 ## Data preparation
 ```{r}
-# Load data
-dat_raw <- read_csv(here("fitting-exercise", "Mavoglurant_A2121_nmpk.csv"))
+dat_raw <- read_csv("Mavoglurant_A2121_nmpk.csv")
 
 glimpse(dat_raw)
 
