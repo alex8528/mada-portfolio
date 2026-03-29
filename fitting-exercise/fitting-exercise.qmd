@@ -15,12 +15,15 @@ execute:
 library(tidyverse)
 library(tidymodels)
 library(here)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
 ```
 
 ## Data preparation
 ```{r}
 # Load data
-dat_raw <- read_csv(here("data", "Mavoglurant_A2121_nmpk.csv"))
+dat_raw <- read_csv(here("fitting-exercise", "Mavoglurant_A2121_nmpk.csv"))
 
 glimpse(dat_raw)
 
@@ -78,7 +81,7 @@ glimpse(dat_clean)
 summary(dat_clean)
 ```
 
-# Exploratory data analysis
+## Exploratory data analysis
 ```{r}
 dat_clean %>%
   summarise(
@@ -120,7 +123,7 @@ dat_clean %>%
   labs(title = "Distribution of HT")
 ```
 
-# Model fitting and training RMSE
+## Model fitting and training RMSE
 ```{r}
 # Set seed for reproducibility
 rngseed <- 1234
@@ -182,7 +185,7 @@ rmse_compare_train
 
 The training RMSE results show that the null model performed the worst. The model using dose only improved prediction compared to the null model. The full model with all predictors had the lowest RMSE, which means it performed the best on the training data.
 
-# Cross validation
+## Cross validation
 ```{r}
 set.seed(rngseed)
 folds <- vfold_cv(train_df, v = 10)
@@ -224,7 +227,7 @@ cv_compare
 
 The cross validation results showed the same overall pattern as the training RMSE results. Model 2 still performed better than Model 1, which suggests that adding AGE, SEX, WT, and HT improves prediction beyond dose alone. The standard errors were moderate, suggesting that model performance was reasonably stable across folds.
 
-# Compare training RMSE to cross validation RMSE
+## Compare training RMSE to cross validation RMSE
 ```{r}
 train_summary <- rmse_compare_train %>%
   rename(value = .estimate) %>%
@@ -262,7 +265,7 @@ collect_metrics(cv_dose_seed2)
 collect_metrics(cv_all_seed2)
 ```
 
-# Prediction plots
+## Prediction plots
 ```{r}
 # Predictions from all three models on the training data
 null_preds_plot <- train_df %>%
@@ -317,7 +320,7 @@ ggplot(resid_plot_df, aes(x = .pred, y = residual)) +
 
 For a good model, the residuals should look like a random cloud around zero. Here, there still seems to be some pattern, which suggests the model may still be missing some information or that the relationship may not be fully captured by a simple linear model.
 
-# Bootstrap uncertainty
+## Bootstrap uncertainty
 
 To quantify uncertainty around predictions from Model 2, I used bootstrap resampling on the training data and generated prediction intervals based on 100 bootstrap samples.
 
@@ -364,7 +367,7 @@ ggplot(boot_plot_df, aes(x = Y)) +
 
 The bootstrap plot adds uncertainty around the predictions from Model 2. Some observations have wider intervals than others, which suggests more uncertainty in those predictions. The model captures part of the overall pattern, but the spread around the diagonal line shows that prediction error still remains.
 
-# Final test set evaluation
+## Final test set evaluation
 ```{r}
 # Predict on the test data using Model 2 fit on training data
 lm_all_preds_test <- predict(lm_all_fit, new_data = test_df) %>%
@@ -419,16 +422,177 @@ overall_summary <- tibble(
 overall_summary
 ```
 
-# Model assessment
+## Model assessment
 
 The null model performed the worst, which shows that using predictors improves performance over simply predicting the average outcome for everyone. Model 1, which used only dose, improved on the null model, but its predictions were still fairly limited because dose only takes a few values. Model 2 performed best overall, both in the training set and in cross validation, which suggests that including AGE, SEX, WT, and HT improves prediction.
 
 Even so, Model 2 is still not perfect. The predicted versus observed and residual plots showed noticeable scatter, and the bootstrap plot showed uncertainty around many predictions. That means the model captures some important structure in the data, but there is still unexplained variation. For a real scientific application, I would consider Model 2 better than the other models here, but I would still be cautious about calling it fully adequate without exploring more flexible model forms or additional predictors.
 
-# Use of AI tools
+#### Use of AI tools
 
 AI tools were used to assist with debugging, clarifying error messages, and reviewing tidymodels syntax. The overall workflow design, data cleaning decisions, model specification, and interpretation of results were completed by me. AI support was used primarily as a learning and troubleshooting aid.
 
+# This section added by MARCO REINA
+
+```{r}
+#Alex have completed part 2 by herself already but there was some room for improvement, here is some of the details I noticed it that could be improved
+#Code originally written by MR, and improved with Qween
+
+#dataset containing race (original)
+
+dat_clean0 <- dat_joined %>%
+  transmute(
+    Y = Y,
+    DOSE = DOSE,
+    AGE = AGE,
+    SEX = factor(SEX),
+    RACE = factor(RACE),
+    WT = WT,
+    HT = HT
+  )
+
+#Original models re made
+lm_null_model0 <- lm_spec %>%
+  fit(Y ~ 1, data = dat_clean0) #using dat_clean0
+
+lm_first_model0 <- lm_spec %>%
+  fit(Y ~ DOSE, data = dat_clean0)
+
+lm_second_model0 <- lm_spec %>%
+  fit(Y ~ DOSE + AGE + SEX + RACE + WT + HT, data = dat_clean0)
+
+#PART 2
+#predicted values
+dat_clean0 <- dat_clean0 %>%
+  mutate(
+    pred_null = predict(lm_null_model0, new_data = dat_clean0, type = "numeric")$.pred,
+    pred_mod1 = predict(lm_first_model0, new_data = dat_clean0, type = "numeric")$.pred,
+    pred_mod2 = predict(lm_second_model0, new_data = dat_clean0, type = "numeric")$.pred
+  )
+
+```
 
 
+```{r}
+# Create a long-format data frame for plotting
+pred_long_format <- dat_clean0 %>%
+  select(Y, pred_null, pred_mod1, pred_mod2) %>%
+  pivot_longer(
+    cols = starts_with("pred_"),
+    names_to = "model",
+    values_to = "prediction"
+  ) %>%
+  # Clean up model labels for nicer legend
+  mutate(
+    model = case_when(
+      model == "pred_null" ~ "Null Model",
+      model == "pred_mod1" ~ "Model 1 (DOSE)",
+      model == "pred_mod2" ~ "Model 2 (Full)",
+      TRUE ~ model
+    )
+  )
+```
 
+```{r}
+# Plotting observed vs predicted
+ggplot(pred_long_format, aes(x = Y, y = prediction, color = model, shape = model)) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  geom_abline(slope = 1, intercept = 0, color = "gray50", linewidth = 0.8, linetype = "dashed") +
+  scale_x_continuous(limits = c(0, 6000)) + # englarged to 6000 because there were values outside the plot
+  scale_y_continuous(limits = c(0, 6000)) + # englarged to 6000 because there were values outside the plot
+  coord_fixed(ratio = 1) +  # Ensures 45° line appears at true 45°
+  labs(
+    title = "Observed vs. Predicted Values by Model",
+    x = "Observed Values",
+    y = "Predicted Values",
+    color = "Model",
+    shape = "Model"
+  ) +
+  theme_bw() +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  ) +
+  facet_wrap(~ factor(model,
+  levels = c("Null Model", "Model 1 (DOSE)", "Model 2 (Full)")))
+```
+
+
+```{r}
+#Plotting residuals
+dat_clean0$residuals_mod2 <- dat_clean0$pred_mod2 - dat_clean0$Y
+
+ggplot(dat_clean0, aes(x = Y, y = residuals_mod2)) + 
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, color = "gray50", linewidth = 0.8, linetype = "dashed") +
+  ylim(-2000, 2000) + #only 1 value left out to make it more visible
+  theme_bw() 
+
+```
+
+```{r}
+set.seed(rngseed) #seed set as rngseed
+
+# Create 100 bootstrap samples from training data
+dat_bs <- bootstraps(train_df, times = 100) 
+
+num_obs <- nrow(train_df)
+pred_bs <- matrix(NA, nrow = 100, ncol = num_obs)
+
+for (i in 1:100) {
+  # Get the i-th bootstrap sample
+  dat_sample <- rsample::analysis(dat_bs$splits[[i]])
+  
+  # Fit the model (Model 2: all predictors) to this sample
+  bs_fit <- linear_reg() |> 
+    set_engine("lm") |> 
+    fit(Y ~ DOSE + AGE + SEX + WT + HT, data = dat_sample)
+  
+  # Predict for the ORIGINAL training data
+  # Use pull(.pred) to get a numeric vector instead of a dataframe
+  pred_bs[i, ] <- predict(bs_fit, new_data = dat_sample) |> pull(.pred)
+}
+
+preds <- pred_bs |> apply(2, quantile, c(0.055, 0.5, 0.945)) |> t()
+```
+
+```{r}
+# Get the original predictions from the Model 2 fit on training data
+
+aug_train <- augment(lm_all_fit, new_data = train_df)
+
+# Combine with the bootstrap results (the 'preds' matrix from the previous step)
+# This assumes 'preds' has columns for 5.5%, 50%, and 94.5% quantiles
+plot_data <- aug_train |>
+  mutate(
+    bs_low = preds[, 1],
+    bs_med = preds[, 2],
+    bs_high = preds[, 3]
+  )
+```
+
+
+```{r}
+#Plotting the bootstrap results
+
+ggplot(plot_data, aes(x = Y)) +
+  # 45-degree reference line (Ideal model)
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "grey50") +
+  # Bootstrap intervals (Upper and Lower bounds)
+  geom_errorbar(aes(ymin = bs_low, ymax = bs_high), color = "skyblue", alpha = 0.5) +
+  # Bootstrap median
+  geom_point(aes(y = bs_med), color = "blue", size = 1, alpha = 0.6) +
+  # Original point estimate (Original predictions)
+  geom_point(aes(y = .pred), color = "black", shape = 1, size = 2) +
+  # Formatting
+  labs(
+    x = "Observed Values",
+    y = "Predicted Values (Point & Bootstrap Bounds)",
+    title = "Observed vs. Predicted with Bootstrap Uncertainty"
+  ) +
+  # Ensure x and y axes are on the same scale
+  coord_obs_pred() + 
+  theme_bw()
+```
+
+### The bootstraps does not seems to correctly capture the trend, they look almost like the null model, and the variation is wide.
