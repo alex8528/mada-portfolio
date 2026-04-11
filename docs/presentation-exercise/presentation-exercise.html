@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Presentation Exercise – MADA Portfolio</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -67,15 +70,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -266,7 +268,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "C:/Users/alexa/OneDrive/Documents/GitHub/mada-portfolio/presentation-exercise"</code></pre>
+<pre><code>[1] "C:/Users/ateja/OneDrive/Documents/GitHub/mada-portfolio/presentation-exercise"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(<span class="st">"data/recent-grads.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -394,23 +396,23 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
 <span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>gt_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="oqevqoegqa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oqevqoegqa table {
+<div id="unrlpmsluk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#unrlpmsluk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oqevqoegqa thead, #oqevqoegqa tbody, #oqevqoegqa tfoot, #oqevqoegqa tr, #oqevqoegqa td, #oqevqoegqa th {
+#unrlpmsluk thead, #unrlpmsluk tbody, #unrlpmsluk tfoot, #unrlpmsluk tr, #unrlpmsluk td, #unrlpmsluk th {
   border-style: none;
 }
 
-#oqevqoegqa p {
+#unrlpmsluk p {
   margin: 0;
   padding: 0;
 }
 
-#oqevqoegqa .gt_table {
+#unrlpmsluk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -436,12 +438,12 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-left-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_caption {
+#unrlpmsluk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oqevqoegqa .gt_title {
+#unrlpmsluk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -453,7 +455,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-width: 0;
 }
 
-#oqevqoegqa .gt_subtitle {
+#unrlpmsluk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -465,7 +467,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-top-width: 0;
 }
 
-#oqevqoegqa .gt_heading {
+#unrlpmsluk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -477,13 +479,13 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_bottom_border {
+#unrlpmsluk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_col_headings {
+#unrlpmsluk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -498,7 +500,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_col_heading {
+#unrlpmsluk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -518,7 +520,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   overflow-x: hidden;
 }
 
-#oqevqoegqa .gt_column_spanner_outer {
+#unrlpmsluk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -530,15 +532,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 4px;
 }
 
-#oqevqoegqa .gt_column_spanner_outer:first-child {
+#unrlpmsluk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oqevqoegqa .gt_column_spanner_outer:last-child {
+#unrlpmsluk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oqevqoegqa .gt_column_spanner {
+#unrlpmsluk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -550,11 +552,11 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   width: 100%;
 }
 
-#oqevqoegqa .gt_spanner_row {
+#unrlpmsluk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oqevqoegqa .gt_group_heading {
+#unrlpmsluk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -580,7 +582,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   text-align: left;
 }
 
-#oqevqoegqa .gt_empty_group_heading {
+#unrlpmsluk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -595,15 +597,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   vertical-align: middle;
 }
 
-#oqevqoegqa .gt_from_md > :first-child {
+#unrlpmsluk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oqevqoegqa .gt_from_md > :last-child {
+#unrlpmsluk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oqevqoegqa .gt_row {
+#unrlpmsluk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -622,7 +624,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   overflow-x: hidden;
 }
 
-#oqevqoegqa .gt_stub {
+#unrlpmsluk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -635,7 +637,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#oqevqoegqa .gt_stub_row_group {
+#unrlpmsluk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -649,15 +651,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   vertical-align: top;
 }
 
-#oqevqoegqa .gt_row_group_first td {
+#unrlpmsluk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oqevqoegqa .gt_row_group_first th {
+#unrlpmsluk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oqevqoegqa .gt_summary_row {
+#unrlpmsluk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -667,16 +669,16 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#oqevqoegqa .gt_first_summary_row {
+#unrlpmsluk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_first_summary_row.thick {
+#unrlpmsluk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oqevqoegqa .gt_last_summary_row {
+#unrlpmsluk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -686,7 +688,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_grand_summary_row {
+#unrlpmsluk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -696,7 +698,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#oqevqoegqa .gt_first_grand_summary_row {
+#unrlpmsluk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -706,7 +708,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-top-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_last_grand_summary_row_top {
+#unrlpmsluk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -716,11 +718,11 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_striped {
+#unrlpmsluk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oqevqoegqa .gt_table_body {
+#unrlpmsluk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -729,7 +731,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_footnotes {
+#unrlpmsluk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -743,7 +745,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_footnote {
+#unrlpmsluk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -752,7 +754,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#oqevqoegqa .gt_sourcenotes {
+#unrlpmsluk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -766,7 +768,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#oqevqoegqa .gt_sourcenote {
+#unrlpmsluk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -774,72 +776,72 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#oqevqoegqa .gt_left {
+#unrlpmsluk .gt_left {
   text-align: left;
 }
 
-#oqevqoegqa .gt_center {
+#unrlpmsluk .gt_center {
   text-align: center;
 }
 
-#oqevqoegqa .gt_right {
+#unrlpmsluk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oqevqoegqa .gt_font_normal {
+#unrlpmsluk .gt_font_normal {
   font-weight: normal;
 }
 
-#oqevqoegqa .gt_font_bold {
+#unrlpmsluk .gt_font_bold {
   font-weight: bold;
 }
 
-#oqevqoegqa .gt_font_italic {
+#unrlpmsluk .gt_font_italic {
   font-style: italic;
 }
 
-#oqevqoegqa .gt_super {
+#unrlpmsluk .gt_super {
   font-size: 65%;
 }
 
-#oqevqoegqa .gt_footnote_marks {
+#unrlpmsluk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oqevqoegqa .gt_asterisk {
+#unrlpmsluk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oqevqoegqa .gt_indent_1 {
+#unrlpmsluk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oqevqoegqa .gt_indent_2 {
+#unrlpmsluk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oqevqoegqa .gt_indent_3 {
+#unrlpmsluk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oqevqoegqa .gt_indent_4 {
+#unrlpmsluk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oqevqoegqa .gt_indent_5 {
+#unrlpmsluk .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oqevqoegqa .katex-display {
+#unrlpmsluk .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oqevqoegqa div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#unrlpmsluk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -882,9 +884,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_1 UnemploymentPct" style="background-color: #692D35; color: #FFFFFF">1.8</td>
 <td class="gt_row gt_right" headers="stub_1_1 ShareWomenPct" style="background-color: #411F23; color: #FFFFFF">12.1</td>
 <td class="gt_row gt_left" headers="stub_1_1 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="2.52" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="2.52" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -894,9 +894,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_2 UnemploymentPct" style="background-color: #AC8DCF; color: #FFFFFF">11.7</td>
 <td class="gt_row gt_right" headers="stub_1_2 ShareWomenPct" style="background-color: #000000; color: #FFFFFF">10.2</td>
 <td class="gt_row gt_left" headers="stub_1_2 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="0.82" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="0.82" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -906,9 +904,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_3 UnemploymentPct" style="background-color: #9E3E4D; color: #FFFFFF">2.4</td>
 <td class="gt_row gt_right" headers="stub_1_3 ShareWomenPct" style="background-color: #B54658; color: #FFFFFF">15.3</td>
 <td class="gt_row gt_left" headers="stub_1_3 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="0.92" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="0.92" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -918,9 +914,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_4 UnemploymentPct" style="background-color: #8BBB57; color: #000000">5.0</td>
 <td class="gt_row gt_right" headers="stub_1_4 ShareWomenPct" style="background-color: #190D0E; color: #FFFFFF">10.7</td>
 <td class="gt_row gt_left" headers="stub_1_4 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="1.36" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="1.36" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -930,9 +924,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_5 UnemploymentPct" style="background-color: #66C279; color: #000000">6.1</td>
 <td class="gt_row gt_right" headers="stub_1_5 ShareWomenPct" style="background-color: #2CD8E5; color: #000000">34.2</td>
 <td class="gt_row gt_left" headers="stub_1_5 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="34.79" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="34.79" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -942,9 +934,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_6 UnemploymentPct" style="background-color: #9E9E9E; color: #FFFFFF">17.7</td>
 <td class="gt_row gt_right" headers="stub_1_6 ShareWomenPct" style="background-color: #963C4A; color: #FFFFFF">14.5</td>
 <td class="gt_row gt_left" headers="stub_1_6 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="2.77" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="2.77" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -954,9 +944,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_7 UnemploymentPct" style="background-color: #2FC8E6; color: #000000">9.6</td>
 <td class="gt_row gt_right" headers="stub_1_7 ShareWomenPct" style="background-color: #E97B80; color: #FFFFFF">44.1</td>
 <td class="gt_row gt_left" headers="stub_1_7 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.07" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.07" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -966,9 +954,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_8 UnemploymentPct" style="background-color: #823541; color: #FFFFFF">2.1</td>
 <td class="gt_row gt_right" headers="stub_1_8 ShareWomenPct" style="background-color: #9E9E9E; color: #FFFFFF">53.6</td>
 <td class="gt_row gt_left" headers="stub_1_8 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="1.93" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="1.93" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -978,9 +964,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_9 UnemploymentPct" style="background-color: #64CB60; color: #000000">5.7</td>
 <td class="gt_row gt_right" headers="stub_1_9 ShareWomenPct" style="background-color: #3E1E21; color: #FFFFFF">12.0</td>
 <td class="gt_row gt_left" headers="stub_1_9 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="98.37" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="98.37" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -990,9 +974,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_10 UnemploymentPct" style="background-color: #65C66C; color: #000000">5.9</td>
 <td class="gt_row gt_right" headers="stub_1_10 ShareWomenPct" style="background-color: #B09F5F; color: #FFFFFF">19.6</td>
 <td class="gt_row gt_left" headers="stub_1_10 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="87.91" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="87.91" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -1002,9 +984,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_11 UnemploymentPct" style="background-color: #64B794; color: #000000">6.5</td>
 <td class="gt_row gt_right" headers="stub_1_11 ShareWomenPct" style="background-color: #AAA45D; color: #FFFFFF">19.9</td>
 <td class="gt_row gt_left" headers="stub_1_11 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="44.80" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="44.80" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -1014,9 +994,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_12 UnemploymentPct" style="background-color: #65B892; color: #000000">6.5</td>
 <td class="gt_row gt_right" headers="stub_1_12 ShareWomenPct" style="background-color: #833641; color: #FFFFFF">14.0</td>
 <td class="gt_row gt_left" headers="stub_1_12 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="16.24" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="16.24" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -1026,9 +1004,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_13 UnemploymentPct" style="background-color: #2FBDE6; color: #000000">9.2</td>
 <td class="gt_row gt_right" headers="stub_1_13 ShareWomenPct" style="background-color: #E77288; color: #FFFFFF">43.8</td>
 <td class="gt_row gt_left" headers="stub_1_13 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="16.13" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="16.13" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="even">
@@ -1038,9 +1014,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_14 UnemploymentPct" style="background-color: #943B49; color: #FFFFFF">2.3</td>
 <td class="gt_row gt_right" headers="stub_1_14 ShareWomenPct" style="background-color: #2EB2E6; color: #000000">31.1</td>
 <td class="gt_row gt_left" headers="stub_1_14 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.61" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.61" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 <tr class="odd">
@@ -1050,9 +1024,7 @@ Outcomes
 <td class="gt_row gt_right" headers="stub_1_15 UnemploymentPct" style="background-color: #000000; color: #FFFFFF">0.6</td>
 <td class="gt_row gt_right" headers="stub_1_15 ShareWomenPct" style="background-color: #C48664; color: #FFFFFF">18.4</td>
 <td class="gt_row gt_left" headers="stub_1_15 Total"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="113.39pt" height="14.17pt" viewbox="0 0 113.39 14.17">
-<g class="svglite"><defs>
-<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.66" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw=="> <rect x="0.00" y="0.00" width="113.39" height="14.17"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHwxMTMuMzl8MC4wMHwxNC4xNw==)"><rect x="0.00" y="0.0000000000000018" width="113.39" height="14.17" style="stroke-width: 0.00; stroke: none;"></rect><rect x="5.02" y="0.89" width="4.66" height="12.40" style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #A020F0;"></rect><line x1="5.02" y1="14.17" x2="5.02" y2="0.0000000000000018" style="stroke-width: 1.07; stroke-linecap: butt;"></line></g></g>
 </svg></td>
 </tr>
 </tbody><tfoot>
