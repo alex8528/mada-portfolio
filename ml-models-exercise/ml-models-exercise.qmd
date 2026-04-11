@@ -9,6 +9,7 @@ execute:
 ---
 
 ## Load packages and data
+
 ```{r}
 library(tidyverse)
 library(tidymodels)
@@ -18,9 +19,25 @@ library(here)
 rngseed <- 1234
 set.seed(rngseed)
 
-dat <- read_csv("../marcoreina-portafolio/fitting-exercise/data_clean.csv")
+raw_dat <- read_csv(here("fitting-exercise", "Mavoglurant_A2121_nmpk.csv"))
+
+dat <- raw_dat %>%
+  filter(OCC == 1) %>%
+  group_by(ID) %>%
+  mutate(Y = sum(DV[TIME != 0], na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(TIME == 0) %>%
+  select(Y, DOSE, AGE, SEX, RACE, WT, HT) %>%
+  distinct()
 
 glimpse(dat)
+names(dat)
+
+dat <- dat %>%
+  mutate(
+    SEX = factor(SEX),
+    RACE = factor(RACE)
+  )
 ```
 
 # Recode race
@@ -28,8 +45,8 @@ glimpse(dat)
 dat <- dat %>%
   mutate(
     RACE = case_when(
-      RACE %in% c(7, 88) ~ 3,
-      TRUE ~ RACE
+      as.numeric(as.character(RACE)) %in% c(7, 88) ~ "3",
+      TRUE ~ as.character(RACE)
     ),
     RACE = factor(RACE)
   )
@@ -38,7 +55,6 @@ count(dat, RACE)
 ```
 
 # Correlation plot
-
 ```{r}
 cont_dat <- dat %>%
   select(where(is.numeric))
@@ -60,7 +76,6 @@ ggplot(corr_df, aes(x = Var1, y = Var2, fill = Freq)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-
 # BMI
 ```{r}
 dat <- dat %>%
@@ -73,8 +88,7 @@ summary(dat$HT)
 summary(dat$BMI)
 ```
 
-
-I created one recipe for the linear model and random forest. Also for the LASSO. 
+I created one recipe for the linear model and random forest, and another for the LASSO.
 
 # Setting up recipes
 ```{r}
@@ -151,7 +165,7 @@ rmse_results <- bind_rows(lm_rmse, lasso_rmse, rf_rmse) %>%
 rmse_results
 ```
 
-The linear model and the LASSO gave very similar results because the LASSO penalty was small.
+The linear model and the LASSO gave very similar results because the LASSO penalty was small
 
 # Observed vs predicted plots
 ```{r}
@@ -166,10 +180,7 @@ obs_pred_plot <- function(df, title_text) {
     ) +
     theme_minimal()
 }
-```
 
-
-```{r}
 obs_pred_plot(lm_pred, "Observed vs Predicted: Linear Model")
 
 obs_pred_plot(lasso_pred, "Observed vs Predicted: LASSO")
@@ -177,11 +188,9 @@ obs_pred_plot(lasso_pred, "Observed vs Predicted: LASSO")
 obs_pred_plot(rf_pred, "Observed vs Predicted: Random Forest")
 ```
 
+First, I tuned the models using resampling, which means the model is being evaluated on the same data using for fitting. This can make performance look more optimistic than it is.
+
 # Tune LASSO without cross validation
-
-First, I tuned the LASSO using resamples, which means the model is being evaluated on the same data used for fitting. This may not be a good real-world approach, but it is useful to see how overly optimistic performance can look.
-
-# Tune LASSO with repeated cross validation
 ```{r}
 app_resamples <- apparent(dat)
 
@@ -208,8 +217,6 @@ lasso_app_tune <- tune_grid(
 
 collect_metrics(lasso_app_tune)
 ```
-
-I then tuned the random forest using the same overly optimistic approach:
 
 # Tune random forest without cross validation
 ```{r}
@@ -241,7 +248,7 @@ rf_app_tune <- tune_grid(
 collect_metrics(rf_app_tune)
 ```
 
-The linear model and the LASSO ended up with almost the same RMSE—about 572. That’s not surprising, since the LASSO penalty was very small and the model stayed close to a standard linear regression. The random forest did much better on the full dataset, with an RMSE of 382, which means it fit the data more closely. Still, that result is probably too optimistic because the model was tested on the same data it was trained on.
+The linear model and the LASSO ended up with almost the same RMSE, around 572. That is not surprising, since the LASSO penalty was small and the model stayed close to a standard linear regression. The random forest did much better on the full dataset, with an RMSE around 382, which means it fit the data more closely. Still, that result is probably too optimistic because the model was tested on the same data it was trained on.
 
 # Tune LASSO with repeated cross validation
 ```{r}
@@ -260,9 +267,7 @@ autoplot(lasso_cv_tune)
 collect_metrics(lasso_cv_tune)
 ```
 
-Now I do the tune random forest with repeated cross validation.
-
-# Tune random forrest with repeated cross validation
+# Tune random forest with repeated cross validation
 ```{r}
 rf_cv_tune <- tune_grid(
   rf_tune_workflow,
@@ -271,12 +276,13 @@ rf_cv_tune <- tune_grid(
   metrics = metric_set(rmse)
 )
 
-collect_metrics(rf_app_tune)
+collect_metrics(rf_cv_tune)
 ```
 
 # Conclusion
-Once I used cross validation, the performance estimates are more realistic. The RMSE values increased compared with the tuning results, which is what I would expect when the models are evaluated on data not used for fitting.
+Once I used cross validation, the performance estimates became more realistic. The RMSE values increased compared with the apparent resampling results, which is what I would expect when the models are evaluated on data not used for fitting.
 
-This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, that advantage became much smaller and the LASSO with a small penalty performed best overall.
+This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, the random forest advantage became much smaller and the LASSO with a small penalty performed best overall.
 
 The linear model and the LASSO were very similar, which makes sense because a small LASSO keeps the model close to ordinary linear regression. This exercise showed that more complex models are not always better once performance is evaluated more honestly.
+

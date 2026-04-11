@@ -12,7 +12,6 @@ project:
     - cdcdata-exercise/cdcdata-exercise.qmd
     - class-project/index.qmd
     - ml-models-exercise/ml-models-exercise.qmd
-
 website:
   title: "MADA Portfolio"
   navbar:
