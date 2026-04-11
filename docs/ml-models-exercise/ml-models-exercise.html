@@ -239,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>rngseed <span class="ot">&lt;-</span> <span class="dv">1234</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(rngseed)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>raw_dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"fitting-exercise"</span>, <span class="st">"Mavoglurant_A2121_nmpk.csv"</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>raw_dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"ml-models-exercise"</span>, <span class="st">"Mavoglurant_A2121_nmpk.csv"</span>))</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> raw_dat <span class="sc">%&gt;%</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OCC <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
@@ -479,7 +479,7 @@ $ HT   &lt;dbl&gt; 1.769997, 1.759850, 1.809847, 1.649993, 1.560052, 1.829862, 1
 </div>
 </div>
 </div>
-<p>First, I tuned the models using resampling, which means the model is being evaluated on the same data using for fitting. This can make performance look more optimistic than it is.</p>
+<p>First, I tuned the models using resampling, which means the model is being evaluated on the same data used for fitting. This can make performance look more optimistic than it is.</p>
 </section>
 <section id="tune-lasso-without-cross-validation" class="level1">
 <h1>Tune LASSO without cross validation</h1>
@@ -647,7 +647,7 @@ $ HT   &lt;dbl&gt; 1.769997, 1.759850, 1.809847, 1.649993, 1.560052, 1.829862, 1
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
 <p>Once I used cross validation, the performance estimates became more realistic. The RMSE values increased compared with the apparent resampling results, which is what I would expect when the models are evaluated on data not used for fitting.</p>
-<p>This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, the random forest advantage became much smaller and the LASSO with a small penalty performed best overall.</p>
+<p>This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, the performance differences between models became smaller. The random forest no longer had as large of an advantage, and the LASSO performed similarly to the linear model.</p>
 <p>The linear model and the LASSO were very similar, which makes sense because a small LASSO keeps the model close to ordinary linear regression. This exercise showed that more complex models are not always better once performance is evaluated more honestly.</p>
 
 
