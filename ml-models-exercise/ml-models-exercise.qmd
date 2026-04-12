@@ -19,7 +19,7 @@ library(here)
 rngseed <- 1234
 set.seed(rngseed)
 
-raw_dat <- read_csv(here("fitting-exercise", "Mavoglurant_A2121_nmpk.csv"))
+raw_dat <- read_csv(here("ml-models-exercise", "Mavoglurant_A2121_nmpk.csv"))
 
 dat <- raw_dat %>%
   filter(OCC == 1) %>%
@@ -41,6 +41,7 @@ dat <- dat %>%
 ```
 
 # Recode race
+
 ```{r}
 dat <- dat %>%
   mutate(
@@ -55,6 +56,7 @@ count(dat, RACE)
 ```
 
 # Correlation plot
+
 ```{r}
 cont_dat <- dat %>%
   select(where(is.numeric))
@@ -77,6 +79,7 @@ ggplot(corr_df, aes(x = Var1, y = Var2, fill = Freq)) +
 ```
 
 # BMI
+
 ```{r}
 dat <- dat %>%
   mutate(
@@ -91,6 +94,7 @@ summary(dat$BMI)
 I created one recipe for the linear model and random forest, and another for the LASSO.
 
 # Setting up recipes
+
 ```{r}
 base_recipe <- recipe(Y ~ DOSE + AGE + SEX + WT + HT + RACE + BMI, data = dat) %>%
   step_dummy(all_nominal_predictors())
@@ -101,6 +105,7 @@ lasso_recipe <- recipe(Y ~ DOSE + AGE + SEX + WT + HT + RACE + BMI, data = dat) 
 ```
 
 # Fitting the models
+
 ```{r}
 lm_spec <- linear_reg() %>%
   set_engine("lm")
@@ -132,6 +137,7 @@ rf_fit <- fit(rf_workflow, data = dat)
 ```
 
 # Predictions
+
 ```{r}
 lm_pred <- predict(lm_fit, new_data = dat) %>%
   bind_cols(dat %>% select(Y)) %>%
@@ -149,6 +155,7 @@ rf_pred <- predict(rf_fit, new_data = dat) %>%
 I used RMSE to compare the three models on the full dataset.
 
 # RMSE results
+
 ```{r}
 lm_rmse <- rmse(lm_pred, truth = Y, estimate = pred) %>%
   mutate(model = "Linear model")
@@ -168,6 +175,7 @@ rmse_results
 The linear model and the LASSO gave very similar results because the LASSO penalty was small
 
 # Observed vs predicted plots
+
 ```{r}
 obs_pred_plot <- function(df, title_text) {
   ggplot(df, aes(x = Y, y = pred)) +
@@ -188,9 +196,10 @@ obs_pred_plot(lasso_pred, "Observed vs Predicted: LASSO")
 obs_pred_plot(rf_pred, "Observed vs Predicted: Random Forest")
 ```
 
-First, I tuned the models using resampling, which means the model is being evaluated on the same data using for fitting. This can make performance look more optimistic than it is.
+First, I tuned the models using resampling, which means the model is being evaluated on the same data used for fitting. This can make performance look more optimistic than it is.
 
 # Tune LASSO without cross validation
+
 ```{r}
 app_resamples <- apparent(dat)
 
@@ -219,6 +228,7 @@ collect_metrics(lasso_app_tune)
 ```
 
 # Tune random forest without cross validation
+
 ```{r}
 rf_tune_spec <- rand_forest(
   mtry = tune(),
@@ -251,6 +261,7 @@ collect_metrics(rf_app_tune)
 The linear model and the LASSO ended up with almost the same RMSE, around 572. That is not surprising, since the LASSO penalty was small and the model stayed close to a standard linear regression. The random forest did much better on the full dataset, with an RMSE around 382, which means it fit the data more closely. Still, that result is probably too optimistic because the model was tested on the same data it was trained on.
 
 # Tune LASSO with repeated cross validation
+
 ```{r}
 set.seed(rngseed)
 
@@ -268,6 +279,7 @@ collect_metrics(lasso_cv_tune)
 ```
 
 # Tune random forest with repeated cross validation
+
 ```{r}
 rf_cv_tune <- tune_grid(
   rf_tune_workflow,
@@ -280,9 +292,9 @@ collect_metrics(rf_cv_tune)
 ```
 
 # Conclusion
+
 Once I used cross validation, the performance estimates became more realistic. The RMSE values increased compared with the apparent resampling results, which is what I would expect when the models are evaluated on data not used for fitting.
 
-This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, the random forest advantage became much smaller and the LASSO with a small penalty performed best overall.
+This exercise showed that model performance can look very different depending on how it is evaluated. After using cross validation, the performance differences between models became smaller. The random forest no longer had as large of an advantage, and the LASSO performed similarly to the linear model.
 
 The linear model and the LASSO were very similar, which makes sense because a small LASSO keeps the model close to ordinary linear regression. This exercise showed that more complex models are not always better once performance is evaluated more honestly.
-
