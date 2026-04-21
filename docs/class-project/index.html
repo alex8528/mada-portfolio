@@ -196,9 +196,9 @@ div.csl-indent {
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4</span> Results</a>
   <ul class="collapse">
   <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis"><span class="header-section-number">4.1</span> Exploratory Analysis</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4.2</span> Discussion</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">5</span> Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -244,7 +244,7 @@ div.csl-indent {
 <p>Prenatal and postpartum mental health conditions are increasingly recognized as critical components of maternal health. Poor maternal mental health has been associated with adverse outcomes for both mothers and infants, including reduced maternal functioning and challenges in early child development <span class="citation" data-cites="acog2023screening">American College of Obstetricians and Gynecologists (<a href="#ref-acog2023screening" role="doc-biblioref">2023</a>)</span>. As a result, healthcare providers are encouraged to assess mental health concerns throughout pregnancy and after delivery.</p>
 <p>Routine screening for depression during pregnancy may provide opportunities for earlier identification of individuals experiencing symptoms or those at elevated risk of developing postpartum depression. However, population-level evidence examining how prenatal screening relates to postpartum depressive symptoms remains limited. Understanding this relationship may help inform both clinical practice and maternal health policy.</p>
 <p>The data for this study come from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8, a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments <span class="citation" data-cites="cdc_prams_phase8_codebook">Centers for Disease Control and Prevention (<a href="#ref-cdc_prams_phase8_codebook" role="doc-biblioref">2024a</a>)</span>; <span class="citation" data-cites="cdc_prams_phase8_topics">Centers for Disease Control and Prevention (<a href="#ref-cdc_prams_phase8_topics" role="doc-biblioref">2024b</a>)</span>. PRAMS collects self-reported survey data from individuals who recently had a live birth and links these responses to selected birth certificate variables.</p>
-<p>PRAMS is designed to monitor maternal experiences and behaviors before, during, and shortly after pregnancy. The survey includes questions related to prenatal care, maternal health conditions, health behaviors, mental health, and postpartum experiences. These data allow researchers to examine population-level patterns related to maternal and infant health. PRAMS Phase 8 includes several hundred variables capturing maternal demographics, pre-pregnancy health conditions, prenatal care experiences, health behaviors, insurance coverage, mental health indicators, and postpartum outcomes. The dataset contains a mix of categorical and numeric variables and reflects the real-world complexity of surveys, including skip patterns and missing data. Across participating states, PRAMS Phase 8 includes tens of thousands of respondents, providing sufficient sample size and variable richness to support exploratory analysis and regression modeling. For this project, variables related to prenatal mental health screening, pre-pregnancy mental health history, postpartum depressive symptoms, and sociodemographic characteristics were selected for analysis.</p>
+<p>PRAMS is designed to monitor maternal experiences and behaviors before, during, and shortly after pregnancy. The survey includes questions related to prenatal care, maternal health conditions, health behaviors, mental health, and postpartum experiences. These data allow researchers to examine population-level patterns related to maternal and infant health. PRAMS Phase 8 includes several hundred variables capturing maternal demographics, pre-pregnancy health conditions, prenatal care experiences, health behaviors, insurance coverage, mental health indicators, and postpartum outcomes. The dataset contains a mix of categorical and numeric variables and reflects the real-world complexity of surveys, including skip patterns and missing data. Across participating states, PRAMS Phase 8 includes tens of thousands of respondents, providing sufficient sample size and variable richness to support exploratory analysis and regression modeling.</p>
 <section id="research-question" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="research-question"><span class="header-section-number">2.1</span> Research Question</h2>
 <p>The primary research question for this study is: Are individuals who report being asked about depression or anxiety during prenatal care less likely to report postpartum depressive symptoms? The primary outcome of interest is self-reported postpartum depressive symptoms, measured using PRAMS survey items assessing feelings of depression and loss of interest since birth. The primary predictor of interest is prenatal mental health screening, defined by whether a healthcare provider asked about depression or anxiety during prenatal visits. Additional covariates considered for analysis include depression during pregnancy and maternal education.</p>
@@ -258,8 +258,7 @@ div.csl-indent {
 </section>
 <section id="analysis-approach" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="analysis-approach"><span class="header-section-number">3.2</span> Analysis Approach</h2>
-<p>The analysis plan included descriptive summaries of key variables and exploratory comparisons between individuals who did and did not report prenatal mental health screening. These exploratory analyses were used to assess data quality, missingness, and preliminary patterns in the data.</p>
-<p>Regression-based and model validation approaches were then used to examine associations between prenatal screening and postpartum mental health outcomes while accounting for relevant covariates.</p>
+<p>The analysis plan included descriptive summaries of key variables and exploratory comparisons between individuals who did and did not report prenatal mental health screening. These exploratory analyses were used to assess data quality, missingness, and preliminary patterns in the data. Regression-based and model validation approaches were then used to examine associations between prenatal screening and postpartum mental health outcomes while accounting for relevant covariates.</p>
 </section>
 <section id="data-source" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="data-source"><span class="header-section-number">3.3</span> Data Source</h2>
@@ -314,7 +313,7 @@ Table&nbsp;1: Study population characteristics
 <tr class="even">
 <td style="text-align: left;">Not screened during prenatal care</td>
 <td style="text-align: right;">44,853</td>
-<td style="text-align: right;">19.2%</td>
+<td style="text-align: right;">17.4%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Postpartum depressive symptoms</td>
@@ -388,27 +387,68 @@ Table&nbsp;1: Study population characteristics
 <h2 data-number="3.5" class="anchored" data-anchor-id="measures"><span class="header-section-number">3.5</span> Measures</h2>
 <p>The primary exposure in this study was self-reported prenatal mental health screening, measured using a PRAMS survey item indicating whether a healthcare provider asked about depression or anxiety during prenatal care. This variable was coded as a binary indicator representing whether respondents reported being screened during prenatal visits.</p>
 <p>The primary outcome was postpartum depressive symptoms. PRAMS includes survey items assessing whether respondents experienced feelings consistent with depression or loss of interest following childbirth. These items have been used in previous research examining postpartum depressive symptoms using PRAMS data <span class="citation" data-cites="bauman2020vitalsigns">Bauman et al. (<a href="#ref-bauman2020vitalsigns" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="farr2016provider">Farr et al. (<a href="#ref-farr2016provider" role="doc-biblioref">2016</a>)</span>.</p>
-<p>Key covariates included depression during pregnancy (BPG_DEPRS8) and maternal education (MAT_ED). Depression during pregnancy was included as an important potential confounder, as individuals with a history of depression may be more likely to experience postpartum depressive symptoms. Maternal education was included as a sociodemographic variable that may influence both healthcare experiences and mental health outcomes.</p>
+<p>Key covariates included depression during pregnancy and maternal education. Depression during pregnancy was included as an important potential confounder, as individuals with a history of depression may be more likely to experience postpartum depressive symptoms. Maternal education was included as a sociodemographic variable that may influence both healthcare experiences and mental health outcomes.</p>
 </section>
 <section id="statistical-approach" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="statistical-approach"><span class="header-section-number">3.6</span> Statistical Approach</h2>
 <p>Exploratory analyses included descriptive statistics, cross-tabulations, and graphical comparisons of postpartum depressive symptoms by screening status. All analyses were conducted in R.</p>
 <p>Multivariable logistic regression models were specified with postpartum depressive symptoms as the binary outcome. Prenatal mental health screening was included as the primary exposure. Covariates included depression during pregnancy and maternal education. Results are presented as odds ratios with corresponding 95% confidence intervals.</p>
+<p>To evaluate whether a more flexible model improved prediction, logistic regression was compared with a random forest model using 5-fold cross-validation. The random forest model was fit using the ranger engine with 300 trees and default hyperparameters for mtry and minimum node size. Model performance was evaluated using accuracy and ROC AUC. Mean performance and standard error across folds were used to assess both performance and stability.</p>
 </section>
 </section>
 <section id="results" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Results</h1>
-<p>The analytic sample included 233,213 respondents after excluding observations with missing values for the primary exposure, outcome, and selected covariates. Overall, 81% of respondents reported being screened for depression during prenatal care, and 14% reported postpartum depressive symptoms.</p>
+<p>The analytic sample included 233,213 respondents after excluding observations with missing values for the primary exposure, outcome, and selected covariates. Overall, 82.6% of respondents reported being screened for depression during prenatal care, and 14.4% reported postpartum depressive symptoms.</p>
 <section id="exploratory-analysis" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="exploratory-analysis"><span class="header-section-number">4.1</span> Exploratory Analysis</h2>
 <p>We first examined the distribution of prenatal mental health screening and postpartum depressive symptoms in the analytic sample. We also explored how postpartum depressive symptoms varied by screening status, depression during pregnancy, and maternal education.</p>
-<p>Descriptive results suggested that postpartum depressive symptoms were more common among respondents who did not report receiving prenatal mental health screening. Higher rates of postpartum depressive symptoms were also observed among respondents who reported depression during pregnancy. Differences across maternal education groups were also examined to assess potential patterns in the data.</p>
+<p>Descriptive results showed that postpartum depressive symptoms were slightly more common among respondents who were not screened during prenatal care (15.2%) compared with those who were screened (13.9%). Higher rates of postpartum depressive symptoms were also observed among respondents who reported depression during pregnancy. Differences across maternal education groups were also examined.</p>
 <p>These exploratory analyses helped identify initial patterns in the dataset and informed the selection of variables for adjusted modeling.</p>
+<div class="cell">
+<div id="tbl-bivariate" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bivariate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Unadjusted odds ratio for prenatal mental health screening and postpartum depressive symptoms
+</figcaption>
+<div aria-describedby="tbl-bivariate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table cell caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Predictor</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Odds ratio</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">95% CI</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Prenatal mental health screening</td>
+<td style="text-align: center;">0.90</td>
+<td style="text-align: center;">(0.87, 0.93)</td>
+<td style="text-align: center;">&lt;0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><span style="font-style: italic;">Note:</span> <sup></sup> Unadjusted model. Reference group: not screened during prenatal care.</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The unadjusted model showed a similar pattern, with screened respondents having lower odds of postpartum depressive symptoms before accounting for covariates.</p>
 <div class="cell">
 <div id="tbl-multivariable" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-multivariable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Adjusted odds ratios for postpartum depressive symptoms
+Table&nbsp;3: Adjusted odds ratios for postpartum depressive symptoms
 </figcaption>
 <div aria-describedby="tbl-multivariable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -458,7 +498,15 @@ Table&nbsp;2: Adjusted odds ratios for postpartum depressive symptoms
 <td style="text-align: center;">(0.64, 0.75)</td>
 <td style="text-align: center;">&lt;0.001</td>
 </tr>
-</tbody>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><span style="font-style: italic;">Note:</span> <sup></sup> Reference groups: not screened during prenatal care, no depression during pregnancy, less than high school education.</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tfoot>
+
 </table>
 </div>
 </div>
@@ -498,7 +546,7 @@ Figure&nbsp;2: Postpartum depressive symptoms by depression during pregnancy
 <div id="tbl-screening" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3: Distribution of postpartum depressive symptoms by prenatal mental health screening
+Table&nbsp;4: Distribution of postpartum depressive symptoms by prenatal mental health screening
 </figcaption>
 <div aria-describedby="tbl-screening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -528,12 +576,12 @@ Table&nbsp;3: Distribution of postpartum depressive symptoms by prenatal mental 
 </figure>
 </div>
 </div>
-<p>The table on postpartum depressive symptoms by screening status shows that 15.2% of respondents who were not screened during prenatal care reported postpartum depressive symptoms, compared with 13.9% among those who were screened.</p>
+<p>The table shows that 15.2% of respondents who were not screened reported postpartum depressive symptoms, compared with 13.9% among those who were screened, consistent with the adjusted model results.</p>
 <div class="cell">
 <div id="tbl-model-validation" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-validation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;4: Model validation results comparing logistic regression and random forest
+Table&nbsp;5: Model validation results comparing logistic regression and random forest
 </figcaption>
 <div aria-describedby="tbl-model-validation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -541,20 +589,20 @@ Table&nbsp;4: Model validation results comparing logistic regression and random 
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Model</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">Accuracy</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">ROC AUC</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Accuracy (SE)</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">ROC AUC (SE)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Logistic regression</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">0.656</td>
+<td style="text-align: center;">0.859 (0.001)</td>
+<td style="text-align: center;">0.656 (0.004)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Random forest</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">0.656</td>
+<td style="text-align: center;">0.859 (0.001)</td>
+<td style="text-align: center;">0.656 (0.004)</td>
 </tr>
 </tbody>
 </table>
@@ -563,13 +611,26 @@ Table&nbsp;4: Model validation results comparing logistic regression and random 
 </figure>
 </div>
 </div>
-<p>Reference groups were: not screened during prenatal care, no depression during pregnancy, and less than high school education.</p>
-<p>In adjusted analyses, respondents who reported prenatal mental health screening had lower odds of postpartum depressive symptoms compared with those who were not screened (OR = 0.76, 95% CI: 0.74, 0.78, p &lt; 0.001). This finding is consistent with the descriptive results showing a higher prevalence of postpartum depressive symptoms among individuals who did not report receiving prenatal screening.</p>
-<p>Model validation results indicated that logistic regression and random forest models performed similarly, with identical accuracy (0.859) and nearly identical ROC AUC values (0.656). Because the random forest did not improve predictive performance, logistic regression was retained as the preferred model due to its interpretability.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-model-performance" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-model-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/model_performance.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-model-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Cross-validation performance of logistic regression and random forest
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The figure shows that logistic regression and random forest had very similar performance across both accuracy and ROC AUC. Standard errors across folds were small for both models, indicating that performance estimates were stable regardless of which observations were held out. A ROC AUC of 0.656 reflects modest discriminative ability beyond chance, consistent with the limited number of predictors included in the model. Because the random forest did not improve predictive performance, logistic regression was retained as the preferred model due to its interpretability.</p>
 <p>In adjusted analyses, respondents who reported prenatal mental health screening had lower odds of postpartum depressive symptoms compared with those who were not screened (OR = 0.76, 95% CI: 0.74, 0.78, p &lt; 0.001). This finding is consistent with the descriptive results showing a higher prevalence of postpartum depressive symptoms among individuals who did not report receiving prenatal screening.</p>
 </section>
-<section id="discussion" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="discussion"><span class="header-section-number">4.2</span> Discussion</h2>
+</section>
+<section id="discussion" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Discussion</h1>
 <p>This study evaluated the association between prenatal mental health screening and postpartum depressive symptoms using population-based PRAMS data. Respondents who reported prenatal mental health screening had lower odds of postpartum depressive symptoms than those who were not screened, even after adjustment for depression during pregnancy and maternal education.</p>
 <p>Although PRAMS includes survey weights and design variables, the analyses presented here are unweighted and intended as an exploratory course project focused on reproducible modeling workflows.</p>
 <p>These findings are generally consistent with existing research showing that postpartum depressive symptoms remain a significant public health concern in the United States. Previous analyses using PRAMS data have documented that a substantial proportion of women report postpartum depressive symptoms and that provider discussions about perinatal depression vary across populations and healthcare settings <span class="citation" data-cites="bauman2020vitalsigns">Bauman et al. (<a href="#ref-bauman2020vitalsigns" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="farr2016provider">Farr et al. (<a href="#ref-farr2016provider" role="doc-biblioref">2016</a>)</span>. Clinical guidelines from organizations such as the American College of Obstetricians and Gynecologists recommend routine screening for depression during pregnancy and the postpartum period to support earlier identification and intervention <span class="citation" data-cites="acog2023screening">American College of Obstetricians and Gynecologists (<a href="#ref-acog2023screening" role="doc-biblioref">2023</a>)</span>.</p>
@@ -581,15 +642,14 @@ Table&nbsp;4: Model validation results comparing logistic regression and random 
 <p>Future analyses could expand on this work by incorporating additional covariates such as insurance status, socioeconomic indicators, and access to mental health services. More advanced modeling approaches could also be used to explore predictors of postpartum depressive symptoms and identify subgroups that may benefit most from screening and early intervention.</p>
 <p>Overall, this study demonstrates how large surveillance datasets such as PRAMS can be used to explore maternal mental health patterns and generate hypotheses for future research. Continued attention to perinatal mental health remains important for improving maternal and infant health outcomes.</p>
 </section>
-</section>
-<section id="references" class="level1" data-number="5">
+<section id="references" class="level1" data-number="6">
 
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">6 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-acog2023screening" class="csl-entry" role="listitem">
 American College of Obstetricians and Gynecologists. (2023). <em>Screening and diagnosis of mental health conditions during pregnancy and postpartum</em>. <a href="https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2023/06/screening-and-diagnosis-of-mental-health-conditions-during-pregnancy-and-postpartum">https://www.acog.org/clinical/clinical-guidance/clinical-practice-guideline/articles/2023/06/screening-and-diagnosis-of-mental-health-conditions-during-pregnancy-and-postpartum</a>
 </div>
