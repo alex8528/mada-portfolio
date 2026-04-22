@@ -1,6 +1,6 @@
 ---
 title: "Model Fitting Exercise – Mavoglurant"
-author: "Alex Tejada-Strop"
+author: "Alexandra Tejada-Strop"
 format:
   html:
     embed-resources: true
@@ -19,7 +19,7 @@ library(here)
 
 ## Data preparation
 ```{r}
-dat_raw <- read_csv("data/Mavoglurant_A2121_nmpk.csv")
+dat_raw <- read_csv(here::here("fitting-exercise", "data", "Mavoglurant_A2121_nmpk.csv"))
 
 glimpse(dat_raw)
 
@@ -48,13 +48,11 @@ y_df <- dat_occ1 %>%
 
 dim(y_df)
 
-# Keep baseline subject level information from TIME = 0
 dose_df <- dat_occ1 %>%
   filter(TIME == 0)
 
 dim(dose_df)
 
-# Join baseline data with outcome Y
 dat_joined <- dose_df %>%
   left_join(y_df, by = "ID")
 
@@ -419,7 +417,6 @@ overall_summary
 ```
 
 # Model assessment
-
 The null model performed the worst, which shows that using predictors improves performance over simply predicting the average outcome for everyone. Model 1, which used only dose, improved on the null model, but its predictions were still fairly limited because dose only takes a few values. Model 2 performed best overall, both in the training set and in cross validation, which suggests that including AGE, SEX, WT, and HT improves prediction.
 
 Even so, Model 2 is still not perfect. The predicted versus observed and residual plots showed noticeable scatter, and the bootstrap plot showed uncertainty around many predictions. That means the model captures some important structure in the data, but there is still unexplained variation. For a real scientific application, I would consider Model 2 better than the other models here, but I would still be cautious about calling it fully adequate without exploring more flexible model forms or additional predictors.
