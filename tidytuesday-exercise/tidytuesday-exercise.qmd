@@ -2,7 +2,9 @@
 title: "Tidy Tuesday: Global Health Spending"
 author: "Alexandra Tejada-Strop"
 date: "2026-04-21"
-format: html
+format: 
+  html:
+    self-contained: true
 editor: visual
 ---
 
