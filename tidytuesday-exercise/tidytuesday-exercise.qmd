@@ -425,8 +425,6 @@ models.
 
 ## References
 
-## References
-
 Data Science Learning Community. (2024). *Tidy Tuesday: A weekly social data 
 project*. https://tidytues.day
 

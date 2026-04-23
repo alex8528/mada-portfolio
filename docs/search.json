@@ -81,7 +81,7 @@
     "href": "tidytuesday-exercise/tidytuesday-exercise.html#references",
     "title": "Tidy Tuesday: Global Health Spending",
     "section": "References",
-    "text": "References"
+    "text": "References\nData Science Learning Community. (2024). Tidy Tuesday: A weekly social data project. https://tidytues.day\nKuhn, M., & Wickham, H. (2020). Tidymodels: A collection of packages for modeling and machine learning using tidyverse principles. https://www.tidymodels.org\nR Core Team. (2026). R: A language and environment for statistical computing. R Foundation for Statistical Computing. https://www.r-project.org/\nWickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T., Miller, E., Bache, S., Müller, K., Ooms, J., Robinson, D., Seidel, D., Spinu, V., … Yutani, H. (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686. https://doi.org/10.21105/joss.01686\nWorld Health Organization. (2024). Global Health Expenditure Database (GHED). WHO. https://apps.who.int/nha/database\nWright, M. N., & Ziegler, A. (2017). ranger: A fast implementation of random forests for high dimensional data in C++ and R. Journal of Statistical Software, 77(1), 1-17. https://doi.org/10.18637/jss.v077.i01"
   },
   {
     "objectID": "tidytuesday-exercise/tidytuesday-exercise.html#references-1",
