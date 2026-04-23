@@ -12,7 +12,7 @@ project:
     - cdcdata-exercise/cdcdata-exercise.qmd
     - class-project/index.qmd
     - ml-models-exercise/ml-models-exercise.qmd
-website:
+    - tidytuesday-exercise/tidytuesday-exercise.qmd
   title: "MADA Portfolio"
   navbar:
     left:
@@ -26,6 +26,8 @@ website:
         text: Starter Analysis Exercise
       - href: data-exercise/data-exercise.qmd
         text: Data Exercise
+      - text: Tidy Tuesday
+        href: tidytuesday-exercise/tidytuesday-exercise.qmd  
       - href: cdcdata-exercise/cdcdata-exercise.qmd
         text: CDC Data Exercise
       - href: ml-models-exercise/ml-models-exercise.qmd  
