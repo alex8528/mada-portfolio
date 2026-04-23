@@ -28,7 +28,7 @@ website:
         text: Data Exercise
       - href: cdcdata-exercise/cdcdata-exercise.qmd
         text: CDC Data Exercise
-      - href: ml-models-exercise/ml-models-exercise.qmd   # ✅ ADD THIS
+      - href: ml-models-exercise/ml-models-exercise.qmd  
         text: ML Models Exercise
       - href: class-project/index.qmd
         text: Class Individual Project
