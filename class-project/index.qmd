@@ -25,6 +25,7 @@ library(kableExtra)
 library(here)
 n_total <- 237392
 n_analysis <- 233213
+
 ```
 
 Disclaimer: The opinions expressed in this article are the author's own and do not reflect their employer.
@@ -33,7 +34,7 @@ Disclaimer: The opinions expressed in this article are the author's own and do n
 
 This study examines whether prenatal mental health screening is associated with postpartum depressive symptoms using data from the Pregnancy Risk Assessment Monitoring System (PRAMS) Phase 8. The analysis focuses on self-reported prenatal care experiences and postpartum mental health outcomes.
 
-Descriptive statistics and multivariable logistic regression were used to examine whether screening is associated with differences in reported depressive symptoms, adjusting for key covariates. Prenatal mental health screening was associated with lower odds of postpartum depressive symptoms, though the association was modest. Findings should be interpreted cautiously given the observational and self-reported nature of the data.
+Descriptive statistics and multivariable logistic regression were used to examine whether screening is associated with differences in reported depressive symptoms, adjusting for key covariates. Prenatal mental health screening was associated with lower odds of postpartum depressive symptoms, though the association was modest. Findings should be interpreted cautiously, given the observational and self-reported nature of the data.
 
 # Introduction
 
@@ -47,9 +48,9 @@ Prenatal and postpartum mental health are now recognized as key components of ma
 
 Screening during pregnancy may help identify individuals who are already experiencing symptoms or who are at higher risk of postpartum depression. However, population-level evidence on how prenatal screening relates to postpartum depressive symptoms remains limited, and understanding this relationship could help inform both clinical practice and public health policy.
 
-Data for this study come from PRAMS, a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments @cdc_prams_phase8_codebook; @cdc_prams_phase8_topics. PRAMS collects self-reported survey data from individuals who recently had a live birth and links responses to selected birth certificate variables. The survey covers maternal experiences before, during, and shortly after pregnancy, including prenatal care, health behaviors, mental health, and postpartum outcomes.
+Data for this study come from PRAMS, a population-based surveillance system conducted by the Centers for Disease Control (CDC) and Prevention in collaboration with state health departments @cdc_prams_phase8_codebook; @cdc_prams_phase8_topics. PRAMS collects self-reported survey data from individuals who recently had a live birth and links responses to selected birth certificate variables. The survey covers maternal experiences before, during, and shortly after pregnancy, including prenatal care, health behaviors, mental health, and postpartum outcomes.
 
-PRAMS Phase 8 includes several hundred variables and tens of thousands of respondents across participating states, making it well suited for exploratory analysis and regression modeling.
+PRAMS Phase 8 includes several hundred variables and tens of thousands of respondents across participating states, making it well-suited for exploratory analysis and regression modeling.
 
 ## Research Question
 
@@ -65,7 +66,7 @@ ChatGPT was used to help troubleshoot parts of the code. All analyses, decisions
 
 ## Analysis Approach
 
-The analysis started with descriptive summaries and exploratory comparisons between individuals who did and did not report prenatal mental health screening. These steps helped assess data quality, identify missing data patterns, and examine initial relationships in the data.
+The analysis started with descriptive summaries and exploratory comparisons between individuals who did and did not report prenatal mental health screening. These steps helped assess data quality, identify patterns of missing data, and examine initial relationships in the data.
 
 Regression models and model validation approaches were then used to examine the association between prenatal screening and postpartum depressive symptoms while accounting for key covariates.
 
@@ -73,13 +74,14 @@ Regression models and model validation approaches were then used to examine the 
 
 Data were obtained from PRAMS, a population-based surveillance system conducted by the Centers for Disease Control and Prevention in collaboration with state health departments. PRAMS collects self-reported information on maternal experiences before, during, and shortly after pregnancy.
 
-Because PRAMS uses a complex survey design, weighted analyses can be conducted using the survey design variables provided in the dataset. The analyses here are unweighted and intended as an exploratory course project focused on reproducible modeling workflows.
+Because PRAMS uses a complex survey design, weighted analyses can be conducted using the provided survey design variables. The analyses here are unweighted and intended as an exploratory course project focused on reproducible modeling workflows.
 
 ## Study Population
 
-The full PRAMS analytic dataset included 237,392 respondents. After excluding observations with missing values for the primary exposure, outcome, and selected covariates, the final analytic sample included 233,213 respondents. Complete case analysis was used, which may introduce bias if data are not missing completely at random (MCAR). Respondents with missing values may differ systematically from those included, which could affect generalizability.
+The full PRAMS analytic dataset included 237,392 respondents. After excluding observations with missing values for the primary exposure, outcome, and selected covariates, the final analytic sample included 233,213 respondents. A complete case analysis was used, which may introduce bias if the data are not missing completely at random (MCAR). Respondents with missing values may differ systematically from those included, which could affect generalizability.
 
-```{r}#| label: tbl-study-pop
+```{r}
+#| label: tbl-study-pop
 #| tbl-cap: "Study population characteristics"
 
 study_pop_tbl <- tibble(
@@ -170,6 +172,7 @@ knitr::kable(
     general_title = "Note:",
     footnote_as_chunk = TRUE
   )
+
 ```
 
 Before adjusting for covariates, screened respondents already had lower odds of postpartum depressive symptoms compared with those who were not screened.
@@ -237,6 +240,7 @@ screening_table <- tibble(
 
 knitr::kable(screening_table, align = c("l", "c", "c"), booktabs = TRUE) |>
   kableExtra::kable_styling(full_width = FALSE, position = "left")
+
 ```
 
 Table 4 shows that 15.2% of unscreened respondents reported postpartum depressive symptoms compared with 13.9% among screened respondents, consistent with the adjusted model results.
@@ -260,6 +264,7 @@ knitr::kable(model_validation_tbl, align = c("l", "c", "c"), booktabs = TRUE) |>
 #| fig-cap: "Cross-validation performance of logistic regression and random forest"
 
 knitr::include_graphics(here::here("class-project", "figures", "model_performance.png"))
+
 ```
 
 Both models performed nearly identically — accuracy of 0.859 and ROC AUC of 0.656 for each. The standard errors across folds were small, which suggests the results were stable and not sensitive to which observations were held out. A ROC AUC of 0.656 reflects modest discriminative ability, which is not surprising given the small number of predictors. Because the random forest did not improve on logistic regression, the simpler model was retained.
