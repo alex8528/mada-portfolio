@@ -147,6 +147,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data Exercise</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../tidytuesday-exercise/tidytuesday-exercise.html"> 
+<span class="menu-text">Tidy Tuesday</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../cdcdata-exercise/cdcdata-exercise.html"> 
 <span class="menu-text">CDC Data Exercise</span></a>
   </li>  
@@ -268,7 +272,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "C:/Users/ateja/Documents/GitHub/mada-portfolio/presentation-exercise"</code></pre>
+<pre><code>[1] "C:/Users/ateja/OneDrive/Documents/GitHub/mada-portfolio/presentation-exercise"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(<span class="st">"data/recent-grads.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -396,23 +400,23 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
 <span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>gt_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="wifaiqnxnk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wifaiqnxnk table {
+<div id="phtdfgwoqn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#phtdfgwoqn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wifaiqnxnk thead, #wifaiqnxnk tbody, #wifaiqnxnk tfoot, #wifaiqnxnk tr, #wifaiqnxnk td, #wifaiqnxnk th {
+#phtdfgwoqn thead, #phtdfgwoqn tbody, #phtdfgwoqn tfoot, #phtdfgwoqn tr, #phtdfgwoqn td, #phtdfgwoqn th {
   border-style: none;
 }
 
-#wifaiqnxnk p {
+#phtdfgwoqn p {
   margin: 0;
   padding: 0;
 }
 
-#wifaiqnxnk .gt_table {
+#phtdfgwoqn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -438,12 +442,12 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-left-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_caption {
+#phtdfgwoqn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wifaiqnxnk .gt_title {
+#phtdfgwoqn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -455,7 +459,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-width: 0;
 }
 
-#wifaiqnxnk .gt_subtitle {
+#phtdfgwoqn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -467,7 +471,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-top-width: 0;
 }
 
-#wifaiqnxnk .gt_heading {
+#phtdfgwoqn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -479,13 +483,13 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_bottom_border {
+#phtdfgwoqn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_col_headings {
+#phtdfgwoqn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -500,7 +504,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_col_heading {
+#phtdfgwoqn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -520,7 +524,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   overflow-x: hidden;
 }
 
-#wifaiqnxnk .gt_column_spanner_outer {
+#phtdfgwoqn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -532,15 +536,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 4px;
 }
 
-#wifaiqnxnk .gt_column_spanner_outer:first-child {
+#phtdfgwoqn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wifaiqnxnk .gt_column_spanner_outer:last-child {
+#phtdfgwoqn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wifaiqnxnk .gt_column_spanner {
+#phtdfgwoqn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -552,11 +556,11 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   width: 100%;
 }
 
-#wifaiqnxnk .gt_spanner_row {
+#phtdfgwoqn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wifaiqnxnk .gt_group_heading {
+#phtdfgwoqn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -582,7 +586,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   text-align: left;
 }
 
-#wifaiqnxnk .gt_empty_group_heading {
+#phtdfgwoqn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -597,15 +601,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   vertical-align: middle;
 }
 
-#wifaiqnxnk .gt_from_md > :first-child {
+#phtdfgwoqn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wifaiqnxnk .gt_from_md > :last-child {
+#phtdfgwoqn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wifaiqnxnk .gt_row {
+#phtdfgwoqn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -624,7 +628,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   overflow-x: hidden;
 }
 
-#wifaiqnxnk .gt_stub {
+#phtdfgwoqn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -637,7 +641,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#wifaiqnxnk .gt_stub_row_group {
+#phtdfgwoqn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -651,15 +655,15 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   vertical-align: top;
 }
 
-#wifaiqnxnk .gt_row_group_first td {
+#phtdfgwoqn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wifaiqnxnk .gt_row_group_first th {
+#phtdfgwoqn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wifaiqnxnk .gt_summary_row {
+#phtdfgwoqn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -669,16 +673,16 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#wifaiqnxnk .gt_first_summary_row {
+#phtdfgwoqn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_first_summary_row.thick {
+#phtdfgwoqn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wifaiqnxnk .gt_last_summary_row {
+#phtdfgwoqn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -688,7 +692,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_grand_summary_row {
+#phtdfgwoqn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -698,7 +702,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#wifaiqnxnk .gt_first_grand_summary_row {
+#phtdfgwoqn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -708,7 +712,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-top-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_last_grand_summary_row_top {
+#phtdfgwoqn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -718,11 +722,11 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_striped {
+#phtdfgwoqn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wifaiqnxnk .gt_table_body {
+#phtdfgwoqn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -731,7 +735,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-bottom-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_footnotes {
+#phtdfgwoqn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -745,7 +749,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_footnote {
+#phtdfgwoqn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -754,7 +758,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#wifaiqnxnk .gt_sourcenotes {
+#phtdfgwoqn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -768,7 +772,7 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   border-right-color: #D3D3D3;
 }
 
-#wifaiqnxnk .gt_sourcenote {
+#phtdfgwoqn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -776,72 +780,72 @@ $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170
   padding-right: 5px;
 }
 
-#wifaiqnxnk .gt_left {
+#phtdfgwoqn .gt_left {
   text-align: left;
 }
 
-#wifaiqnxnk .gt_center {
+#phtdfgwoqn .gt_center {
   text-align: center;
 }
 
-#wifaiqnxnk .gt_right {
+#phtdfgwoqn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wifaiqnxnk .gt_font_normal {
+#phtdfgwoqn .gt_font_normal {
   font-weight: normal;
 }
 
-#wifaiqnxnk .gt_font_bold {
+#phtdfgwoqn .gt_font_bold {
   font-weight: bold;
 }
 
-#wifaiqnxnk .gt_font_italic {
+#phtdfgwoqn .gt_font_italic {
   font-style: italic;
 }
 
-#wifaiqnxnk .gt_super {
+#phtdfgwoqn .gt_super {
   font-size: 65%;
 }
 
-#wifaiqnxnk .gt_footnote_marks {
+#phtdfgwoqn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wifaiqnxnk .gt_asterisk {
+#phtdfgwoqn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wifaiqnxnk .gt_indent_1 {
+#phtdfgwoqn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wifaiqnxnk .gt_indent_2 {
+#phtdfgwoqn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wifaiqnxnk .gt_indent_3 {
+#phtdfgwoqn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wifaiqnxnk .gt_indent_4 {
+#phtdfgwoqn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wifaiqnxnk .gt_indent_5 {
+#phtdfgwoqn .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wifaiqnxnk .katex-display {
+#phtdfgwoqn .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wifaiqnxnk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#phtdfgwoqn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

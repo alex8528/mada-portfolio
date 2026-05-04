@@ -1,0 +1,449 @@
+---
+title: "Tidy Tuesday: Global Health Spending"
+author: "Alexandra Tejada-Strop"
+date: "2026-04-21"
+format: 
+  html:
+    self-contained: true
+editor: visual
+---
+
+This analysis uses the WHO Global Health Expenditure Database (GHED), which includes data on health spending for 195 countries from 2000 to 2023. The dataset shows how much countries spend on health care and where that funding comes from, including government spending, private sources, and external aid.
+
+The main question guiding this analysis is:
+
+Can we predict a country’s out-of-pocket payment burden (as a percentage of total health spending) based on the share of funding from government, private, and external sources?
+
+This question matters for public health because high out-of-pocket costs can make it harder for people to access care and may lead to financial strain. This is especially true in low- and middle-income countries (World Health Organization, 2024), where individuals often bear a larger share of health care costs.
+
+## AI Use
+
+Some portions of this analysis were completed with AI assistance (Claude, 
+Anthropic). Specifically, AI was used to help troubleshoot coding errors and 
+debug issues that came up during the modeling workflow. 
+
+All analytical decisions, 
+interpretations, and written content reflect my own work and understanding of 
+the data.
+
+## Setup
+
+```{r}
+#| message: false
+#| warning: false
+
+# Load all necessary packages
+library(tidyverse)   # data wrangling and visualization
+library(tidymodels)  # modeling framework
+library(ggplot2)     # plotting
+library(knitr)       # tables
+library(corrplot)    # correlation plots
+library(vip)         # variable importance plots
+```
+
+## Data Loading
+
+```{r}
+#| message: false
+#| warning: false
+
+# Load the three datasets directly from GitHub
+financing_schemes <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-04-21/financing_schemes.csv')
+
+health_spending <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-04-21/health_spending.csv')
+
+spending_purpose <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-04-21/spending_purpose.csv')
+
+# Quick check of each dataset
+glimpse(financing_schemes)
+glimpse(health_spending)
+glimpse(spending_purpose)
+```
+
+Data were retrieved from the TidyTuesday repository (Data Science Learning Community, 2024).
+
+
+## Data Wrangling
+
+```{r}
+#| message: false
+#| warning: false
+
+oop <- financing_schemes %>%
+  filter(indicator_code == "hf3_che") %>%
+  select(iso3_code, country_name, year, oop_pct = value)
+
+
+predictors <- health_spending %>%
+  filter(indicator_code %in% c("gghed_che", "pvtd_che", "ext_che")) %>%
+  select(iso3_code, year, indicator_code, value) %>%
+  pivot_wider(names_from = indicator_code, values_from = value) %>%
+  rename(
+    govt_pct = gghed_che,
+    private_pct = pvtd_che,
+    external_pct = ext_che
+  )
+
+# Join outcome with predictors by country and year
+model_data <- oop %>%
+  inner_join(predictors, by = c("iso3_code", "year")) %>%
+  drop_na()
+
+# Dataset
+glimpse(model_data)
+summary(model_data)
+
+# Number of countries and years
+cat("Number of countries:", n_distinct(model_data$iso3_code), "\n")
+cat("Years covered:", min(model_data$year), "to", max(model_data$year), "\n")
+cat("Total observations:", nrow(model_data), "\n")
+```
+
+## Exploratory Data Analysis
+
+```{r}
+#| message: false
+#| warning: false
+
+# Distribution of our outcome variable (out-of-pocket payments %)
+ggplot(model_data, aes(x = oop_pct)) +
+  geom_histogram(bins = 40, fill = "steelblue", color = "white") +
+  labs(
+    title = "Distribution of Out-of-Pocket Payments (% of Current Health Expenditure)",
+    x = "Out-of-Pocket Payments (%)",
+    y = "Count"
+  )
+
+# Distribution of each predictor
+model_data %>%
+  select(govt_pct, private_pct, external_pct) %>%
+  pivot_longer(everything(), names_to = "predictor", values_to = "value") %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 40, fill = "coral", color = "white") +
+  facet_wrap(~ predictor, scales = "free") +
+  labs(
+    title = "Distribution of Predictor Variables",
+    x = "Percentage of Current Health Expenditure",
+    y = "Count"
+  )
+
+# Scatterplots of each predictor vs outcome
+model_data %>%
+  select(oop_pct, govt_pct, private_pct, external_pct) %>%
+  pivot_longer(-oop_pct, names_to = "predictor", values_to = "value") %>%
+  ggplot(aes(x = value, y = oop_pct)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "lm", color = "red") +
+  facet_wrap(~ predictor, scales = "free_x") +
+  labs(
+    title = "Out-of-Pocket Payments vs Each Predictor",
+    x = "Predictor Value (%)",
+    y = "Out-of-Pocket Payments (%)"
+  )
+
+# Correlation
+cor_matrix <- model_data %>%
+  select(oop_pct, govt_pct, private_pct, external_pct) %>%
+  cor(use = "complete.obs")
+
+corrplot(cor_matrix, method = "color", type = "upper",
+         addCoef.col = "black", tl.col = "black",
+         title = "Correlation Matrix", mar = c(0,0,1,0))
+
+model_data %>%
+  group_by(year) %>%
+  summarise(mean_oop = mean(oop_pct, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = mean_oop)) +
+  geom_line(color = "steelblue", linewidth = 1) +
+  geom_point() +
+  labs(
+    title = "Global Average Out-of-Pocket Payments Over Time",
+    x = "Year",
+    y = "Mean OOP Payments (% of CHE)"
+  )
+
+# Top 10 countries with highest average OOP burden
+model_data %>%
+  group_by(country_name) %>%
+  summarise(mean_oop = mean(oop_pct, na.rm = TRUE)) %>%
+  slice_max(mean_oop, n = 10) %>%
+  ggplot(aes(x = reorder(country_name, mean_oop), y = mean_oop)) +
+  geom_col(fill = "tomato") +
+  coord_flip() +
+  labs(
+    title = "Top 10 Countries by Average Out-of-Pocket Payment Burden",
+    x = "Country",
+    y = "Mean OOP Payments (% of CHE)"
+  )
+```
+## Data Splitting
+
+```{r}
+#| message: false
+#| warning: false
+
+# Set seed for reproducibility
+set.seed(123)
+
+data_split <- initial_split(model_data, prop = 0.75)
+train_data <- training(data_split)
+test_data  <- testing(data_split)
+
+cat("Training set size:", nrow(train_data), "\n")
+cat("Test set size:", nrow(test_data), "\n")
+
+
+folds <- vfold_cv(train_data, v = 5, repeats = 1)
+
+# Define a recipe for preprocessing
+# We center and scale all predictors since LASSO needs this
+oop_recipe <- recipe(oop_pct ~ govt_pct + private_pct + external_pct + year,
+                     data = train_data) %>%
+  step_normalize(all_predictors())
+
+cat("Recipe and folds ready. Moving on to model fitting.\n")
+```
+
+## Model Fitting
+
+### Model 1: Linear Regression
+
+```{r}
+#| message: false
+#| warning: false
+
+# Linear regression model spec
+lm_spec <- linear_reg() %>%
+  set_engine("lm")
+
+# Workflow
+lm_wf <- workflow() %>%
+  add_recipe(oop_recipe) %>%
+  add_model(lm_spec)
+
+# Cross validation
+lm_cv <- fit_resamples(
+  lm_wf,
+  resamples = folds,
+  metrics = metric_set(rmse, rsq)
+)
+
+# CV metrics
+lm_metrics <- collect_metrics(lm_cv)
+print(lm_metrics)
+```
+
+Linear regression was fit using the tidymodels framework (Kuhn & Wickham, 2020).
+
+### Model 2: LASSO Regression
+
+```{r}
+#| message: false
+#| warning: false
+
+# LASSO spec with penalty tuning
+lasso_spec <- linear_reg(penalty = tune(), mixture = 1) %>%
+  set_engine("glmnet")
+
+# Workflow
+lasso_wf <- workflow() %>%
+  add_recipe(oop_recipe) %>%
+  add_model(lasso_spec)
+
+# Set up tuning grid
+lasso_grid <- grid_regular(penalty(range = c(-4, 1)), levels = 30)
+
+# Tune the penalty
+lasso_tune <- tune_grid(
+  lasso_wf,
+  resamples = folds,
+  grid = lasso_grid,
+  metrics = metric_set(rmse, rsq)
+)
+
+# LASSO penalty
+lasso_best <- select_best(lasso_tune, metric = "rmse")
+print(lasso_best)
+
+# Best metrics
+lasso_metrics <- collect_metrics(lasso_tune) %>%
+  filter(.config == lasso_best$.config)
+print(lasso_metrics)
+```
+
+LASSO regression was implemented using the glmnet engine within tidymodels (Kuhn & Wickham, 2020).
+
+### Model 3: Random Forest
+
+```{r}
+#| message: false
+#| warning: false
+
+# Random Forest
+rf_spec <- rand_forest(mtry = tune(), trees = 500) %>%
+  set_engine("ranger", importance = "impurity") %>%
+  set_mode("regression")
+
+# Workflow
+rf_wf <- workflow() %>%
+  add_recipe(oop_recipe) %>%
+  add_model(rf_spec)
+
+# Tuning grid
+rf_grid <- grid_regular(mtry(range = c(1, 4)), levels = 4)
+
+# Tune
+rf_tune <- tune_grid(
+  rf_wf,
+  resamples = folds,
+  grid = rf_grid,
+  metrics = metric_set(rmse, rsq)
+)
+
+# Best RF parameters
+rf_best <- select_best(rf_tune, metric = "rmse")
+print(rf_best)
+
+# Collect best metrics
+rf_metrics <- collect_metrics(rf_tune) %>%
+  filter(.config == rf_best$.config)
+print(rf_metrics)
+```
+
+Random forest was implemented using the ranger engine (Wright & Ziegler, 2017) within the tidymodels framework (Kuhn & Wickham, 2020).
+
+## Model Comparison and Selection
+
+```{r}
+#| message: false
+#| warning: false
+
+# Model comparison
+model_comparison <- tibble(
+  model = c("Linear Regression", "LASSO", "Random Forest"),
+  rmse  = c(
+    lm_metrics %>% filter(.metric == "rmse") %>% pull(mean),
+    lasso_metrics %>% filter(.metric == "rmse") %>% pull(mean),
+    rf_metrics %>% filter(.metric == "rmse") %>% pull(mean)
+  ),
+  rsq = c(
+    lm_metrics %>% filter(.metric == "rsq") %>% pull(mean),
+    lasso_metrics %>% filter(.metric == "rsq") %>% pull(mean),
+    rf_metrics %>% filter(.metric == "rsq") %>% pull(mean)
+  )
+)
+
+print(model_comparison)
+
+# The comparison
+model_comparison %>%
+  ggplot(aes(x = reorder(model, rmse), y = rmse, fill = model)) +
+  geom_col(show.legend = FALSE) +
+  labs(
+    title = "Cross-Validation RMSE by Model",
+    x = "Model",
+    y = "Mean RMSE (5-fold CV)"
+  )
+```
+
+The random forest model performed the best, with the lowest RMSE and highest R² out of the three models. I selected it as the final model because it can capture more complex, non-linear relationships between different sources of health spending and out-of-pocket burden. This makes sense given how varied health financing systems are across countries with different income levels and structures. While linear regression is easier to interpret, the better predictive performance of the random forest makes it a stronger choice for this analysis.
+
+## Final Model Evaluation on Test Data
+
+```{r}
+#| message: false
+#| warning: false
+
+# Finalize the random forest workflow
+rf_final_wf <- rf_wf %>%
+  finalize_workflow(rf_best)
+
+# Fit the final model
+rf_final_fit <- last_fit(rf_final_wf, split = data_split)
+
+# Collect test set metrics
+rf_test_metrics <- collect_metrics(rf_final_fit)
+print(rf_test_metrics)
+
+# Get predictions
+rf_test_preds <- collect_predictions(rf_final_fit)
+
+# Plot observed vs predicted on test data
+ggplot(rf_test_preds, aes(x = oop_pct, y = .pred)) +
+  geom_point(alpha = 0.3, color = "steelblue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  labs(
+    title = "Random Forest: Observed vs Predicted (Test Data)",
+    x = "Observed OOP Payments (%)",
+    y = "Predicted OOP Payments (%)"
+  )
+
+# Residual plot
+rf_test_preds %>%
+  mutate(residual = .pred - oop_pct) %>%
+  ggplot(aes(x = .pred, y = residual)) +
+  geom_point(alpha = 0.3, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(
+    title = "Random Forest: Residuals vs Predicted (Test Data)",
+    x = "Predicted OOP Payments (%)",
+    y = "Residuals"
+  )
+
+# Variable importance
+rf_final_fit %>%
+  extract_fit_parsnip() %>%
+  vip(num_features = 4) +
+  labs(title = "Variable Importance: Random Forest Final Model")
+```
+
+## Discussion
+
+This analysis used WHO global health spending data to examine whether a 
+country's out-of-pocket (OOP) payment burden can be predicted based on its mix 
+of government, private, and external health spending.
+
+The random forest model performed the best, with a cross-validated RMSE of 6.45 
+and an R² of 0.895. It performed even better on the test set, with an RMSE of 
+6.06 and an R² of 0.913, meaning the model explained about 91% of the variation 
+in OOP burden on data it had never seen before.
+
+Government spending share was the strongest predictor of OOP burden. Countries 
+that rely more on government funding tend to have lower out-of-pocket costs for 
+individuals, since public financing reduces direct payments at the point of care. 
+This aligns with long-standing research showing that expanding public health coverage is one of the most effective ways to reduce financial hardship (World Health Organization, 2024).
+
+The EDA showed a general decline in OOP burden globally from 2000 to 2023, 
+reflecting progress toward universal health coverage. However, many countries 
+in South and Southeast Asia and sub-Saharan Africa still have OOP burdens above 
+60% of total health spending, which remains a major concern.
+
+One limitation is that this analysis treats each country-year as independent, 
+even though repeated observations from the same country are likely correlated. 
+A more rigorous approach would account for this clustering using mixed effects 
+models.
+
+## References
+
+Data Science Learning Community. (2024). *Tidy Tuesday: A weekly social data 
+project*. https://tidytues.day
+
+Kuhn, M., & Wickham, H. (2020). *Tidymodels: A collection of packages for 
+modeling and machine learning using tidyverse principles*. 
+https://www.tidymodels.org
+
+R Core Team. (2026). *R: A language and environment for statistical computing*. 
+R Foundation for Statistical Computing. https://www.r-project.org/
+
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L., François, R., 
+Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T., 
+Miller, E., Bache, S., Müller, K., Ooms, J., Robinson, D., Seidel, D., 
+Spinu, V., ... Yutani, H. (2019). Welcome to the tidyverse. *Journal of Open 
+Source Software, 4*(43), 1686. https://doi.org/10.21105/joss.01686
+
+World Health Organization. (2024). *Global Health Expenditure Database (GHED)*. 
+WHO. https://apps.who.int/nha/database
+
+Wright, M. N., & Ziegler, A. (2017). ranger: A fast implementation of random 
+forests for high dimensional data in C++ and R. *Journal of Statistical 
+Software, 77*(1), 1-17. https://doi.org/10.18637/jss.v077.i01
